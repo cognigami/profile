@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Outstanding Contribution to Open Source Education",
+    "organization": "Open Education Foundation",
+    "date": "2022",
+    "description": "Recognized for quantum gaming project reaching 50,000 students"
+  },
+  {
+    "title": "Best Paper Award",
+    "organization": "ACM SIGCSE",
+    "date": "2020",
+    "description": "For research on project-first ML curriculum design"
+  },
+  {
+    "title": "Engineering Excellence Award",
+    "organization": "Technology Company",
+    "date": "2023",
+    "description": "For documentation infrastructure reducing onboarding friction"
+  }
+]

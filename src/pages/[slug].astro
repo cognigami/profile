@@ -1,0 +1,22 @@
+---
+import Transformation from '../layouts/Transformation.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const transformations = await getCollection('transformations');
+  return transformations.map(transformation => {
+    const slug = transformation.id.replace('.md', '');
+    return {
+      params: { slug },
+      props: { transformation },
+    };
+  });
+}
+
+const { transformation } = Astro.props;
+const { Content } = await render(transformation);
+---
+
+<Transformation title={transformation.data.title}>
+  <Content />
+</Transformation>

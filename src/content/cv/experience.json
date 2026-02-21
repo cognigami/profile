@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Senior Engineer",
+    "company": "Technology Company",
+    "startDate": "2022",
+    "endDate": null,
+    "description": [
+      "Led development of developer experience initiatives affecting 200+ engineers",
+      "Designed and implemented documentation infrastructure reducing onboarding time by 3x",
+      "Established patterns and practices adopted across multiple engineering teams"
+    ]
+  },
+  {
+    "title": "Staff Engineer",
+    "company": "Education Startup",
+    "startDate": "2019",
+    "endDate": "2022",
+    "description": [
+      "Architected learning platform serving 50,000+ concurrent students",
+      "Led curriculum redesign that improved completion rates from 12% to 67%",
+      "Built and mentored team of 8 engineers across frontend and backend"
+    ]
+  },
+  {
+    "title": "Engineer",
+    "company": "Research Lab",
+    "startDate": "2016",
+    "endDate": "2019",
+    "description": [
+      "Developed quantum computing simulation tools for educational use",
+      "Created game-based learning experiences adopted by 23 universities",
+      "Published research on interactive approaches to complex topics"
+    ]
+  }
+]

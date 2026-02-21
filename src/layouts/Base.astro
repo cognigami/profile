@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Strategist, builder, researcher—transforming complex challenges into elegant solutions." } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <title>{title}</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=Noto+Serif+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">R</a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/cv" class="nav-link">CV</a>
+        <button class="nav-link contact-trigger" aria-haspopup="dialog">Contact</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-text">Let's build something meaningful together.</p>
+      <button class="footer-contact contact-trigger" aria-haspopup="dialog">
+        Get in touch
+      </button>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal">
+      <button class="modal-close" aria-label="Close contact form">&times;</button>
+      
+      <h2 id="modal-title" class="modal-title">Get in Touch</h2>
+      
+      <form class="modal-form" id="contact-form">
+        <div class="form-group">
+          <label for="contact-email" class="form-label">Email</label>
+          <input type="email" id="contact-email" name="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-message" class="form-label">
+            Message
+            <button type="button" class="message-edit" aria-label="Edit message" title="Edit message">
+              (edit)
+            </button>
+          </label>
+          <textarea id="contact-message" name="message" class="form-textarea" rows="4" required>Hey Ricardo, I read your profile, and I'd like to chat. Please reach out to me.</textarea>
+        </div>
+        
+        <button type="submit" class="form-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/main.js';
+  </script>
+</body>
+</html>

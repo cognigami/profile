@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const transformations = await getCollection('transformations');
+const sortedTransformations = transformations.sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Ricardo — Strategist, Builder, Researcher">
+  <section class="hero fade-in">
+    <div class="hero-content">
+      <h1 class="hero-title">Ricardo</h1>
+      <p class="hero-subtitle">Strategist, Builder, Researcher</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="statement fade-in">
+      <p>
+        I help organizations transform complex challenges into elegant solutions. 
+        With backgrounds in <strong>engineering</strong>, <strong>education</strong>, 
+        and <strong>research</strong>, I bridge the gap between ambitious ideas and 
+        working systems that create lasting impact.
+      </p>
+    </div>
+  </section>
+
+  {sortedTransformations.map((transformation, index) => (
+    <>
+      <section class="showcase fade-in">
+        <h2 class="showcase-title">{transformation.data.title}</h2>
+        <p class="showcase-description">{transformation.data.description}</p>
+        <a href={`/${transformation.id.replace('.md', '')}`} class="showcase-link">Read more</a>
+      </section>
+      {index < sortedTransformations.length - 1 && <div class="divider"></div>}
+    </>
+  ))}
+</Base>

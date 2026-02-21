@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Game-Based Learning in Quantum Computing Education",
+    "venue": "Journal of Educational Technology",
+    "date": "2021",
+    "url": "https://example.com/publication"
+  },
+  {
+    "title": "Project-First Curriculum Design for Machine Learning",
+    "venue": "ACM Conference on Computer Science Education",
+    "date": "2020",
+    "url": "https://example.com/publication"
+  },
+  {
+    "title": "Documentation Infrastructure at Scale",
+    "venue": "IEEE Software",
+    "date": "2023",
+    "url": "https://example.com/publication"
+  }
+]

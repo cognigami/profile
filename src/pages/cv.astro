@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import experienceData from '../content/cv/experience.json';
+import publicationsData from '../content/cv/publications.json';
+import awardsData from '../content/cv/awards.json';
+---
+
+<Base title="CV — Ricardo">
+  <div class="cv">
+    <div class="cv-inner">
+      <h1 class="cv-title fade-in">Curriculum Vitae</h1>
+
+      <section class="cv-section fade-in">
+        <h2 class="cv-section-title">Experience</h2>
+        {experienceData.map((entry) => (
+          <div class="cv-entry">
+            <div class="cv-entry-header">
+              <span class="cv-entry-title">{entry.title}</span>
+              <span class="cv-entry-date">
+                {entry.startDate} — {entry.endDate || 'Present'}
+              </span>
+            </div>
+            <p class="cv-entry-company">{entry.company}</p>
+            <ul class="cv-entry-description">
+              {entry.description.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section class="cv-section fade-in">
+        <h2 class="cv-section-title">Publications</h2>
+        {publicationsData.map((pub) => (
+          <div class="cv-publication">
+            <p class="cv-publication-title">
+              {pub.url ? (
+                <a href={pub.url} target="_blank" rel="noopener noreferrer">{pub.title}</a>
+              ) : (
+                pub.title
+              )}
+            </p>
+            <p class="cv-publication-meta">{pub.venue}, {pub.date}</p>
+          </div>
+        ))}
+      </section>
+
+      <section class="cv-section fade-in">
+        <h2 class="cv-section-title">Awards & Recognition</h2>
+        {awardsData.map((award) => (
+          <div class="cv-award">
+            <p class="cv-award-title">{award.title}</p>
+            <p class="cv-award-meta">{award.organization}, {award.date}</p>
+            {award.description && (
+              <p class="cv-award-description">{award.description}</p>
+            )}
+          </div>
+        ))}
+      </section>
+    </div>
+  </div>
+</Base>
