@@ -1,0 +1,136 @@
+---
+const imageUrl = "/hero.png";
+---
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="content">
+    <slot />
+  </div>
+</section>
+
+<script type="module" client:load>
+import * as THREE from "three";
+
+const canvas = document.getElementById("hero-canvas");
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
+camera.position.z = 1.8;
+
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  alpha:true,
+  antialias:true
+});
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+
+const texture = new THREE.TextureLoader().load("${imageUrl}");
+texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+
+const uniforms = {
+  uTime: { value: 0 },
+  uScroll: { value: 0 },
+  uTexture: { value: texture }
+};
+
+const material = new THREE.ShaderMaterial({
+  uniforms,
+  transparent:true,
+  vertexShader: `
+    varying vec2 vUv;
+    uniform float uTime;
+    uniform float uScroll;
+
+    void main(){
+      vUv = uv;
+
+      vec3 pos = position;
+
+      // vertical wave motion
+      pos.y += sin(pos.x*3.0 + uTime*1.2) * 0.03 * (1.0 + uScroll*1.5);
+
+      // subtle breathing distortion
+      pos.x += cos(pos.y*2.5 + uTime*0.8) * 0.02 * uScroll;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
+    }
+  `,
+  fragmentShader: `
+    varying vec2 vUv;
+    uniform sampler2D uTexture;
+    uniform float uTime;
+    uniform float uScroll;
+
+    void main(){
+
+      vec2 uv = vUv;
+
+      // UV ripple distortion (real liquid effect)
+      uv.y += sin(uv.x*6.0 + uTime*1.5) * 0.02 * (1.0+uScroll);
+      uv.x += cos(uv.y*5.0 + uTime*1.2) * 0.015 * uScroll;
+
+      // flip vertically (invert image)
+      uv.y = 1.0 - uv.y;
+
+      vec4 color = texture2D(uTexture, uv);
+
+      gl_FragColor = color;
+    }
+  `
+});
+
+const geometry = new THREE.PlaneGeometry(2.8,2.8,128,128);
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// Scroll tracking
+function updateScroll(){
+  const max = window.innerHeight;
+  const s = Math.min(window.scrollY/max,1);
+  uniforms.uScroll.value = s;
+
+  // collapse hero visually
+  const scale = 1 - s*0.7;
+  mesh.scale.set(1, scale, 1);
+}
+window.addEventListener("scroll", updateScroll);
+
+// Resize
+window.addEventListener("resize",()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+// Render loop
+function animate(t){
+  uniforms.uTime.value = t*0.001;
+  renderer.render(scene,camera);
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+<style>
+.hero{
+  position:relative;
+  height:100vh;
+  overflow:hidden;
+  transition:height .4s ease;
+}
+
+.hero canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.content{
+  position:relative;
+  z-index:2;
+}
+</style>
