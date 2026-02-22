@@ -45,6 +45,42 @@
 
   setupFadeIn();
 
+  function wrapStorySections() {
+    var content = document.querySelector('.transformation-content');
+    if (!content) return;
+    
+    var children = Array.from(content.childNodes);
+    var sections = [];
+    var currentSection = null;
+    
+    children.forEach(function(child) {
+      if (child.nodeType === 1 && child.tagName === 'H2') {
+        if (currentSection) {
+          sections.push(currentSection);
+        }
+        currentSection = document.createElement('div');
+        currentSection.className = 'story-section fade-in';
+        currentSection.appendChild(child);
+      } else if (currentSection && (child.nodeType === 1 || (child.nodeType === 3 && child.textContent.trim()))) {
+        currentSection.appendChild(child.cloneNode(true));
+      }
+    });
+    
+    if (currentSection) {
+      sections.push(currentSection);
+    }
+    
+    if (sections.length > 0) {
+      content.innerHTML = '';
+      sections.forEach(function(section) {
+        content.appendChild(section);
+      });
+      setupFadeIn();
+    }
+  }
+
+  wrapStorySections();
+
   function openModal() {
     modal.hidden = false;
     modal.setAttribute('aria-hidden', 'false');

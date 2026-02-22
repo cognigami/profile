@@ -25,14 +25,19 @@ const sortedTransformations = transformations.sort((a, b) => a.data.order - b.da
     </div>
   </section>
 
-  {sortedTransformations.map((transformation, index) => (
-    <>
-      <section class="showcase fade-in">
-        <h2 class="showcase-title">{transformation.data.title}</h2>
-        <p class="showcase-description">{transformation.data.description}</p>
-        <a href={`/${transformation.id.replace('.md', '')}`} class="showcase-link">Read more</a>
-      </section>
-      {index < sortedTransformations.length - 1 && <div class="divider"></div>}
-    </>
-  ))}
+  {sortedTransformations.map((transformation, index) => {
+    const alignment = index % 3 === 0 ? 'left' : index % 3 === 1 ? 'right' : 'center';
+    return (
+      <>
+        {index > 0 && <div class="divider"></div>}
+        <section class={`showcase showcase--${alignment} fade-in`}>
+          <div class="showcase-content">
+            <h2 class="showcase-title">{transformation.data.title}</h2>
+            <p class="showcase-description">{transformation.data.description}</p>
+            <a href={`/${transformation.id.replace('.md', '')}`} class="showcase-link">Read more</a>
+          </div>
+        </section>
+      </>
+    );
+  })}
 </Base>

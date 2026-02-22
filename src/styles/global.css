@@ -191,6 +191,21 @@ body {
   padding: 64px 24px;
 }
 
+.showcase-content {
+  max-width: 70%;
+}
+
+.showcase--right .showcase-content {
+  margin-left: auto;
+  text-align: right;
+}
+
+.showcase--center .showcase-content {
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .showcase-title {
   font-family: var(--font-serif);
   font-size: 36px;
@@ -463,6 +478,42 @@ a:not(.nav-link):not(.nav-logo):not(.showcase-link):not(.footer-contact):hover {
   transform: translateY(0);
 }
 
+.story-section {
+  margin-bottom: 64px;
+}
+
+.story-section:last-child {
+  margin-bottom: 0;
+}
+
+.story-section:nth-of-type(odd) {
+  max-width: 60%;
+}
+
+.story-section:nth-of-type(even) {
+  max-width: 60%;
+  margin-left: auto;
+  text-align: right;
+}
+
+.story-section:nth-of-type(3n) {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .story-section,
+  .story-section:nth-of-type(odd),
+  .story-section:nth-of-type(even),
+  .story-section:nth-of-type(3n) {
+    max-width: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
 .cv {
   padding-top: 80px;
   padding-bottom: 140px;
@@ -499,6 +550,8 @@ a:not(.nav-link):not(.nav-logo):not(.showcase-link):not(.footer-contact):hover {
   line-height: 1.2;
   color: var(--accent);
   margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--divider);
 }
 
 .cv-entry {
@@ -528,7 +581,7 @@ a:not(.nav-link):not(.nav-logo):not(.showcase-link):not(.footer-contact):hover {
 .cv-entry-date {
   font-family: var(--font-sans);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
 }
@@ -544,6 +597,7 @@ a:not(.nav-link):not(.nav-logo):not(.showcase-link):not(.footer-contact):hover {
 .cv-entry-description {
   list-style: none;
   padding: 0;
+  max-width: 70%;
 }
 
 .cv-entry-description li {
@@ -641,6 +695,20 @@ a:not(.nav-link):not(.nav-logo):not(.showcase-link):not(.footer-contact):hover {
     padding: 100px 24px;
   }
   
+  .showcase-content {
+    max-width: 100%;
+  }
+  
+  .showcase--right .showcase-content {
+    margin-left: 0;
+    text-align: left;
+  }
+  
+  .showcase--center .showcase-content {
+    max-width: 100%;
+    text-align: left;
+  }
+  
   .showcase-title {
     font-size: 28px;
   }
@@ -668,5 +736,9 @@ a:not(.nav-link):not(.nav-logo):not(.showcase-link):not(.footer-contact):hover {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
+  }
+  
+  .cv-entry-description {
+    max-width: 100%;
   }
 }

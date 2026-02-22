@@ -24,6 +24,10 @@ const { title } = Astro.props;
   .transformation {
     padding-top: 80px;
     padding-bottom: 140px;
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   .transformation-header {
@@ -40,18 +44,13 @@ const { title } = Astro.props;
     margin: 0;
   }
 
-  .transformation-content {
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
   .transformation-content :global(h2) {
     font-family: 'Noto Serif Display', Georgia, Times, serif;
     font-size: 36px;
     font-weight: 500;
     line-height: 1.2;
     color: var(--accent);
-    margin-top: 64px;
+    margin-top: 0;
     margin-bottom: 24px;
   }
 
@@ -62,10 +61,6 @@ const { title } = Astro.props;
     color: var(--text-primary);
     margin-top: 0;
     margin-bottom: 32px;
-  }
-
-  .transformation-content :global(h2:first-child) {
-    margin-top: 0;
   }
 
   @media (max-width: 768px) {
@@ -80,7 +75,6 @@ const { title } = Astro.props;
 
     .transformation-content :global(h2) {
       font-size: 28px;
-      margin-top: 48px;
     }
 
     .transformation-content :global(p) {
