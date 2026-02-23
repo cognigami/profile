@@ -160,7 +160,9 @@ import Layout from '../layouts/Layout.astro';
       <div class="showcase showcase--left fade-up">
         <div class="showcase__inner">
           <span class="showcase__label">01</span>
-          <h2 class="showcase__title">Quantum Gaming</h2>
+          <h2 class="showcase__title">
+            <a href={`${import.meta.env.BASE_URL}work/quantum-gaming`}>Quantum Gaming</a>
+          </h2>
           <p class="showcase__body">
             Designed a game-based framework for teaching quantum mechanics 
             that reduces conceptual barrier-to-entry by 60%. Built not as 
@@ -179,7 +181,9 @@ import Layout from '../layouts/Layout.astro';
       <div class="showcase showcase--right fade-up">
         <div class="showcase__inner">
           <span class="showcase__label">02</span>
-          <h2 class="showcase__title">ML Education at Google</h2>
+          <h2 class="showcase__title">
+            <a href={`${import.meta.env.BASE_URL}work/ml-education`}>ML Education at Google</a>
+          </h2>
           <p class="showcase__body">
             Rebuilt the conceptual architecture of ML education for one 
             of the world's largest engineering organizations. The curriculum 
@@ -199,6 +203,9 @@ import Layout from '../layouts/Layout.astro';
         <div class="showcase__inner">
           <span class="showcase__label">03</span>
           <h2 class="showcase__title">Documentation as Code</h2>
+          <h2 class="showcase__title">
+            <a href={`${import.meta.env.BASE_URL}work/docs-as-code`}>Documentation as Code</a>
+          </h2>
           <p class="showcase__body">
             Established a docs-as-code practice from scratch at a major 
             enterprise — treating documentation with the same rigor as 
@@ -416,6 +423,11 @@ import Layout from '../layouts/Layout.astro';
 
   .showcase:hover .showcase__title {
     color: transparent;
+  }
+
+  .showcase__title a {
+    color: inherit;
+    text-decoration: none;
   }
 
   .showcase__body {
