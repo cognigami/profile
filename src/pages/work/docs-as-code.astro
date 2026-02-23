@@ -95,8 +95,8 @@ import Layout from '../../layouts/Layout.astro';
     </section>
 
     <nav class="story-nav fade-up">
-      <a href="/work/ml-education" class="story-nav__back">← ML Education</a>
-      <a href="/" class="story-nav__next">All work →</a>
+      <a href={`${import.meta.env.BASE_URL}work/ml-education`} class="story-nav__back">← ML Education</a>
+      <a href={`${import.meta.env.BASE_URL}`} class="story-nav__next">All work →</a>
     </nav>
 
   </article>
