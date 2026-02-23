@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://cognigami.github.io',
-  base: '/portfolio', // uncomment if not using root domain
+  site: 'https://YOUR-USERNAME.github.io',
+  // base: '/YOUR-REPO-NAME', // uncomment if not using root domain
   build: {
     assets: '_assets'
   }
