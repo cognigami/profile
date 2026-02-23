@@ -63,7 +63,8 @@
   <rect width="1600" height="900" fill="url(#base-grad)"/>
 
   <!-- Bottom-right geological stratum - deep dark terracotta -->
-  <path d="M 1600 900 L 0 900 L 0 680 
+  <path id="hero-stratum-deep"
+    d="M 1600 900 L 0 900 L 0 680 
     C 120 650, 280 700, 420 640
     C 560 580, 650 620, 800 590
     C 950 560, 1100 610, 1250 570
@@ -71,7 +72,8 @@
     fill="#5A2A15" opacity="0.55"/>
 
   <!-- Flowing mid-strata: amber organic layer -->
-  <path d="M -50 900 
+  <path id="hero-stratum-amber"
+    d="M -50 900 
     C 80 820, 200 760, 380 730
     C 520 705, 640 760, 780 720
     C 920 680, 1020 640, 1160 660
@@ -102,10 +104,12 @@
   <!-- Center subtle warmth glow -->
   <ellipse cx="680" cy="520" rx="420" ry="260" fill="url(#center-glow)"/>
 
-  <!-- Additional horizontal strata line: barely-visible geological layer -->
-  <path d="M 0 480 C 200 460, 400 510, 620 470 C 840 430, 1000 490, 1220 455 C 1400 425, 1540 460, 1600 445"
+  <!-- Additional horizontal strata lines: barely-visible geological layers -->
+  <path id="hero-strata-line-1"
+    d="M 0 480 C 200 460, 400 510, 620 470 C 840 430, 1000 490, 1220 455 C 1400 425, 1540 460, 1600 445"
     stroke="rgba(212,130,43,0.12)" stroke-width="1.5" fill="none"/>
-  <path d="M 0 530 C 180 510, 380 555, 580 520 C 780 485, 960 540, 1180 505 C 1380 475, 1520 505, 1600 495"
+  <path id="hero-strata-line-2"
+    d="M 0 530 C 180 510, 380 555, 580 520 C 780 485, 960 540, 1180 505 C 1380 475, 1520 505, 1600 495"
     stroke="rgba(189,107,74,0.09)" stroke-width="1" fill="none"/>
 
   <!-- Grain overlay for texture -->

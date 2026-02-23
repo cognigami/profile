@@ -14,6 +14,16 @@ import Layout from '../../layouts/Layout.astro';
       </p>
     </header>
 
+    <!--
+      STORY IMAGE PLACEHOLDER
+      Remove `display:none` from .story-image when you have a real image.
+      Recommended: 1600×900px or wider, landscape.
+    -->
+    <div class="story-image">
+      <div class="story-image__placeholder" aria-hidden="true"></div>
+      <!-- Replace the div above with: <img src="/images/ml-education.jpg" alt="ML Education at Google"> -->
+    </div>
+
     <section class="story-section story-section--left fade-up">
       <div class="story-section__inner">
         <h2>The Problem</h2>
@@ -226,9 +236,46 @@ import Layout from '../../layouts/Layout.astro';
 
   .story-nav a:hover { color: var(--color-accent); }
 
+  .story-image {
+    display: none;
+    max-width: var(--max-wide);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .story-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: sepia(18%) saturate(88%) brightness(0.90);
+  }
+
+  .story-image__placeholder {
+    width: 100%;
+    height: 420px;
+    background: linear-gradient(135deg, #3A2820 0%, #5A3422 40%, #7A4A2E 70%, #3A2820 100%);
+    position: relative;
+  }
+
+  .story-image__placeholder::after {
+    content: 'Image placeholder — replace with real photo';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,241,232,0.25);
+  }
+
   @media (max-width: 768px) {
     .story-header,
-    .story-section { padding-left: 24px; padding-right: 24px; }
+    .story-section,
+    .story-image { padding-left: 24px; padding-right: 24px; }
 
     .story-section--left .story-section__inner,
     .story-section--right .story-section__inner,
