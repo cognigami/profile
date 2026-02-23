@@ -1,83 +1,50 @@
 # Portfolio
 
-A professional portfolio site built with Astro, featuring a "California Executive" aesthetic.
+Built with [Astro](https://astro.build). Static output → GitHub Pages.
 
 ## Setup
 
 ```bash
 npm install
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
+npm run dev        # localhost:4321
+npm run build      # output to ./dist
+npm run preview    # preview built site
 ```
 
 ## Deployment
 
-Push to `main` branch to trigger GitHub Actions deployment to GitHub Pages.
+Push to `main` → GitHub Actions builds and deploys to GitHub Pages.
 
-## Content Structure
+**Before deploying:**
+1. Edit `astro.config.mjs` — set `site` to your GitHub Pages URL
+2. If deploying to a subpath (e.g. `username.github.io/repo-name`), uncomment and set the `base` option
+3. Enable GitHub Pages in your repo settings → source: "GitHub Actions"
+4. Replace `YOUR_FORM_ID` in `src/layouts/Layout.astro` with your [Formspree](https://formspree.io) form ID
 
-### Transformation Stories
+## Customization checklist
 
-Edit files in `src/content/transformations/`:
+- [ ] `src/layouts/Layout.astro` — replace "Your Name" throughout
+- [ ] `src/pages/index.astro` — update hero headline and showcase copy
+- [ ] `src/pages/cv.astro` — replace with real experience, publications, awards
+- [ ] `src/pages/work/*.astro` — replace with real story copy
+- [ ] `astro.config.mjs` — set your GitHub Pages site URL
 
-```yaml
----
-title: "Story Title"
-description: "Short preview for homepage"
-order: 1
----
+## Structure
 
-## The Problem
-...
-
-## The Insight
-...
-
-## What We Built
-...
-
-## How It Propagated
-...
-
-## What It Demonstrates
-...
 ```
-
-### CV Data
-
-Edit JSON files in `src/content/cv/`:
-
-- `experience.json` - Work experience entries
-- `publications.json` - Published works
-- `awards.json` - Awards and recognition
-
-## Architecture
-
-- **Framework**: Astro (static output)
-- **Styling**: Global CSS with CSS variables
-- **JavaScript**: Vanilla JS for interactions only
-- **Content**: Markdown for stories, JSON for structured data
-
-## Design Philosophy
-
-"California Executive" - Premium sophistication meets human warmth. Warm colors, generous spacing, subtle animations.
-
-### Color Palette
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--bg` | #2B2826 | Background |
-| `--text-primary` | #F5F1E8 | Primary text |
-| `--text-secondary` | #C9C0B3 | Secondary text |
-| `--accent` | #D4822B | Links, highlights |
-
-### Typography
-
-- **Headings**: Noto Serif Display
-- **Body**: Hind
-- **Max width**: 760px
+src/
+  layouts/    Layout.astro (nav, footer, modal, scroll JS)
+  pages/
+    index.astro              Homepage
+    cv.astro                 CV
+    work/
+      quantum-gaming.astro
+      ml-education.astro
+      docs-as-code.astro
+  styles/
+    global.css               All design tokens and base styles
+public/
+  hero.svg                   Hero background (SVG, scroll-animatable)
+  favicon.svg
+.github/workflows/deploy.yml GitHub Actions → GitHub Pages
+```

@@ -1,0 +1,124 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1600 900"
+  preserveAspectRatio="xMidYMid slice"
+  style="width:100%;height:100%;display:block;"
+  aria-hidden="true"
+>
+  <defs>
+    <!-- Base layer: deep terracotta to warm dark -->
+    <linearGradient id="base-grad" x1="0%" y1="100%" x2="60%" y2="0%">
+      <stop offset="0%"   stop-color="#1A1310"/>
+      <stop offset="40%"  stop-color="#7A3A22"/>
+      <stop offset="75%"  stop-color="#BD6B4A"/>
+      <stop offset="100%" stop-color="#2B2826"/>
+    </linearGradient>
+
+    <!-- Middle blob: amber flowing shape -->
+    <radialGradient id="amber-blob" cx="45%" cy="55%" r="55%" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(720,495) rotate(-18) scale(1,0.55) translate(-720,-495)">
+      <stop offset="0%"   stop-color="#D4822B" stop-opacity="0.72"/>
+      <stop offset="50%"  stop-color="#C46820" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#BD6B4A" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Upper right pool: honey gold -->
+    <radialGradient id="gold-pool" cx="75%" cy="25%" r="40%" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(1200,225) rotate(12) scale(1.4,0.7) translate(-1200,-225)">
+      <stop offset="0%"   stop-color="#E8A84A" stop-opacity="0.55"/>
+      <stop offset="60%"  stop-color="#D4822B" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#D4822B" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Top cream layer: soft fog spilling from upper left -->
+    <radialGradient id="cream-veil" cx="25%" cy="10%" r="55%" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(400,90) rotate(8) scale(1.6,0.9) translate(-400,-90)">
+      <stop offset="0%"   stop-color="#F5F1E8" stop-opacity="0.28"/>
+      <stop offset="55%"  stop-color="#E8D9C4" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#F5F1E8" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Subtle center warmth -->
+    <radialGradient id="center-glow" cx="50%" cy="60%" r="30%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#C4601A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#C4601A" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Grain texture filter -->
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+      <feComposite in="SourceGraphic" in2="grayNoise" operator="over" result="comp"/>
+      <feBlend in="comp" in2="grayNoise" mode="overlay" result="blended"/>
+      <feComposite in="blended" in2="SourceGraphic" operator="in"/>
+    </filter>
+
+    <!-- Soft edge mask for the whole composition -->
+    <mask id="hero-mask">
+      <rect width="1600" height="900" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- Base background: rich terracotta landscape -->
+  <rect width="1600" height="900" fill="url(#base-grad)"/>
+
+  <!-- Bottom-right geological stratum - deep dark terracotta -->
+  <path d="M 1600 900 L 0 900 L 0 680 
+    C 120 650, 280 700, 420 640
+    C 560 580, 650 620, 800 590
+    C 950 560, 1100 610, 1250 570
+    C 1380 535, 1500 580, 1600 555 Z"
+    fill="#5A2A15" opacity="0.55"/>
+
+  <!-- Flowing mid-strata: amber organic layer -->
+  <path d="M -50 900 
+    C 80 820, 200 760, 380 730
+    C 520 705, 640 760, 780 720
+    C 920 680, 1020 640, 1160 660
+    C 1320 685, 1450 630, 1650 600
+    L 1650 900 Z"
+    fill="url(#amber-blob)" opacity="0.9"/>
+
+  <!-- Upper flowing shape: amber to gold atmospheric blob -->
+  <path d="M 550 0 
+    C 660 60, 750 80, 820 150
+    C 900 230, 950 320, 1050 370
+    C 1160 425, 1300 390, 1420 440
+    C 1520 480, 1580 520, 1650 480
+    L 1650 0 Z"
+    fill="url(#gold-pool)" opacity="0.85"/>
+
+  <!-- Cream veil: soft top-left atmospheric fog -->
+  <path d="M 0 0 
+    C 100 40, 240 20, 340 80
+    C 460 150, 500 260, 580 320
+    C 650 370, 720 350, 760 410
+    C 800 460, 780 520, 820 560
+    C 700 540, 580 480, 460 430
+    C 340 380, 220 340, 120 280
+    C 50 230, 0 160, 0 100 Z"
+    fill="url(#cream-veil)" opacity="0.9"/>
+
+  <!-- Center subtle warmth glow -->
+  <ellipse cx="680" cy="520" rx="420" ry="260" fill="url(#center-glow)"/>
+
+  <!-- Additional horizontal strata line: barely-visible geological layer -->
+  <path d="M 0 480 C 200 460, 400 510, 620 470 C 840 430, 1000 490, 1220 455 C 1400 425, 1540 460, 1600 445"
+    stroke="rgba(212,130,43,0.12)" stroke-width="1.5" fill="none"/>
+  <path d="M 0 530 C 180 510, 380 555, 580 520 C 780 485, 960 540, 1180 505 C 1380 475, 1520 505, 1600 495"
+    stroke="rgba(189,107,74,0.09)" stroke-width="1" fill="none"/>
+
+  <!-- Grain overlay for texture -->
+  <rect width="1600" height="900" fill="rgba(43,40,38,0.06)" filter="url(#grain)" opacity="0.4"/>
+
+  <!-- Very subtle vignette at bottom -->
+  <rect width="1600" height="900"
+    fill="url(#vignette)"
+    style="mix-blend-mode:multiply"/>
+  <defs>
+    <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="60%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#1A1310" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+</svg>

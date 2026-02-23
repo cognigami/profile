@@ -1,0 +1,238 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Documentation as Code — Your Name">
+  <article class="story-page">
+
+    <header class="story-header fade-up">
+      <span class="story-label">03 — Transformation</span>
+      <h1>Documentation as Code</h1>
+      <p class="story-subtitle">
+        Treating documentation with the same rigor as software — 
+        building infrastructure that makes knowledge self-sustaining.
+      </p>
+    </header>
+
+    <section class="story-section story-section--left fade-up">
+      <div class="story-section__inner">
+        <h2>The Problem</h2>
+        <p>
+          Documentation was treated as a deliverable — something produced 
+          at the end of a project and immediately allowed to rot. No versioning, 
+          no review process, no ownership model. Information was either 
+          missing, wrong, or unfindable.
+        </p>
+        <p>
+          The organization's mean-time-to-accurate-information was measured 
+          in days. Engineers were reinventing solutions that had already been 
+          documented, then abandoned. Institutional knowledge lived in people's 
+          heads, not in systems.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="story-section story-section--right fade-up">
+      <div class="story-section__inner">
+        <h2>The Insight</h2>
+        <p>
+          Documentation fails not because people don't write it, but because 
+          the systems around it treat it as disposable. Apply the same 
+          infrastructure to docs that you apply to code — versioning, 
+          review, CI, ownership — and the behavior changes entirely.
+        </p>
+        <p class="pull-quote">
+          Documentation isn't a content problem.<br/>
+          It's an <em>infrastructure problem</em>.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="story-section story-section--center fade-up">
+      <div class="story-section__inner">
+        <h2>What Was Built</h2>
+        <p>
+          A complete docs-as-code system: Markdown source controlled in 
+          Git, CI pipelines that lint and validate on every PR, a contribution 
+          model borrowed from open source, and ownership patterns that kept 
+          docs current without dedicated writers.
+        </p>
+        <p>
+          Mean-time-to-accurate-information dropped by 4× within six months. 
+          More importantly: the system created a contributor culture that sustained 
+          itself. Two years later, with no ongoing involvement, the practice 
+          continues to propagate through the organization.
+        </p>
+        <div class="story-stats">
+          <div class="stat">
+            <span class="stat__num">4×</span>
+            <span class="stat__label">reduction in time-to-accurate-information</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">2yrs</span>
+            <span class="stat__label">self-sustaining after initial build</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">0</span>
+            <span class="stat__label">dedicated writers required to maintain</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="story-nav fade-up">
+      <a href="/work/ml-education" class="story-nav__back">← ML Education</a>
+      <a href="/" class="story-nav__next">All work →</a>
+    </nav>
+
+  </article>
+</Layout>
+
+<style>
+  .story-page {
+    padding-top: 80px;
+    padding-bottom: 140px;
+  }
+
+  .story-header {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 40px 100px;
+  }
+
+  .story-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+  }
+
+  .story-header h1 { margin-bottom: 24px; }
+
+  .story-subtitle {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(245,241,232,0.7);
+  }
+
+  .story-section {
+    max-width: var(--max-wide);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .story-section__inner { padding: 80px 0; }
+
+  .story-section--left .story-section__inner   { max-width: 60%; }
+  .story-section--right .story-section__inner  { max-width: 60%; margin-left: auto; }
+  .story-section--center .story-section__inner { max-width: 75%; margin: 0 auto; text-align: center; }
+
+  .story-section h2 {
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .story-section p {
+    font-size: 1.05rem;
+    margin-bottom: var(--space-para);
+    color: rgba(245,241,232,0.8);
+  }
+
+  .story-section p:last-child { margin-bottom: 0; }
+
+  .pull-quote {
+    font-family: var(--font-serif);
+    font-size: 1.35rem !important;
+    line-height: 1.5 !important;
+    color: var(--color-text) !important;
+    border-left: 2px solid var(--color-accent);
+    padding-left: 24px;
+    margin: 40px 0 !important;
+  }
+
+  .story-stats {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stat__num {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .stat__label {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    text-align: center;
+    max-width: 160px;
+    line-height: 1.4;
+  }
+
+  .section-divider {
+    max-width: var(--max-wide);
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 1px;
+    background: var(--color-divider);
+  }
+
+  .story-nav {
+    max-width: var(--max-wide);
+    margin: 100px auto 0;
+    padding: 48px 40px 0;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .story-nav a {
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .story-nav a:hover { color: var(--color-accent); }
+
+  @media (max-width: 768px) {
+    .story-header,
+    .story-section { padding-left: 24px; padding-right: 24px; }
+
+    .story-section--left .story-section__inner,
+    .story-section--right .story-section__inner,
+    .story-section--center .story-section__inner {
+      max-width: 100%;
+      margin: 0;
+      text-align: left;
+    }
+
+    .story-nav { padding: 48px 24px 0; }
+  }
+</style>

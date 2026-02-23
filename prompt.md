@@ -60,6 +60,34 @@ Include complete .github/workflows/deploy.yml that:
 CONTENT STRUCTURE:
 Use Markdown frontmatter for easy content editing. I'll provide the actual copy separately - just use placeholder content that shows the structure clearly.
 
+LAYOUT ARCHITECTURE (Apple-inspired horizontal rhythm):
+
+HOMEPAGE SHOWCASES:
+- Showcase 1: Content left-aligned, 70% width, 30% breathing room right
+- Showcase 2: Content right-aligned, 70% width, 30% breathing room left  
+- Showcase 3: Content centered, 80% width
+- Use CSS Grid for these layouts
+- Mobile: All stack to single column, full width
+
+TRANSFORMATION STORY PAGES:
+- Alternate section alignment: Problem (left), Insight (right), Built (center/wide)
+- Each section max 60% width when aligned left/right
+- Empty space is intentional - don't fill it
+- Mobile: All sections full width, stacked
+
+CV PAGE:
+- Job titles and dates on opposite ends (flexbox: space-between)
+- Descriptions max 70% width, left-aligned
+- Dates right-aligned, lighter weight
+- Section headers (Experience, Publications, Awards) full width with divider below
+
+GENERAL PRINCIPLES:
+- Not everything should be 760px centered
+- Use empty horizontal space as a design element
+- Content should "breathe" left and right, not just vertically
+- Asymmetry creates visual interest without decoration
+- Mobile: Simplify to single column (don't try to preserve horizontal layouts)
+
 DELIVERABLES:
 Provide complete, copy-paste ready files for:
 1. package.json with Astro dependencies

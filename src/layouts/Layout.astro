@@ -1,0 +1,279 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Your Name — Strategist, Builder, Researcher',
+  description = 'Creating patterns that propagate beyond their origin. Work spanning quantum gaming, ML education, and documentation infrastructure.'
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content={description}/>
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <a href="/" class="nav__logo">Your Name</a>
+    <ul class="nav__links">
+      <li><a href="/work/quantum-gaming">Work</a></li>
+      <li><a href="/cv">CV</a></li>
+      <li><button class="nav__contact-btn" id="contact-trigger-nav">Contact</button></li>
+    </ul>
+  </nav>
+
+  <!-- Page Content -->
+  <main>
+    <slot/>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer">
+      <p class="footer__tagline">
+        Creating patterns that propagate<br/>beyond their origin.
+      </p>
+      <div class="footer__right">
+        <ul class="footer__links">
+          <li><a href="/work/quantum-gaming">Quantum Gaming</a></li>
+          <li><a href="/work/ml-education">ML Education</a></li>
+          <li><a href="/work/docs-as-code">Docs as Code</a></li>
+          <li><a href="/cv">CV</a></li>
+        </ul>
+        <button class="footer__contact-trigger" id="contact-trigger-footer">
+          Get in touch
+        </button>
+      </div>
+    </div>
+    <p class="footer__copy">© 2024 Your Name. All rights reserved.</p>
+  </footer>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-label="Contact form">
+    <div class="modal">
+      <button class="modal__close" id="modal-close" aria-label="Close">&times;</button>
+      <h2>Let's talk.</h2>
+
+      <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+        <!-- Email input (always visible) -->
+        <div class="form-group">
+          <label for="contact-email">Your email</label>
+          <input
+            type="email"
+            id="contact-email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <!-- Canned message block -->
+        <div class="canned-message" id="canned-message-block">
+
+          <!-- Default read-only state -->
+          <div class="canned-message__display" id="canned-display">
+            <p class="canned-message__text" id="canned-text">
+              Hi Ricardo! I read your profile and I'd like to chat.
+              Please reach out to me at the email I provided.
+            </p>
+            <button
+              type="button"
+              class="canned-message__edit-btn"
+              id="edit-trigger"
+              aria-label="Edit message"
+              title="Edit message"
+            >
+              <!-- Pencil SVG -->
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12.9 2.1a1.5 1.5 0 0 1 2.12 0l.88.88a1.5 1.5 0 0 1 0 2.12L5.5 15.5 2 16l.5-3.5L12.9 2.1Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.5 3.5l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Expanded edit state (hidden by default) -->
+          <div class="canned-message__edit hidden" id="canned-edit" aria-hidden="true">
+            <div class="form-group form-group--inline">
+              <input
+                type="text"
+                id="contact-name"
+                name="name"
+                autocomplete="name"
+                placeholder="Your name (optional)"
+              />
+            </div>
+            <div class="form-group">
+              <textarea
+                id="contact-message"
+                name="message"
+                rows="4"
+              >Hi Ricardo! I read your profile and I'd like to chat. Please reach out to me at the email I provided.</textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hidden field carries message when not edited -->
+        <input type="hidden" id="canned-hidden" name="message"
+          value="Hi Ricardo! I read your profile and I'd like to chat. Please reach out to me at the email I provided." />
+
+        <button type="submit" class="btn-submit">
+          <span class="btn-submit__text">Send message</span>
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ----- NAV SCROLL -----
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav?.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ----- CONTACT MODAL -----
+    const overlay  = document.getElementById('modal-overlay');
+    const triggers = document.querySelectorAll('#contact-trigger-nav, #contact-trigger-footer');
+    const closeBtn = document.getElementById('modal-close');
+
+    function openModal() {
+      overlay?.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      overlay?.classList.remove('open');
+      document.body.style.overflow = '';
+      // Reset edit state after close animation
+      setTimeout(resetEditState, 300);
+    }
+
+    triggers.forEach(t => t.addEventListener('click', openModal));
+    closeBtn?.addEventListener('click', closeModal);
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // ----- EDIT TOGGLE -----
+    const editTrigger   = document.getElementById('edit-trigger');
+    const cannedDisplay = document.getElementById('canned-display');
+    const cannedEdit    = document.getElementById('canned-edit');
+    const cannedHidden  = document.getElementById('canned-hidden') as HTMLInputElement | null;
+    const messageTA     = document.getElementById('contact-message') as HTMLTextAreaElement | null;
+    let isEditing = false;
+
+    function enterEditState() {
+      isEditing = true;
+      cannedDisplay?.classList.add('hidden');
+      cannedEdit?.classList.remove('hidden');
+      cannedEdit?.setAttribute('aria-hidden', 'false');
+      // Disable hidden field so textarea takes over
+      if (cannedHidden) cannedHidden.disabled = true;
+      messageTA?.focus();
+    }
+
+    function resetEditState() {
+      if (!isEditing) return;
+      isEditing = false;
+      cannedDisplay?.classList.remove('hidden');
+      cannedEdit?.classList.add('hidden');
+      cannedEdit?.setAttribute('aria-hidden', 'true');
+      if (cannedHidden) {
+        cannedHidden.disabled = false;
+      }
+      // Reset textarea to canned text
+      if (messageTA) {
+        messageTA.value = "Hi Ricardo! I read your profile and I'd like to chat. Please reach out to me at the email I provided.";
+      }
+    }
+
+    editTrigger?.addEventListener('click', enterEditState);
+
+    // ----- SCROLL FADE-UP -----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ----- CONTACT FORM SUBMIT -----
+    const form = document.getElementById('contact-form');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('.btn-submit') as HTMLButtonElement;
+      const submitText = form.querySelector('.btn-submit__text');
+      if (!submitBtn || !submitText) return;
+
+      submitText.textContent = 'Sending…';
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch((form as HTMLFormElement).action, {
+          method: 'POST',
+          body: new FormData(form as HTMLFormElement),
+          headers: { Accept: 'application/json' }
+        });
+        if (res.ok) {
+          submitText.textContent = 'Sent. Thank you.';
+          submitBtn.classList.add('sent');
+        } else {
+          submitText.textContent = 'Something went wrong — try again.';
+          submitBtn.disabled = false;
+        }
+      } catch {
+        submitText.textContent = 'Network error — try again.';
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+
+  <style>
+    /* Nav contact button same style as links */
+    .nav__contact-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav__contact-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-accent);
+      transition: width 250ms ease-out;
+    }
+    .nav__contact-btn:hover::after { width: 100%; }
+  </style>
+
+</body>
+</html>

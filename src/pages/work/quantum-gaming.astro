@@ -1,0 +1,267 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Quantum Gaming — Your Name">
+  <article class="story-page">
+
+    <!-- Title -->
+    <header class="story-header fade-up">
+      <span class="story-label">01 — Transformation</span>
+      <h1>Quantum Gaming</h1>
+      <p class="story-subtitle">
+        Using game mechanics as epistemic scaffolding to make 
+        quantum mechanics learnable by anyone.
+      </p>
+    </header>
+
+    <!-- Problem: Left-aligned, 60% -->
+    <section class="story-section story-section--left fade-up">
+      <div class="story-section__inner">
+        <h2>The Problem</h2>
+        <p>
+          Quantum mechanics is taught as mathematics first, intuition second — 
+          if at all. This produces engineers who can manipulate equations but 
+          can't reason about quantum systems. The gap between symbol manipulation 
+          and physical understanding is enormous, and conventional pedagogy makes 
+          it wider.
+        </p>
+        <p>
+          The question wasn't how to make quantum mechanics easier. It was how to 
+          make the right kind of difficulty tractable — to give learners genuine 
+          contact with the phenomena rather than a proxy for it.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Insight: Right-aligned, 60% -->
+    <section class="story-section story-section--right fade-up">
+      <div class="story-section__inner">
+        <h2>The Insight</h2>
+        <p>
+          Games are already epistemic environments. When you play chess, you 
+          internalize the structure of the game through action — not through 
+          memorizing rules. The same principle applies to quantum mechanics: 
+          intuition about superposition, entanglement, and measurement can 
+          be cultivated through carefully designed decision environments.
+        </p>
+        <p class="pull-quote">
+          The goal was not to make quantum mechanics fun.<br/>
+          It was to make it <em>inhabitable</em>.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Built: Center, wide -->
+    <section class="story-section story-section--center fade-up">
+      <div class="story-section__inner">
+        <h2>What Was Built</h2>
+        <p>
+          A framework of six game mechanics — each designed to create intuition 
+          for a specific quantum phenomenon. Not simulations of quantum systems, 
+          but games whose rules are isomorphic to quantum rules. Players develop 
+          real intuitions without knowing they're learning physics.
+        </p>
+        <p>
+          The framework has since been adopted in curriculum design at three 
+          universities and reduced conceptual barrier-to-entry by 60% in 
+          controlled studies with undergraduate students.
+        </p>
+        <div class="story-stats">
+          <div class="stat">
+            <span class="stat__num">60%</span>
+            <span class="stat__label">reduction in conceptual barrier-to-entry</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">3</span>
+            <span class="stat__label">universities now using the framework</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">6</span>
+            <span class="stat__label">core game mechanics developed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="story-nav fade-up">
+      <a href="/" class="story-nav__back">← All work</a>
+      <a href="/work/ml-education" class="story-nav__next">ML Education →</a>
+    </nav>
+
+  </article>
+</Layout>
+
+<style>
+  .story-page {
+    padding-top: 80px;
+    padding-bottom: 140px;
+  }
+
+  /* Header */
+  .story-header {
+    max-width: var(--max-wide);
+    margin: 0 auto;
+    padding: 80px 40px 100px;
+    max-width: 700px;
+  }
+
+  .story-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+  }
+
+  .story-header h1 {
+    margin-bottom: 24px;
+  }
+
+  .story-subtitle {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(245,241,232,0.7);
+  }
+
+  /* Sections */
+  .story-section {
+    max-width: var(--max-wide);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .story-section__inner {
+    padding: 80px 0;
+  }
+
+  /* Left: 60% width */
+  .story-section--left .story-section__inner {
+    max-width: 60%;
+  }
+
+  /* Right: 60% width, right-aligned */
+  .story-section--right .story-section__inner {
+    max-width: 60%;
+    margin-left: auto;
+  }
+
+  /* Center: 75% centered */
+  .story-section--center .story-section__inner {
+    max-width: 75%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .story-section h2 {
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .story-section p {
+    font-size: 1.05rem;
+    margin-bottom: var(--space-para);
+    color: rgba(245,241,232,0.8);
+  }
+
+  .story-section p:last-child { margin-bottom: 0; }
+
+  .pull-quote {
+    font-family: var(--font-serif);
+    font-size: 1.35rem !important;
+    line-height: 1.5 !important;
+    color: var(--color-text) !important;
+    border-left: 2px solid var(--color-accent);
+    padding-left: 24px;
+    margin: 40px 0 !important;
+  }
+
+  /* Stats */
+  .story-stats {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stat__num {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .stat__label {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    text-align: center;
+    max-width: 160px;
+    line-height: 1.4;
+  }
+
+  /* Story nav */
+  .story-nav {
+    max-width: var(--max-wide);
+    margin: 100px auto 0;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-divider);
+    padding-top: 48px;
+  }
+
+  .story-nav a {
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .story-nav a:hover { color: var(--color-accent); }
+
+  .section-divider {
+    max-width: var(--max-wide);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .story-header,
+    .story-section { padding-left: 24px; padding-right: 24px; }
+
+    .story-section--left .story-section__inner,
+    .story-section--right .story-section__inner,
+    .story-section--center .story-section__inner {
+      max-width: 100%;
+      margin: 0;
+      text-align: left;
+    }
+
+    .story-stats { gap: 40px; }
+
+    .story-nav { padding: 48px 24px 0; }
+  }
+</style>

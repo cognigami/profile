@@ -1,28 +1,372 @@
 ---
-import Base from '../layouts/Base.astro';
-import HeroProcedural from '../components/HeroProcedural.astro';
-import { getCollection } from 'astro:content';
-
-const transformations = await getCollection('transformations');
-const sortedTransformations = transformations.sort((a, b) => a.data.order - b.data.order);
+import Layout from '../layouts/Layout.astro';
 ---
 
-<Base title="Ricardo — Strategist, Builder, Researcher">
-  <HeroProcedural />
-  
-  {sortedTransformations.map((transformation, index) => {
-    const alignment = index % 3 === 0 ? 'left' : index % 3 === 1 ? 'right' : 'center';
-    return (
-      <>
-        {index > 0 && <div class="divider"></div>}
-        <section class={`showcase showcase--${alignment} fade-in`}>
-          <div class="showcase-content">
-            <h2 class="showcase-title">{transformation.data.title}</h2>
-            <p class="showcase-description">{transformation.data.description}</p>
-            <a href={`/${transformation.id.replace('.md', '')}`} class="showcase-link">Read more</a>
-          </div>
-        </section>
-      </>
+<Layout title="Your Name — Strategist, Builder, Researcher">
+
+  <!-- =============================================
+       HERO
+       ============================================= -->
+  <section class="hero">
+    <div class="hero__bg" id="hero-bg">
+      <img src="/hero.svg" alt="" aria-hidden="true" class="hero__svg" id="hero-svg"/>
+    </div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Strategist · Builder · Researcher</p>
+      <h1 class="hero__headline">
+        Creating patterns<br/>that propagate<br/>beyond their origin.
+      </h1>
+      <p class="hero__sub">
+        From quantum mechanics to machine learning pedagogy —<br/>
+        work designed to outlast the moment it was made.
+      </p>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- =============================================
+       OPENING STATEMENT
+       ============================================= -->
+  <section class="opening section-spacing">
+    <div class="opening__inner fade-up">
+      <p class="opening__text">
+        I work at the intersection of systems thinking and hands-on craft — 
+        building tools, frameworks, and educational experiences that create 
+        durable change. My output isn't deliverables. It's infrastructure 
+        that continues producing value long after I've moved on.
+      </p>
+      <p class="opening__text">
+        The through-line: I find the leverage point where a small, precise 
+        intervention reshapes a much larger system.
+      </p>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TRANSFORMATION SHOWCASES
+       ============================================= -->
+  <section class="showcases section-spacing">
+    <div class="container">
+
+      <!-- Showcase 1: Left-aligned, 70% -->
+      <div class="showcase showcase--left fade-up">
+        <div class="showcase__inner">
+          <span class="showcase__label">01</span>
+          <h2 class="showcase__title">Quantum Gaming</h2>
+          <p class="showcase__body">
+            Designed a game-based framework for teaching quantum mechanics 
+            that reduces conceptual barrier-to-entry by 60%. Built not as 
+            entertainment, but as epistemological infrastructure — turning 
+            abstract principles into learnable intuitions.
+          </p>
+          <a href="/work/quantum-gaming" class="showcase__link">
+            Read more <span class="showcase__arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Showcase 2: Right-aligned, 70% -->
+      <div class="showcase showcase--right fade-up">
+        <div class="showcase__inner">
+          <span class="showcase__label">02</span>
+          <h2 class="showcase__title">ML Education at Google</h2>
+          <p class="showcase__body">
+            Rebuilt the conceptual architecture of ML education for one 
+            of the world's largest engineering organizations. The curriculum 
+            reached 12,000+ engineers across 40 countries — and continues 
+            propagating through how those engineers now teach each other.
+          </p>
+          <a href="/work/ml-education" class="showcase__link">
+            Read more <span class="showcase__arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Showcase 3: Centered, 80% -->
+      <div class="showcase showcase--center fade-up">
+        <div class="showcase__inner">
+          <span class="showcase__label">03</span>
+          <h2 class="showcase__title">Documentation as Code</h2>
+          <p class="showcase__body">
+            Established a docs-as-code practice from scratch at a major 
+            enterprise — treating documentation with the same rigor as 
+            software. The system reduced mean-time-to-accurate-information 
+            by 4× and created a self-sustaining contributor culture.
+          </p>
+          <a href="/work/docs-as-code" class="showcase__link">
+            Read more <span class="showcase__arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 600px;
+    max-height: 900px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    will-change: transform;
+  }
+
+  .hero__svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Dark scrim so text reads clearly */
+  .hero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(43,40,38,0.82) 0%,
+      rgba(43,40,38,0.3) 45%,
+      rgba(43,40,38,0.05) 100%
     );
-  })}
-</Base>
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding: 0 60px 80px;
+    max-width: 820px;
+  }
+
+  .hero__eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 700ms ease-out 200ms forwards;
+  }
+
+  .hero__headline {
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 700ms ease-out 380ms forwards;
+  }
+
+  .hero__sub {
+    font-size: 1rem;
+    color: rgba(245,241,232,0.65);
+    line-height: 1.65;
+    opacity: 0;
+    animation: fadeUp 700ms ease-out 540ms forwards;
+  }
+
+  .hero__scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    right: 52px;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 600ms ease-out 1000ms forwards;
+  }
+
+  .hero__scroll-hint span {
+    display: block;
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, transparent, rgba(212,130,43,0.7));
+    animation: scrollPulse 2s ease-in-out 1200ms infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.7) translateY(-6px); }
+    50%       { opacity: 1;   transform: scaleY(1)   translateY(0); }
+  }
+
+  /* Parallax scroll for hero bg */
+  /* JS handles this via transform, class left here for reference */
+
+  /* ---- OPENING STATEMENT ---- */
+  .opening__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .opening__text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: rgba(245,241,232,0.8);
+    margin-bottom: var(--space-para);
+  }
+
+  .opening__text:last-child { margin-bottom: 0; }
+
+  /* ---- SHOWCASES ---- */
+  .showcases { padding-top: 0; }
+
+  .section-divider {
+    margin: 80px auto;
+  }
+
+  /* Shared showcase */
+  .showcase {
+    padding: 0;
+    cursor: default;
+  }
+
+  .showcase__inner {
+    padding: 56px 48px;
+  }
+
+  /* Left: 70% width, left-aligned */
+  .showcase--left .showcase__inner {
+    max-width: 70%;
+  }
+
+  /* Right: 70% width, right-aligned */
+  .showcase--right .showcase__inner {
+    max-width: 70%;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .showcase--right .showcase__link {
+    justify-content: flex-end;
+  }
+
+  /* Center: 80% width, centered */
+  .showcase--center .showcase__inner {
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .showcase--center .showcase__link {
+    justify-content: center;
+  }
+
+  .showcase__label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+
+  .showcase__title {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    margin-bottom: 20px;
+    /* Gradient always present underneath — revealed on hover */
+    background: linear-gradient(
+      105deg,
+      #E8A84A 0%,
+      #D4822B 38%,
+      #C4601A 65%,
+      #BD6B4A 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* Solid cream by default; transitioning to transparent reveals gradient */
+    color: var(--color-text);
+    transition: color 350ms ease-out;
+  }
+
+  .showcase:hover .showcase__title {
+    color: transparent;
+  }
+
+  .showcase__body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(245,241,232,0.7);
+    margin-bottom: 28px;
+  }
+
+  .showcase__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: gap 300ms ease-out;
+  }
+
+  .showcase__arrow {
+    display: inline-block;
+    transition: transform 300ms ease-out;
+  }
+
+  .showcase:hover .showcase__arrow {
+    transform: translateX(4px);
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 768px) {
+    .hero__content { padding: 0 24px 60px; }
+
+    .showcase--left .showcase__inner,
+    .showcase--right .showcase__inner,
+    .showcase--center .showcase__inner {
+      max-width: 100%;
+      margin: 0;
+      text-align: left;
+    }
+
+    .showcase__inner { padding: 40px 24px; }
+
+    .showcase--right .showcase__link,
+    .showcase--center .showcase__link {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<script>
+  // Subtle hero parallax on scroll
+  const heroBg = document.getElementById('hero-bg');
+  window.addEventListener('scroll', () => {
+    if (!heroBg) return;
+    const y = window.scrollY;
+    heroBg.style.transform = `translateY(${y * 0.35}px)`;
+  }, { passive: true });
+</script>

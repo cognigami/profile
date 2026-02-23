@@ -1,0 +1,243 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="ML Education at Google — Your Name">
+  <article class="story-page">
+
+    <header class="story-header fade-up">
+      <span class="story-label">02 — Transformation</span>
+      <h1>ML Education at Google</h1>
+      <p class="story-subtitle">
+        Rebuilding the conceptual architecture of machine learning education 
+        for one of the world's largest engineering organizations.
+      </p>
+    </header>
+
+    <section class="story-section story-section--left fade-up">
+      <div class="story-section__inner">
+        <h2>The Problem</h2>
+        <p>
+          Google had thousands of engineers who needed ML literacy — but 
+          existing training treated them as beginners. The content was 
+          technically accurate but pedagogically broken, built for external 
+          audiences rather than engineers who already think in systems.
+        </p>
+        <p>
+          The real gap wasn't knowledge. It was the mental models needed to 
+          reason about ML systems — to know which questions to ask, which 
+          abstractions to trust, and when intuitions from classical software 
+          engineering are actively misleading.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="story-section story-section--right fade-up">
+      <div class="story-section__inner">
+        <h2>The Insight</h2>
+        <p>
+          The problem wasn't a content gap. It was a model gap. Engineers 
+          had facts but not frameworks — they could define "overfitting" 
+          but couldn't recognize it in their own systems.
+        </p>
+        <p class="pull-quote">
+          The curriculum needed to teach engineers<br/>
+          how to <em>think about</em> ML, not just<br/>
+          <em>what to know</em> about it.
+        </p>
+        <p>
+          That required restructuring from first principles — starting with 
+          the mental models, then building factual knowledge on top of them.
+        </p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="story-section story-section--center fade-up">
+      <div class="story-section__inner">
+        <h2>What Was Built</h2>
+        <p>
+          A complete curriculum rebuild across four learning tracks, 
+          structured around mental model acquisition rather than topic coverage. 
+          Each module was designed so that learning it changed how engineers 
+          thought, not just what they knew.
+        </p>
+        <p>
+          The curriculum reached 12,000+ engineers in 40 countries. More 
+          importantly: it created a teaching culture. Engineers who went through 
+          it began teaching each other, propagating the frameworks far beyond 
+          any centralized program could reach.
+        </p>
+        <div class="story-stats">
+          <div class="stat">
+            <span class="stat__num">12k+</span>
+            <span class="stat__label">engineers reached across the organization</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">40</span>
+            <span class="stat__label">countries where curriculum was deployed</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">4</span>
+            <span class="stat__label">learning tracks rebuilt from first principles</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="story-nav fade-up">
+      <a href="/work/quantum-gaming" class="story-nav__back">← Quantum Gaming</a>
+      <a href="/work/docs-as-code" class="story-nav__next">Docs as Code →</a>
+    </nav>
+
+  </article>
+</Layout>
+
+<style>
+  /* Imports story-page styles via global — additional page-specific below */
+  .story-page {
+    padding-top: 80px;
+    padding-bottom: 140px;
+  }
+
+  .story-header {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 40px 100px;
+  }
+
+  .story-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+  }
+
+  .story-header h1 { margin-bottom: 24px; }
+
+  .story-subtitle {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(245,241,232,0.7);
+  }
+
+  .story-section {
+    max-width: var(--max-wide);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .story-section__inner { padding: 80px 0; }
+
+  .story-section--left .story-section__inner   { max-width: 60%; }
+  .story-section--right .story-section__inner  { max-width: 60%; margin-left: auto; }
+  .story-section--center .story-section__inner { max-width: 75%; margin: 0 auto; text-align: center; }
+
+  .story-section h2 {
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .story-section p {
+    font-size: 1.05rem;
+    margin-bottom: var(--space-para);
+    color: rgba(245,241,232,0.8);
+  }
+
+  .story-section p:last-child { margin-bottom: 0; }
+
+  .pull-quote {
+    font-family: var(--font-serif);
+    font-size: 1.35rem !important;
+    line-height: 1.5 !important;
+    color: var(--color-text) !important;
+    border-left: 2px solid var(--color-accent);
+    padding-left: 24px;
+    margin: 40px 0 !important;
+  }
+
+  .story-stats {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stat__num {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .stat__label {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    text-align: center;
+    max-width: 160px;
+    line-height: 1.4;
+  }
+
+  .section-divider {
+    max-width: var(--max-wide);
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 1px;
+    background: var(--color-divider);
+  }
+
+  .story-nav {
+    max-width: var(--max-wide);
+    margin: 100px auto 0;
+    padding: 48px 40px 0;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .story-nav a {
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .story-nav a:hover { color: var(--color-accent); }
+
+  @media (max-width: 768px) {
+    .story-header,
+    .story-section { padding-left: 24px; padding-right: 24px; }
+
+    .story-section--left .story-section__inner,
+    .story-section--right .story-section__inner,
+    .story-section--center .story-section__inner {
+      max-width: 100%;
+      margin: 0;
+      text-align: left;
+    }
+
+    .story-nav { padding: 48px 24px 0; }
+  }
+</style>
