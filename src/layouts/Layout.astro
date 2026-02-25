@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title = 'Ricardo Olenewa — Strategist, Builder, Researcher',
-  description = 'Creating patterns that propagate beyond their origin. Work spanning quantum gaming, ML education, and documentation infrastructure.'
+  description = 'Making the impossible seem routine. Work spanning quantum gaming, ML education, and documentation infrastructure.'
 } = Astro.props;
 ---
 
@@ -42,7 +42,7 @@ const {
   <footer>
     <div class="footer">
       <p class="footer__tagline">
-        Creating patterns that propagate<br/>beyond their origin.
+        Making the impossible<br/>seem routine.
       </p>
       <div class="footer__right">
         <ul class="footer__links">
@@ -103,6 +103,8 @@ const {
               </svg>
             </button>
           </div>
+
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off"/>
 
           <!-- Expanded edit state (hidden by default) -->
           <div class="canned-message__edit hidden" id="canned-edit" aria-hidden="true">
