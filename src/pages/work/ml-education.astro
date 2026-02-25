@@ -24,75 +24,171 @@ import Layout from '../../layouts/Layout.astro';
       <!-- Replace the div above with: <img src="/images/ml-education.jpg" alt="ML Education at Google"> -->
     </div>
 
+    <!-- Problem: Left-aligned, 60% -->
     <section class="story-section story-section--left fade-up">
       <div class="story-section__inner">
         <h2>The Problem</h2>
         <p>
-          Google had thousands of engineers who needed ML literacy — but 
-          existing training treated them as beginners. The content was 
-          technically accurate but pedagogically broken, built for external 
-          audiences rather than engineers who already think in systems.
+          In 2016, Google needed to become an ML-first company. That was easier said
+          than done, even for Google in 2016. The infrastructure, culture, and
+          capabilities all had to shift simultaneously—across 100,000 people and
+          hundreds of product teams.
         </p>
         <p>
-          The real gap wasn't knowledge. It was the mental models needed to 
-          reason about ML systems — to know which questions to ask, which 
-          abstractions to trust, and when intuitions from classical software 
-          engineering are actively misleading.
+          Top-down mandates and corporate training fail because they don't change how
+          people actually think and work. Bottom-up adoption is too slow when you're
+          racing competitors. And the classic approach—train a core team of experts who
+          gradually spread knowledge—creates bottlenecks that last for years.
+        </p>
+        <p>
+          The real impossibility: How do you transform an organization's fundamental
+          capabilities when the infrastructure to support those capabilities doesn't
+          yet fully exist?
         </p>
       </div>
     </section>
 
     <div class="section-divider"></div>
 
+    <!-- Insight: Right-aligned, 60% -->
     <section class="story-section story-section--right fade-up">
       <div class="story-section__inner">
         <h2>The Insight</h2>
         <p>
-          The problem wasn't a content gap. It was a model gap. Engineers 
-          had facts but not frameworks — they could define "overfitting" 
-          but couldn't recognize it in their own systems.
+          Education at scale creates irresistible organizational pressure. When you
+          announce that you're training the entire company on something, leadership
+          must ensure the infrastructure exists to support what you're teaching.
+          Otherwise, they look incompetent or the training fails publicly.
+        </p>
+        <p>
+          **This makes education a strategic lever**, not just a knowledge transfer
+          mechanism. Done right, it forces alignment across tooling, infrastructure,
+          and decision-making frameworks—because those things have to work for the
+          training to succeed.
+        </p>
+        <p>
+          My team had seen this pattern work before. When Google needed to become a
+          mobile-first company, we launched Android Bootcamp—company-wide training that
+          forced the infrastructure development the company needed. Before it, the
+          Android team owned the mobile experience for every Google product. After it,
+          even Apple featured Google apps as examples of excellence on iOS.
         </p>
         <p class="pull-quote">
           The curriculum needed to teach engineers<br/>
           how to <em>think about</em> ML, not just<br/>
           <em>what to know</em> about it.
         </p>
-        <p>
-          That required restructuring from first principles — starting with 
-          the mental models, then building factual knowledge on top of them.
-        </p>
       </div>
     </section>
 
     <div class="section-divider"></div>
 
+    <!-- Built: Center, wide -->
     <section class="story-section story-section--center fade-up">
       <div class="story-section__inner">
         <h2>What Was Built</h2>
         <p>
-          A complete curriculum rebuild across four learning tracks, 
-          structured around mental model acquisition rather than topic coverage. 
-          Each module was designed so that learning it changed how engineers 
-          thought, not just what they knew.
+          Machine Learning Crash Course (MLCC) was designed to work at multiple levels
+          simultaneously.
         </p>
         <p>
-          The curriculum reached 12,000+ engineers in 40 countries. More 
-          importantly: it created a teaching culture. Engineers who went through 
-          it began teaching each other, propagating the frameworks far beyond 
-          any centralized program could reach.
+          For the entire organization: ML became a cultural primitive—"in the air" as a
+          way of thinking about problems, even for people who had never (and would never) write an ML algorithm.
         </p>
+        <p>
+          For the engineering organization: Product managers, UX designers, writers,
+          and engineers could have informed conversations about when ML was appropriate,
+          asking questions like:
+          <ul>
+            <li>Is there a clear, repeatable decision to be made frequently enough to warrant automation?</li>
+            <li>Can we collect or generate enough examples?</li>
+            <li>What's our tolerance for error?</li>
+            <li>How would we validate automated decisions?</li>
+            <li>Is there a simpler, mechanical solution?</li>
+          </ul>
+        </p>
+        <p>
+          For engineers specifically: Hands-on capability to implement ML systems,
+          including the mindset shift from "I have an algorithm that transforms data"
+          to "I can collect data that trains an algorithm."
+        </p>
+        <p>
+          Because of Google's structure, anyone from any background could take the
+          course. Over time, we expanded to serve technical experts on specific topics
+          and non-technical audiences on strategic thinking.
+        </p>
+        <p>
+          The results: We trained more than 40% of Googlers and made the course
+          publicly available, where it reached over 4 million people per year
+          worldwide.
+        </p>
+
+    <!-- Propogated: Left-aligned, 60% -->
+    <section class="story-section story-section--left fade-up">
+      <div class="story-section__inner">
+        <h2>How it propogated</h2>
+        <p>
+          The measure of cultural transformation isn't course completion—it's behavior
+          change. Internally, we tracked ML pipeline creation through to production:
+          were engineers actually building ML systems, not just learning about them?
+          The trend was positive, and small ML-based features began appearing across
+          most Google products—not as flagship launches, but as quiet evidence that the
+          mindset shift had taken hold.
+        </p>
+        <p>
+          The content was strong enough that its value became obvious beyond Google. We
+          made MLCC publicly available, where it reached over 4 million people per year
+          worldwide. Google Cloud recognized a commercial opportunity: bringing select,
+          high-value customers on-site to receive the same training Googlers received,
+          building ML systems alongside Google engineers. Training became a cornerstone
+          of a new sales pipeline.
+        </p>
+        <p>
+          The furthest reach was the squishiest to measure: MLCC content ultimately
+          reached key opinion formers in policy and government, elevating the quality
+          of public discourse around ML and AI at a moment when that discourse badly
+          needed elevation.  
+        </p>
+        <p>
+          We had built something to transform Google. It ended up contributing to how
+          the world thinks about machine learning.
+        </p>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Demonstrates: Right-aligned, 60% -->
+    <section class="story-section story-section--right fade-up">
+      <div class="story-section__inner">
+        <h2>How it propogated</h2>
+        <p>
+          This work required seeing organizational transformation at a different level
+          than most people operate. The real work was understanding that education at
+          scale creates pressure that forces infrastructure, tooling, and culture to
+          align. Building great training content was a tool, not an outcome.
+        </p>
+        <p>
+          That insight only matters if you can execute: leading a team of nearly 30
+          people across 10 global offices, coordinating with business units for
+          tailored delivery, and managing quality at a scale where millions of people
+          are watching.
+        </p>
+        <p>
+          It's work well-suited to high-stakes organizational challenges: when the
+          conventional approaches (mandates, expert teams, incremental change) won't
+          move fast enough, and you need a forcing function that makes transformation
+          inevitable rather than aspirational.
+        </p>
+
         <div class="story-stats">
           <div class="stat">
-            <span class="stat__num">12k+</span>
+            <span class="stat__num">24k+</span>
             <span class="stat__label">engineers reached across the organization</span>
           </div>
           <div class="stat">
             <span class="stat__num">40</span>
             <span class="stat__label">countries where curriculum was deployed</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">4</span>
-            <span class="stat__label">learning tracks rebuilt from first principles</span>
           </div>
         </div>
       </div>
