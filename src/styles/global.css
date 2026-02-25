@@ -531,6 +531,45 @@ p a:hover, .body-link:hover {
 }
 
 /* =============================================
+   STORY PAGE LISTS
+   ============================================= */
+
+/* Base list styling — works in all alignments */
+.story-section ul,
+.story-section ol {
+  padding-left: 1.4em;
+  margin-bottom: var(--space-para);
+  color: rgba(245, 241, 232, 0.8);
+}
+
+.story-section li {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 0.5em;
+}
+
+.story-section li::marker {
+  color: var(--color-accent);
+  font-size: 0.85em;
+}
+
+/* Center alignment — left-align list inside centered container */
+.story-section--center ul,
+.story-section--center ol {
+  text-align: left;
+  display: inline-block;
+  width: auto;
+  min-width: 50%;
+}
+
+/* Right alignment — pull list flush with the text block */
+.story-section--right ul,
+.story-section--right ol {
+  padding-left: 1.4em;
+  text-align: left;
+}
+
+/* =============================================
    RESPONSIVE
    ============================================= */
 @media (max-width: 768px) {
