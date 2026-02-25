@@ -26,21 +26,68 @@ import Layout from '../../layouts/Layout.astro';
       <!-- Replace the div above with: <img src="/images/quantum-gaming.jpg" alt="Quantum Gaming"> -->
     </div>
 
+The Problem
+
+The Insight
+
+What We Built
+
+How It Propagated
+The work has appeared in Nature and the Bulletin of the American Physical
+Society. More importantly, high school students are now building intuition
+for quantum superposition and entanglement—concepts that used to require
+years of graduate study to grasp.
+
+The community grew to more than 60 contributors globally—university
+researchers, private individuals, and Googlers—and continues today. When I
+moved to Quantum Realm Games in 2023, we expanded beyond building games to
+hosting Quantum Game Jams and consulting for institutional customers like PwC
+and Moody's Analytics.
+
+The approach is finding its way into formal education: in 2025, Quantum Realm
+Games and Laguna College of Art and Design launched GA509 Quantum Game Design:
+training MFA students to use quantum effects as game mechanic. 
+
+Together with my partners in Europe, we’ll host a Lorentz Center Workshop in
+the Netherlands in September 2026. The workshop will bring together
+scientists from multiple disciplines to establish research programs in
+quantum gaming.
+
+What It Demonstrates
+I created software, curriculum, and a community that scaled beyond the original team.
+This work required operating at multiple levels, and with multiple communities,
+simultaneously. It required enough mastery of quantum mechanics to know
+what could be made playable, design sensibility to steer engaging games (not
+educational software), and technical infrastructure that could scale beyond
+any single team.
+
+It's work well-suited to under-specified problems: "Make quantum mechanics
+accessible" could have led anywhere. The game-based approach only emerged
+from asking what would actually work, not what existing solutions looked like.
+
+
     <!-- Problem: Left-aligned, 60% -->
     <section class="story-section story-section--left fade-up">
       <div class="story-section__inner">
         <h2>The Problem</h2>
         <p>
-          Quantum mechanics is taught as mathematics first, intuition second — 
-          if at all. This produces engineers who can manipulate equations but 
-          can't reason about quantum systems. The gap between symbol manipulation 
-          and physical understanding is enormous, and conventional pedagogy makes 
-          it wider.
+          Quantum computing could become a multiplier of human capability, but the
+          talent pipeline is impossibly narrow. Globally, there are only about 6,000
+          physics PhD students at any given time. Half won't graduate. Of those who do,
+          only a fraction enter quantum information science.
         </p>
         <p>
-          The question wasn't how to make quantum mechanics easier. It was how to 
-          make the right kind of difficulty tractable — to give learners genuine 
-          contact with the phenomena rather than a proxy for it.
+          But here's the deeper issue: quantum computing won't just need quantum
+          physicists. Just as the internet requires thousands of people across
+          hundreds of layers—from low-level electronic signal engineers to UX designers
+          quantum technologies will need an entire ecosystem of people with working
+          intuition about quantum concepts.
+        </p>
+        <p>
+          The conventional approach makes this impossible. Quantum mechanics is taught
+          through advanced mathematics, with students told to "trust the math" and
+          develop private intuitions about what it means. This works for training (a few)
+          physicists. It doesn't work for building an ecosystem.
         </p>
       </div>
     </section>
@@ -52,12 +99,17 @@ import Layout from '../../layouts/Layout.astro';
       <div class="story-section__inner">
         <h2>The Insight</h2>
         <p>
-          Games are already epistemic environments. When you play chess, you 
-          internalize the structure of the game through action — not through 
-          memorizing rules. The same principle applies to quantum mechanics: 
-          intuition about superposition, entanglement, and measurement can 
-          be cultivated through carefully designed decision environments.
+          Games let people build intuition about abstract concepts through direct
+          interaction. You don't need to understand the physics of projectile motion to
+          develop intuition for it—you just need to throw a ball to a child, or enough
+          angry birds at enough pigs.
         </p>
+        <p>
+          What if we could do the same for quantum mechanics? Not gamifying learning
+          with points and badges, but learnifying gaming—creating actual games where
+          quantum effects are the core mechanics.
+        </p>
+        <p>
         <p class="pull-quote">
           The goal was not to make quantum mechanics fun.<br/>
           It was to make it <em>inhabitable</em>.
@@ -72,15 +124,40 @@ import Layout from '../../layouts/Layout.astro';
       <div class="story-section__inner">
         <h2>What Was Built</h2>
         <p>
-          A framework of six game mechanics — each designed to create intuition 
-          for a specific quantum phenomenon. Not simulations of quantum systems, 
-          but games whose rules are isomorphic to quantum rules. Players develop 
-          real intuitions without knowing they're learning physics.
+          While building the Google School for Quantum Computing, I started a project
+          called Cheqmate. The core idea was to build tools that enabled a broad set of
+          people to experience quantum. We wanted to get beyond headlines and
+          intimidating language (“spooky”, “weird”).
         </p>
         <p>
-          The framework has since been adopted in curriculum design at three 
-          universities and reduced conceptual barrier-to-entry by 60% in 
-          controlled studies with undergraduate students.
+          Quantum Chess was the first commercial game to run on an actual quantum
+          computer, in partnership with Google's quantum hardware team.
+        </p>
+        <ul>
+          <li>
+            Quantum Chess - We continued the open-source version of Chris Cantwell’s game,
+            where pieces can exist in superposition and become entangled. Players develop
+            intuition for quantum behavior by playing, not by studying equations.
+          </li>
+          <li>
+            Unitary - We abstracted the open-source Quantum Chess game engine to make it
+            more generally useful to software developers. We focused on casual game developers in Python.
+          </li>
+          <li>
+            Project Qute - Classroom activities for high school students, launched in
+            partnership with Caltech IQIM, the National Q12 Education Partnership, and
+            the White House Office of Science and Technology Policy.
+          </li>
+          <li>
+            Quantum Forge - When I joined Quantum Realm Games, we revisited the lessons
+            that we learned building the Unitary library, and rebuilt our internal
+            quantum physics engine and tooling to make it more accessible to professional
+            game developers. This wasn't a simplified teaching tool—it's real quantum
+            mechanics, made interactive.
+          </li>
+        </ul>
+        <p>
+          These weren't just tools—they became the foundation for a growing ecosystem.
         </p>
         <div class="story-stats">
           <div class="stat">
