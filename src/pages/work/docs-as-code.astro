@@ -24,71 +24,212 @@ import Layout from '../../layouts/Layout.astro';
       <!-- Replace the div above with: <img src="/images/docs-as-code.jpg" alt="Documentation as Code"> -->
     </div>
 
+    <!-- Problem: Left-aligned, 60% -->
     <section class="story-section story-section--left fade-up">
       <div class="story-section__inner">
         <h2>The Problem</h2>
         <p>
-          Documentation was treated as a deliverable — something produced 
-          at the end of a project and immediately allowed to rot. No versioning, 
-          no review process, no ownership model. Information was either 
-          missing, wrong, or unfindable.
+          When I joined Google in 2012, the company had about 10,000 engineers and was
+          growing rapidly. Documentation lived primarily in Goowiki—a custom set of
+          scripts that integrated with Google's infrastructure.
         </p>
         <p>
-          The organization's mean-time-to-accurate-information was measured 
-          in days. Engineers were reinventing solutions that had already been 
-          documented, then abandoned. Institutional knowledge lived in people's 
-          heads, not in systems.
+          Wikis are fundamentally unstructured. Because people aren't natural
+          information architects, wikis quickly become labyrinthine. At scale, they
+          become more harmful than useless: broken conceptual links proliferate,
+          information threads follow paths that are not obvious, and no one knows if
+          what they're reading is current. If you’ve ever used Notion, you know what I
+          mean.
+        </p>
+        <p>
+          The cost of maintaining Goowiki compounded as Google grew. Onboarding slowed
+          because everything was poorly documented, and those documents were impossible
+          to find. Engineers wasted time searching or, worse, rebuilding knowledge that
+          already existed somewhere. A slower pace meant higher costs.
+        </p>
+        <p>
+          Meanwhile, Google's infrastructure was changing and the people maintaining
+          Goowiki couldn't keep up. We needed to shut it down, but we had nothing to
+          replace it with.
         </p>
       </div>
     </section>
 
     <div class="section-divider"></div>
 
+    <!-- Insight: Right-aligned, 60% -->
     <section class="story-section story-section--right fade-up">
       <div class="story-section__inner">
         <h2>The Insight</h2>
         <p>
-          Documentation fails not because people don't write it, but because 
-          the systems around it treat it as disposable. Apply the same 
-          infrastructure to docs that you apply to code — versioning, 
-          review, CI, ownership — and the behavior changes entirely.
+          Three separate innovations converged:  
+        </p>
+        <p>
+          1. I developed a facilitation technique that let me collaborate productively
+          with software engineers. What might have taken 6-9 months could be completed
+          in about a month with one day of input from a small team. This enabled me to
+          document systems like the auction in Display Ads, which implemented the
+          notoriously subtle Vickrey-Clarke-Groves algorithm— work that saved a whole
+          class of engineers weeks of meetings and reviews.
+        </p>
+        <p>
+          2. Some of my colleagues had a genius idea: why don’t we put a web server in
+          front of Google's code repository (google3), and serve Markdown files as
+          documentation. The brilliance was simple:
+          <ul>
+            <li>
+              Engineers already navigated the source repository daily—putting docs beside
+              code meant they always knew where to find them.  
+            </li>
+            <li>
+              Same toolchain that engineers used for code—zero cognitive load to extend
+              their work to docs, no context switching.  
+            </li>
+            <li>
+              Physical proximity created logical proximity—documentation lived where it
+              was relevant.
+            </li>
+          </ul>
+        </p>
+        <p>
+          3. I developed a writing course specifically for software engineers—not
+          teaching writing in a writerly way, but using their cultural primitives.
+          Instead of approaching writing as an academic concept, I treated English as
+          one more formal system in their toolbox. Engineers code-switch between formal
+          systems constantly: programming languages, configuration, system architecture.
+          English was just another ruleset.
         </p>
         <p class="pull-quote">
           Documentation isn't a content problem.<br/>
-          It's an <em>infrastructure problem</em>.
+          It's an <em>infrastructure</em> problem.
         </p>
       </div>
     </section>
 
     <div class="section-divider"></div>
 
+    <!-- Built: Center, wide -->
     <section class="story-section story-section--center fade-up">
       <div class="story-section__inner">
         <h2>What Was Built</h2>
         <p>
-          A complete docs-as-code system: Markdown source controlled in 
-          Git, CI pipelines that lint and validate on every PR, a contribution 
-          model borrowed from open source, and ownership patterns that kept 
-          docs current without dedicated writers.
+          We called it g3doc. The infrastructure was simple: Markdown files in the code
+          repository, a web server to render them, and publishing tools that made it
+          stupidly easy to create beautiful documentation without wrestling with
+          configuration.
         </p>
         <p>
-          Mean-time-to-accurate-information dropped by 4× within six months. 
-          More importantly: the system created a contributor culture that sustained 
-          itself. Two years later, with no ongoing involvement, the practice 
-          continues to propagate through the organization.
+          The adoption was anything but simple. Engineers had to believe documentation
+          was worth their time, know how to write clearly, and trust they could find
+          what they needed when they needed it.
         </p>
+        <p>
+          That's where the three pieces came together:  
+          <ul>
+            <li>
+              My facilitation technique meant teams could produce comprehensive
+              documentation in weeks instead of months. When a team saw their complex
+              system explained clearly—and saw other engineers using those docs to avoid
+              weeks of meetings—documentation stopped feeling like overhead and started
+              feeling like leverage.  
+            </li>
+            <li>
+              The Technical Writing course gave engineers the tools to write well without
+              becoming writers. We taught thousands of Googlers how to treat documentation
+              like code: clear, maintainable, debuggable. The course later became publicly
+              available as Technical Writing One at developers.google.com, where it's been
+              adopted by companies like GitLab.  
+            </li>
+            <li>
+              The g3doc infrastructure meant engineers never had to leave their workflow.
+              Write Markdown beside your code, commit it with your changes, done.
+              Documentation became part of the development process, not a separate task
+              requiring different tools and different thinking.
+            </li>
+          </ul>
+        </p>
+        <p>
+          The results: my team grew from serving 300 engineers in Display Ads to
+          supporting 2,500 across the organization. Engineers adopted g3doc quickly
+          enough that Google shut down Goowiki. The g3doc team got formal funding and
+          headcount to maintain the infrastructure.
+        </p>
+        <p>
+          Most importantly, we solved the core problem: engineers could find accurate,
+          current documentation because it lived where they already looked—right next
+          to the code.
+        </p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Propogated: Left-aligned, 60% -->
+    <section class="story-section story-section--left fade-up">
+      <div class="story-section__inner">
+        <h2>How it propogated</h2>
+        <p>
+          Engineers adopted g3doc fast enough that Google shut down Goowiki within
+          about 18 months. The pattern became standard across Google engineering
+          documentation living beside code, maintained with the same tools and
+          workflows.
+        </p>
+        <p>
+          But the approach resonated beyond Google. In 2015, Riona McNamara presented
+          g3doc's methodology at Write the Docs in Portland. That presentation helped
+          catalyze what became known industry-wide as "docs as code"—a fundamental
+          shift in how software organizations think about documentation
+          infrastructure.
+        </p>
+        <p>
+          The approach spread: GitHub, GitLab, and others adopted similar patterns.
+          Companies now point to Technical Writing One (the public version of my
+          engineering writing course) as a foundation for their documentation
+          practices.
+        </p>
+        <p>
+          In 2017, the CACM published a paper that I co-authored on the facilitation
+          technique that made rapid, high-quality documentation possible. Peer-reviewed
+          validation from a top-tier journal, alongside heavyweight academics, for work
+          that had started as a practical necessity at Google.
+        </p>
+        <p>
+          Most importantly, we'd solved a problem that every scaling engineering
+          organization faces: how to make knowledge production and retrieval actually
+          work. The solution—treat docs like code—seems obvious in retrospect. It wasn't
+          obvious in 2012.
+        </p>
+
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Demonstrates: Right-aligned, 60% -->
+    <section class="story-section story-section--right fade-up">
+      <div class="story-section__inner">
+        <h2>How it propogated</h2>
+        <p>
+          This work required recognizing when separate innovations solve different
+          parts of the same problem—and having the technical range to integrate them
+          into something coherent.
+        </p>
+        <p>
+          The facilitation technique addressed content quality. The infrastructure
+          addressed workflow friction. The writing course addressed skill gaps. None of
+          these alone would have transformed how Google documented its systems. Together,
+          they created a complete solution.
+        </p>
+        <p>
+          It's work well-suited to problems where the bottleneck isn't any single thing
+          it's how the pieces interact. When engineers can't find documentation, the
+          problem isn't just bad search or bad writing or clunky tools. It's that those
+          three failures reinforce each other. Fix one and the others drag you back down.
+          Fix all three simultaneously and the whole system shifts.
+        </p>
+
         <div class="story-stats">
           <div class="stat">
-            <span class="stat__num">4×</span>
-            <span class="stat__label">reduction in time-to-accurate-information</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">2yrs</span>
-            <span class="stat__label">self-sustaining after initial build</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">0</span>
-            <span class="stat__label">dedicated writers required to maintain</span>
+            <span class="stat__num">60k+</span>
+            <span class="stat__label">engineers use g3doc daily</span>
           </div>
         </div>
       </div>
