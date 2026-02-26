@@ -14,10 +14,10 @@
 
   /* Typography */
   /*
-  --font-serif: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  --font-serif: 'Noto Serif Display', Palatino, Georgia, serif;
   --font-sans:  'Hind', 'Optima', Candara, sans-serif;
   */
-  --font-serif: 'Noto Serif Display', Palatino, Georgia, serif;
+  --font-serif: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
   --font-sans:  'Optima', 'Candara', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
   --font-mono:  'SF Mono', 'Fira Code', 'Cascadia Mono', 'Consolas', monospace;
 
@@ -46,10 +46,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 18px;
-  /*-webkit-font-smoothing: antialiased;*/
-  -webkit-font-smoothing: auto;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transform: translateZ(0);
 }
 
 body {
