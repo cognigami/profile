@@ -431,6 +431,7 @@ import Layout from '../../layouts/Layout.astro';
   // Only the image fades — scrim and text stay put,
   // keeping the bottom text legible throughout.
   const heroImage = document.getElementById('story-hero-image');
+  const scrim     = document.querySelector('.story-hero__scrim');
   const heroEl    = document.getElementById('story-hero');
 
   let lastOpacity = -1;
@@ -444,6 +445,7 @@ import Layout from '../../layouts/Layout.astro';
     if (Math.abs(opacity - lastOpacity) < 0.005) return;
     lastOpacity = opacity;
     heroImage.style.opacity = String(opacity);
+    scrim.style.opacity = String(opacity);
   }
 
   window.addEventListener('scroll', () => {
