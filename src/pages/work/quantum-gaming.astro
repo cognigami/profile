@@ -5,262 +5,321 @@ import Layout from '../../layouts/Layout.astro';
 <Layout title="Quantum Gaming — Ricardo Olenewa">
   <article class="story-page">
 
-    <!-- Title -->
-    <header class="story-header fade-up">
-      <span class="story-label">01 — Transformation</span>
-      <h1>Quantum Gaming</h1>
-      <p class="story-subtitle">
-        Building intuition for the impossible
-      </p>
-    </header>
-
-    <!--
-      STORY IMAGE PLACEHOLDER
-      Remove `display:none` from .story-image in the <style> block below
-      when you have a real image. Recommended: 1600×900px or wider,
-      landscape. The filter pulls it into the warm palette automatically.
-    -->
-    <div class="story-image">
-    <!-- <div class="story-image__placeholder" aria-hidden="true"></div> -->
-      <img src="/images/quantum-computer.png" alt="Quantum Gaming">
-      <!-- Replace the div above with: <img src="/images/quantum-gaming.jpg" alt="Quantum Gaming"> -->
+    <!-- =============================================
+         HERO — full viewport, light image, dark text
+         Image fades out over first 30% of scroll.
+         Place image at: /public/images/quantum-games.png
+         ============================================= -->
+    <div class="story-hero" id="story-hero">
+      <div class="story-hero__image" id="story-hero-image"
+        style={`background-image: url('${import.meta.env.BASE_URL}images/quantum-games.png');`}>
+      </div>
+      <div class="story-hero__scrim"></div>
+      <div class="story-hero__content">
+        <span class="story-hero__label">01 — Transformation</span>
+        <h1 class="story-hero__title">Quantum Gaming</h1>
+        <p class="story-hero__subtitle">Building intuition for the impossible</p>
+      </div>
+      <div class="story-hero__scroll-hint" aria-hidden="true"><span></span></div>
     </div>
 
-    <!-- Problem: Left-aligned, 60% -->
-    <section class="story-section story-section--left fade-up">
-      <div class="story-section__inner">
-        <h2>The problem</h2>
-        <p>
-          Quantum computing could become a multiplier of human capability, but the
-          talent pipeline is impossibly narrow. Globally, there are only about 6,000
-          physics PhD students at any given time. Half won't graduate. Of those who do,
-          only a fraction enter quantum information science.
-        </p>
-        <p>
-          But here's the deeper issue: quantum computing won't just need quantum
-          physicists. Just as the internet requires thousands of people across
-          hundreds of layers—from low-level electronic signal engineers to UX designers
-          quantum technologies will need an entire ecosystem of people with working
-          intuition about quantum concepts.
-        </p>
-        <p>
-          The conventional approach makes this impossible. Quantum mechanics is taught
-          through advanced mathematics, with students told to "trust the math" and
-          develop private intuitions about what it means. This works for training (a few)
-          physicists. It doesn't work for building an ecosystem.
-        </p>
-      </div>
-    </section>
+    <!-- =============================================
+         PAGE BODY
+         ============================================= -->
+    <div class="story-body">
 
-    <div class="section-divider"></div>
+      <section class="story-section story-section--left fade-up">
+        <div class="story-section__inner">
+          <h2>The problem</h2>
+          <p>
+            Quantum computing could become a multiplier of human capability, but the
+            talent pipeline is impossibly narrow. Globally, there are only about 6,000
+            physics PhD students at any given time. Half won't graduate. Of those who do,
+            only a fraction enter quantum information science.
+          </p>
+          <p>
+            But here's the deeper issue: quantum computing won't just need quantum
+            physicists. Just as the internet requires thousands of people across
+            hundreds of layers—from low-level electronic signal engineers to UX designers—
+            quantum technologies will need an entire ecosystem of people with working
+            intuition about quantum concepts.
+          </p>
+          <p>
+            The conventional approach makes this impossible. Quantum mechanics is taught
+            through advanced mathematics, with students told to "trust the math" and
+            develop private intuitions about what it means. This works for training (a few)
+            physicists. It doesn't work for building an ecosystem.
+          </p>
+        </div>
+      </section>
 
-    <!-- Insight: Right-aligned, 60% -->
-    <section class="story-section story-section--right fade-up">
-      <div class="story-section__inner">
-        <h2>The insight</h2>
-        <p>
-          Games let people build intuition about abstract concepts through direct
-          interaction. You don't need to understand the physics of projectile motion to
-          develop intuition for it—you just need to throw a ball to a child, or enough
-          angry birds at enough pigs.
-        </p>
-        <p>
-          What if we could do the same for quantum mechanics? Not gamifying learning
-          with points and badges, but learnifying gaming—creating actual games where
-          quantum effects are the core mechanics.
-        </p>
-        <p>
-        <p class="pull-quote">
-          The goal was not to make quantum mechanics fun.<br/>
-          It was to make it <em>inhabitable</em>.
-        </p>
-      </div>
-    </section>
+      <div class="section-divider"></div>
 
-    <div class="section-divider"></div>
+      <section class="story-section story-section--right fade-up">
+        <div class="story-section__inner">
+          <h2>The insight</h2>
+          <p>
+            Games let people build intuition about abstract concepts through direct
+            interaction. You don't need to understand the physics of projectile motion to
+            develop intuition for it—you just need to throw a ball to a child, or enough
+            angry birds at enough pigs.
+          </p>
+          <p>
+            What if we could do the same for quantum mechanics? Not gamifying learning
+            with points and badges, but learnifying gaming—creating actual games where
+            quantum effects are the core mechanics.
+          </p>
+          <p class="pull-quote">
+            The goal was not to make quantum mechanics fun.<br/>
+            It was to make it <em>inhabitable</em>.
+          </p>
+        </div>
+      </section>
 
-    <!-- Built: Center, wide -->
-    <section class="story-section story-section--center fade-up">
-      <div class="story-section__inner">
-        <h2>What we built</h2>
-        <p>
-          While building the Google School for Quantum Computing, I started a project
-          called Cheqmate. The core idea was to build tools that enabled a broad set of
-          people to experience quantum. We wanted to get beyond headlines and
-          intimidating language (“spooky”, “weird”).
-        </p>
-        <p>
-          Quantum Chess was the first commercial game to run on an actual quantum
-          computer, in partnership with Google's quantum hardware team.
-        </p>
-        <ul>
-          <li>
-            Quantum Chess - We continued the open-source version of Chris Cantwell’s game,
-            where pieces can exist in superposition and become entangled. Players develop
-            intuition for quantum behavior by playing, not by studying equations.
-          </li>
-          <li>
-            Unitary - We abstracted the open-source Quantum Chess game engine to make it
-            more generally useful to software developers. We focused on casual game developers in Python.
-          </li>
-          <li>
-            Project Qute - Classroom activities for high school students, launched in
-            partnership with Caltech IQIM, the National Q12 Education Partnership, and
-            the White House Office of Science and Technology Policy.
-          </li>
-          <li>
-            Quantum Forge - When I joined Quantum Realm Games, we revisited the lessons
-            that we learned building the Unitary library, and rebuilt our internal
-            quantum physics engine and tooling to make it more accessible to professional
-            game developers. This wasn't a simplified teaching tool—it's real quantum
-            mechanics, made interactive.
-          </li>
-        </ul>
-        <p>
-          These weren't just tools—they became the foundation for a growing ecosystem.
-        </p>
-    </section>
+      <div class="section-divider"></div>
 
-    <div class="section-divider"></div>
+      <section class="story-section story-section--center fade-up">
+        <div class="story-section__inner">
+          <h2>What we built</h2>
+          <p>
+            While building the Google School for Quantum Computing, I started a project
+            called Cheqmate. The core idea was to build tools that enabled a broad set of
+            people to experience quantum. We wanted to get beyond headlines and
+            intimidating language ("spooky", "weird").
+          </p>
+          <p>
+            Quantum Chess was the first commercial game to run on an actual quantum
+            computer, in partnership with Google's quantum hardware team.
+          </p>
+          <ul>
+            <li>
+              <strong>Quantum Chess</strong> — We continued the open-source version of Chris Cantwell's game,
+              where pieces can exist in superposition and become entangled. Players develop
+              intuition for quantum behavior by playing, not by studying equations.
+            </li>
+            <li>
+              <strong>Unitary</strong> — We abstracted the open-source Quantum Chess game engine to make it
+              more generally useful to software developers, focusing on casual game developers in Python.
+            </li>
+            <li>
+              <strong>Project Qute</strong> — Classroom activities for high school students, launched in
+              partnership with Caltech IQIM, the National Q12 Education Partnership, and
+              the White House Office of Science and Technology Policy.
+            </li>
+            <li>
+              <strong>Quantum Forge</strong> — When I joined Quantum Realm Games, we revisited the lessons
+              learned building the Unitary library, and rebuilt our internal quantum physics engine
+              and tooling to make it more accessible to professional game developers. This wasn't
+              a simplified teaching tool—it's real quantum mechanics, made interactive.
+            </li>
+          </ul>
+          <p>
+            These weren't just tools—they became the foundation for a growing ecosystem.
+          </p>
+        </div>
+      </section>
 
-    <!-- Propogated: Left-aligned, 60% -->
-    <section class="story-section story-section--left fade-up">
-      <div class="story-section__inner">
-        <h2>How it propogated</h2>
-        <p>
-          The work has appeared in the <em>Bulletin of the American Physical
-          Society</em>. More importantly, high school students are now building intuition
-          for quantum superposition and entanglement—concepts that used to require
-          years of graduate study to grasp.
-        </p>
-        <p>
-          The community grew to more than 60 contributors globally—university
-          researchers, private individuals, and Googlers—and continues today. When I
-          moved to Quantum Realm Games in 2023, we expanded beyond building games to
-          hosting Quantum Game Jams and consulting for institutional customers like PwC
-          and Moody's Analytics.
-        </p>
-        <p>
-          The approach is finding its way into formal education: in 2025, Quantum Realm
-          Games and Laguna College of Art and Design launched GA509 Quantum Game Design:
-          training MFA students to use quantum effects as game mechanic. 
-        </p>
-        <p>
-          Together with my partners in Europe, we’ll host a Lorentz Center Workshop in
-          the Netherlands in September 2026. The workshop will bring together
-          scientists from multiple disciplines to establish research programs in
-          quantum gaming.
-        </p>
+      <div class="section-divider"></div>
 
-    </section>
+      <section class="story-section story-section--left fade-up">
+        <div class="story-section__inner">
+          <h2>How it propagated</h2>
+          <p>
+            The work has appeared in the <em>Bulletin of the American Physical
+            Society</em>. More importantly, high school students are now building intuition
+            for quantum superposition and entanglement—concepts that used to require
+            years of graduate study to grasp.
+          </p>
+          <p>
+            The community grew to more than 60 contributors globally—university
+            researchers, private individuals, and Googlers—and continues today. When I
+            moved to Quantum Realm Games in 2023, we expanded beyond building games to
+            hosting Quantum Game Jams and consulting for institutional customers like PwC
+            and Moody's Analytics.
+          </p>
+          <p>
+            The approach is finding its way into formal education: in 2025, Quantum Realm
+            Games and Laguna College of Art and Design launched GA509 Quantum Game Design,
+            training MFA students to use quantum effects as game mechanics.
+          </p>
+          <p>
+            Together with partners in Europe, we'll host a Lorentz Center Workshop in
+            the Netherlands in September 2026. The workshop will bring together
+            scientists from multiple disciplines to establish research programs in
+            quantum gaming.
+          </p>
+        </div>
+      </section>
 
-    <div class="section-divider"></div>
+      <div class="section-divider"></div>
 
-    <!-- Demonstrates: Right-aligned, 60% -->
-    <section class="story-section story-section--right fade-up">
-      <div class="story-section__inner">
-        <h2>What it demonstrates</h2>
-        <p>
-          I created software, curriculum, and a community that scaled beyond the original team.
-          This work required operating at multiple levels, and with multiple communities,
-          simultaneously. It required enough mastery of quantum mechanics to know
-          what could be made playable, design sensibility to steer engaging games (not
-          educational software), and technical infrastructure that could scale beyond
-          any single team.
-        </p>
-        <p>
-          It's work well-suited to under-specified problems: "Make quantum mechanics
-          accessible" could have led anywhere. The game-based approach only emerged
-          from asking what would actually work, not what existing solutions looked like.
-        </p>
+      <section class="story-section story-section--right fade-up">
+        <div class="story-section__inner">
+          <h2>What it demonstrates</h2>
+          <p>
+            I created software, curriculum, and a community that scaled beyond the original team.
+            This work required operating at multiple levels, and with multiple communities,
+            simultaneously. It required enough mastery of quantum mechanics to know
+            what could be made playable, design sensibility to steer engaging games (not
+            educational software), and technical infrastructure that could scale beyond
+            any single team.
+          </p>
+          <p>
+            It's work well-suited to under-specified problems: "Make quantum mechanics
+            accessible" could have led anywhere. The game-based approach only emerged
+            from asking what would actually work, not what existing solutions looked like.
+          </p>
 
-        <div class="story-stats">
-          <div class="stat">
-            <span class="stat__num">60%</span>
-            <span class="stat__label">reduction in conceptual barrier-to-entry</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">3</span>
-            <span class="stat__label">universities now using the framework</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">6</span>
-            <span class="stat__label">core game mechanics developed</span>
+          <div class="story-stats">
+            <div class="stat">
+              <span class="stat__num">60+</span>
+              <span class="stat__label">global contributors to the open-source ecosystem</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num">3</span>
+              <span class="stat__label">institutional partners in quantum education</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num">2026</span>
+              <span class="stat__label">Lorentz Center Workshop, Netherlands</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Navigation -->
-    <nav class="story-nav fade-up">
-      <a href={`${import.meta.env.BASE_URL}`} class="story-nav__back">← All work</a>
-      <a href={`${import.meta.env.BASE_URL}work/ml-education`} class="story-nav__next">ML Education →</a>
-    </nav>
+      <nav class="story-nav fade-up">
+        <a href={`${import.meta.env.BASE_URL}`} class="story-nav__back">← All work</a>
+        <a href={`${import.meta.env.BASE_URL}work/ml-education`} class="story-nav__next">ML Education →</a>
+      </nav>
 
+    </div>
   </article>
 </Layout>
 
 <style>
-  .story-page {
-    padding-top: 80px;
-    padding-bottom: 140px;
+  /* =============================================
+     HERO
+     ============================================= */
+  .story-hero {
+    position: relative;
+    height: 100svh;
+    min-height: 580px;
+    max-height: 960px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
   }
 
-  /* Header */
-  .story-header {
-    max-width: var(--max-wide);
-    margin: 0 auto;
-    padding: 80px 40px 100px;
-    max-width: 700px;
+  .story-hero__image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: opacity;
   }
 
-  .story-label {
+  .story-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(20, 16, 14, 0.82) 0%,
+      rgba(20, 16, 14, 0.30) 45%,
+      rgba(20, 16, 14, 0.06) 100%
+    );
+    pointer-events: none;
+  }
+
+  .story-hero__content {
+    position: relative;
+    z-index: 1;
+    padding: 0 60px 80px;
+    max-width: 900px;
+  }
+
+  .story-hero__label {
     display: block;
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: var(--color-accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.6);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: heroFadeUp 700ms ease-out 200ms forwards;
+  }
+
+  .story-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
     margin-bottom: 24px;
+    opacity: 0;
+    animation: heroFadeUp 700ms ease-out 360ms forwards;
   }
 
-  .story-header h1 {
-    margin-bottom: 24px;
+  .story-hero__subtitle {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: rgba(245, 241, 232, 0.65);
+    margin: 0;
+    opacity: 0;
+    animation: heroFadeUp 700ms ease-out 500ms forwards;
   }
 
-  .story-subtitle {
-    font-size: 1.15rem;
-    line-height: 1.7;
-    color: rgba(245,241,232,0.7);
+  .story-hero__scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    right: 52px;
+    z-index: 1;
+    opacity: 0;
+    animation: heroFadeIn 600ms ease-out 900ms forwards;
   }
 
-  /* Sections */
+  .story-hero__scroll-hint span {
+    display: block;
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, transparent, rgba(212, 130, 43, 0.6));
+    animation: scrollPulse 2s ease-in-out 1100ms infinite;
+  }
+
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.7) translateY(-4px); }
+    50%       { opacity: 1;   transform: scaleY(1) translateY(0); }
+  }
+
+  /* =============================================
+     BODY
+     ============================================= */
+  .story-body {
+    padding-top: 100px;
+    padding-bottom: 140px;
+  }
+
   .story-section {
     max-width: var(--max-wide);
     margin: 0 auto;
     padding: 0 40px;
   }
 
-  .story-section__inner {
-    padding: 80px 0;
-  }
+  .story-section__inner { padding: 80px 0; }
 
-  /* Left: 60% width */
-  .story-section--left .story-section__inner {
-    max-width: 60%;
-  }
-
-  /* Right: 60% width, right-aligned */
-  .story-section--right .story-section__inner {
-    max-width: 60%;
-    margin-left: auto;
-  }
-
-  /* Center: 75% centered */
-  .story-section--center .story-section__inner {
-    max-width: 75%;
-    margin: 0 auto;
-    text-align: center;
-  }
+  .story-section--left .story-section__inner   { max-width: 60%; }
+  .story-section--right .story-section__inner  { max-width: 60%; margin-left: auto; }
+  .story-section--center .story-section__inner { max-width: 75%; margin: 0 auto; text-align: center; }
 
   .story-section h2 {
     color: var(--color-accent);
@@ -275,7 +334,7 @@ import Layout from '../../layouts/Layout.astro';
   .story-section p {
     font-size: 1.05rem;
     margin-bottom: var(--space-para);
-    color: rgba(245,241,232,0.8);
+    color: rgba(245, 241, 232, 0.8);
   }
 
   .story-section p:last-child { margin-bottom: 0; }
@@ -288,9 +347,9 @@ import Layout from '../../layouts/Layout.astro';
     border-left: 2px solid var(--color-accent);
     padding-left: 24px;
     margin: 40px 0 !important;
+    text-align: left !important;
   }
 
-  /* Stats */
   .story-stats {
     display: flex;
     justify-content: center;
@@ -299,12 +358,7 @@ import Layout from '../../layouts/Layout.astro';
     flex-wrap: wrap;
   }
 
-  .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
+  .stat { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
   .stat__num {
     font-family: var(--font-serif);
@@ -322,15 +376,13 @@ import Layout from '../../layouts/Layout.astro';
     line-height: 1.4;
   }
 
-  /* Story nav */
   .story-nav {
     max-width: var(--max-wide);
     margin: 100px auto 0;
-    padding: 0 40px;
+    padding: 48px 40px 0;
     display: flex;
     justify-content: space-between;
     border-top: 1px solid var(--color-divider);
-    padding-top: 48px;
   }
 
   .story-nav a {
@@ -344,59 +396,9 @@ import Layout from '../../layouts/Layout.astro';
 
   .story-nav a:hover { color: var(--color-accent); }
 
-  .section-divider {
-    max-width: var(--max-wide);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Story image */
-  .story-image {
-    display: none; /* Remove this line when you have a real image */
-    max-width: var(--max-wide);
-    margin: 0 auto 0;
-    padding: 0 40px;
-  }
-
-  .story-image img {
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    /* Warm duotone — pulls photo into the palette */
-    filter: sepia(18%) saturate(88%) brightness(0.90);
-  }
-
-  /* Placeholder shown in dev until real image is ready */
-  .story-image__placeholder {
-    width: 100%;
-    height: 420px;
-    background: linear-gradient(135deg, #3A2820 0%, #5A3422 40%, #7A4A2E 70%, #3A2820 100%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .story-image__placeholder::after {
-    content: 'Image placeholder — replace with real photo';
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: rgba(245,241,232,0.25);
-  }
-
-  /* Paper texture on story body */
-  .story-page { position: relative; }
-
   @media (max-width: 768px) {
-    .story-header,
-    .story-section,
-    .story-image { padding-left: 24px; padding-right: 24px; }
+    .story-hero__content { padding: 0 24px 60px; }
+    .story-section { padding-left: 24px; padding-right: 24px; }
 
     .story-section--left .story-section__inner,
     .story-section--right .story-section__inner,
@@ -407,7 +409,30 @@ import Layout from '../../layouts/Layout.astro';
     }
 
     .story-stats { gap: 40px; }
-
     .story-nav { padding: 48px 24px 0; }
   }
 </style>
+
+<script>
+  const heroImage = document.getElementById('story-hero-image');
+  const heroEl    = document.getElementById('story-hero');
+
+  let lastOpacity = -1;
+  let rafPending  = false;
+
+  function updateHero() {
+    rafPending = false;
+    if (!heroImage || !heroEl) return;
+    const progress = Math.min(window.scrollY / (heroEl.offsetHeight * 0.30), 1);
+    const opacity  = 1 - progress;
+    if (Math.abs(opacity - lastOpacity) < 0.005) return;
+    lastOpacity = opacity;
+    heroImage.style.opacity = String(opacity);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!rafPending) { rafPending = true; requestAnimationFrame(updateHero); }
+  }, { passive: true });
+
+  updateHero();
+</script>

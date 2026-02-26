@@ -5,99 +5,103 @@ import Layout from '../../layouts/Layout.astro';
 <Layout title="ML Education at Google — Ricardo Olenewa">
   <article class="story-page">
 
-    <header class="story-header fade-up">
-      <span class="story-label">02 — Transformation</span>
-      <h1>ML Education at Google</h1>
-      <p class="story-subtitle">
-        When training becomes transformation
-      </p>
-    </header>
-
-    <!--
-      STORY IMAGE PLACEHOLDER
-      Remove `display:none` from .story-image when you have a real image.
-      Recommended: 1600×900px or wider, landscape.
-    -->
-    <div class="story-image">
-      <div class="story-image__placeholder" aria-hidden="true"></div>
-      <!-- Replace the div above with: <img src="/images/ml-education.jpg" alt="ML Education at Google"> -->
+    <!-- =============================================
+         HERO — full viewport, light image, dark text
+         Image fades out over first 30% of scroll.
+         Place image at: /public/images/ml-education.png
+         ============================================= -->
+    <div class="story-hero" id="story-hero">
+      <div class="story-hero__image" id="story-hero-image"
+        style={`background-image: url('${import.meta.env.BASE_URL}images/ml-education.png');`}>
+      </div>
+      <div class="story-hero__scrim"></div>
+      <div class="story-hero__content">
+        <span class="story-hero__label">02 — Transformation</span>
+        <h1 class="story-hero__title">ML Education<br/>at Google</h1>
+        <p class="story-hero__subtitle">When training becomes transformation</p>
+      </div>
+      <div class="story-hero__scroll-hint" aria-hidden="true"><span></span></div>
     </div>
 
-    <!-- Problem: Left-aligned, 60% -->
-    <section class="story-section story-section--left fade-up">
-      <div class="story-section__inner">
-        <h2>The problem</h2>
-        <p>
-          In 2016, Google needed to become an ML-first company. That was easier said
-          than done, even for Google in 2016. The infrastructure, culture, and
-          capabilities all had to shift simultaneously—across 100,000 people and
-          hundreds of product teams.
-        </p>
-        <p>
-          Top-down mandates and corporate training fail because they don't change how
-          people actually think and work. Bottom-up adoption is too slow when you're
-          racing competitors. And the classic approach—train a core team of experts who
-          gradually spread knowledge—creates bottlenecks that last for years.
-        </p>
-        <p>
-          The real impossibility: How do you transform an organization's fundamental
-          capabilities when the infrastructure to support those capabilities doesn't
-          yet fully exist?
-        </p>
-      </div>
-    </section>
+    <!-- =============================================
+         PAGE BODY
+         ============================================= -->
+    <div class="story-body">
 
-    <div class="section-divider"></div>
+      <section class="story-section story-section--left fade-up">
+        <div class="story-section__inner">
+          <h2>The problem</h2>
+          <p>
+            In 2016, Google needed to become an ML-first company. That was easier said
+            than done, even for Google in 2016. The infrastructure, culture, and
+            capabilities all had to shift simultaneously—across 100,000 people and
+            hundreds of product teams.
+          </p>
+          <p>
+            Top-down mandates and corporate training fail because they don't change how
+            people actually think and work. Bottom-up adoption is too slow when you're
+            racing competitors. And the classic approach—train a core team of experts who
+            gradually spread knowledge—creates bottlenecks that last for years.
+          </p>
+          <p>
+            The real impossibility: How do you transform an organization's fundamental
+            capabilities when the infrastructure to support those capabilities doesn't
+            yet fully exist?
+          </p>
+        </div>
+      </section>
 
-    <!-- Insight: Right-aligned, 60% -->
-    <section class="story-section story-section--right fade-up">
-      <div class="story-section__inner">
-        <h2>The insight</h2>
-        <p>
-          Education at scale creates irresistible organizational pressure. When you
-          announce that you're training the entire company on something, leadership
-          must ensure the infrastructure exists to support what you're teaching.
-          Otherwise, they look incompetent or the training fails publicly.
-        </p>
-        <p>
-          **This makes education a strategic lever**, not just a knowledge transfer
-          mechanism. Done right, it forces alignment across tooling, infrastructure,
-          and decision-making frameworks—because those things have to work for the
-          training to succeed.
-        </p>
-        <p>
-          My team had seen this pattern work before. When Google needed to become a
-          mobile-first company, we launched Android Bootcamp—company-wide training that
-          forced the infrastructure development the company needed. Before it, the
-          Android team owned the mobile experience for every Google product. After it,
-          even Apple featured Google apps as examples of excellence on iOS.
-        </p>
-        <p class="pull-quote">
-          The curriculum needed to teach engineers<br/>
-          how to <em>think about</em> ML, not just<br/>
-          <em>what to know</em> about it.
-        </p>
-      </div>
-    </section>
+      <div class="section-divider"></div>
 
-    <div class="section-divider"></div>
+      <section class="story-section story-section--right fade-up">
+        <div class="story-section__inner">
+          <h2>The insight</h2>
+          <p>
+            Education at scale creates irresistible organizational pressure. When you
+            announce that you're training the entire company on something, leadership
+            must ensure the infrastructure exists to support what you're teaching.
+            Otherwise, they look incompetent or the training fails publicly.
+          </p>
+          <p>
+            This makes education a strategic lever, not just a knowledge transfer
+            mechanism. Done right, it forces alignment across tooling, infrastructure,
+            and decision-making frameworks—because those things have to work for the
+            training to succeed.
+          </p>
+          <p>
+            My team had seen this pattern work before. When Google needed to become a
+            mobile-first company, we launched Android Bootcamp—company-wide training that
+            forced the infrastructure development the company needed. Before it, the
+            Android team owned the mobile experience for every Google product. After it,
+            even Apple featured Google apps as examples of excellence on iOS.
+          </p>
+          <p class="pull-quote">
+            The curriculum needed to teach engineers<br/>
+            how to <em>think about</em> ML, not just<br/>
+            <em>what to know</em> about it.
+          </p>
+        </div>
+      </section>
 
-    <!-- Built: Center, wide -->
-    <section class="story-section story-section--center fade-up">
-      <div class="story-section__inner">
-        <h2>What we built</h2>
-        <p>
-          Machine Learning Crash Course (MLCC) was designed to work at multiple levels
-          simultaneously.
-        </p>
-        <p>
-          For the entire organization: ML became a cultural primitive—"in the air" as a
-          way of thinking about problems, even for people who had never (and would never) write an ML algorithm.
-        </p>
-        <p>
-          For the engineering organization: Product managers, UX designers, writers,
-          and engineers could have informed conversations about when ML was appropriate,
-          asking questions like:
+      <div class="section-divider"></div>
+
+      <section class="story-section story-section--center fade-up">
+        <div class="story-section__inner">
+          <h2>What we built</h2>
+          <p>
+            Machine Learning Crash Course (MLCC) was designed to work at multiple levels
+            simultaneously.
+          </p>
+          <p>
+            For the entire organization: ML became a cultural primitive—"in the air" as a
+            way of thinking about problems, even for people who had never (and would never)
+            write an ML algorithm.
+          </p>
+          <p>
+            For the engineering organization: Product managers, UX designers, writers,
+            and engineers could have informed conversations about when ML was appropriate,
+            asking questions like:
+          </p>
           <ul>
             <li>Is there a clear, repeatable decision to be made frequently enough to warrant automation?</li>
             <li>Can we collect or generate enough examples?</li>
@@ -105,133 +109,217 @@ import Layout from '../../layouts/Layout.astro';
             <li>How would we validate automated decisions?</li>
             <li>Is there a simpler, mechanical solution?</li>
           </ul>
-        </p>
-        <p>
-          For engineers specifically: Hands-on capability to implement ML systems,
-          including the mindset shift from "I have an algorithm that transforms data"
-          to "I can collect data that trains an algorithm."
-        </p>
-        <p>
-          Because of Google's structure, anyone from any background could take the
-          course. Over time, we expanded to serve technical experts on specific topics
-          and non-technical audiences on strategic thinking.
-        </p>
-        <p>
-          The results: We trained more than 40% of Googlers and made the course
-          publicly available, where it reached over 4 million people per year
-          worldwide.
-        </p>
-    </section>
+          <p>
+            For engineers specifically: Hands-on capability to implement ML systems,
+            including the mindset shift from "I have an algorithm that transforms data"
+            to "I can collect data that trains an algorithm."
+          </p>
+          <p>
+            Because of Google's structure, anyone from any background could take the
+            course. Over time, we expanded to serve technical experts on specific topics
+            and non-technical audiences on strategic thinking.
+          </p>
+          <p>
+            The results: We trained more than 40% of Googlers and made the course
+            publicly available, where it reached over 4 million people per year worldwide.
+          </p>
+        </div>
+      </section>
 
-    <div class="section-divider"></div>
+      <div class="section-divider"></div>
 
-    <!-- Propogated: Left-aligned, 60% -->
-    <section class="story-section story-section--left fade-up">
-      <div class="story-section__inner">
-        <h2>How it propogated</h2>
-        <p>
-          The measure of cultural transformation isn't course completion—it's behavior
-          change. Internally, we tracked ML pipeline creation through to production:
-          were engineers actually building ML systems, not just learning about them?
-          The trend was positive, and small ML-based features began appearing across
-          most Google products—not as flagship launches, but as quiet evidence that the
-          mindset shift had taken hold.
-        </p>
-        <p>
-          The content was strong enough that its value became obvious beyond Google. We
-          made MLCC publicly available, where it reached over 4 million people per year
-          worldwide. Google Cloud recognized a commercial opportunity: bringing select,
-          high-value customers on-site to receive the same training Googlers received,
-          building ML systems alongside Google engineers. Training became a cornerstone
-          of a new sales pipeline.
-        </p>
-        <p>
-          The furthest reach was the squishiest to measure: MLCC content ultimately
-          reached key opinion formers in policy and government, elevating the quality
-          of public discourse around ML and AI at a moment when that discourse badly
-          needed elevation.  
-        </p>
-        <p>
-          We had built something to transform Google. It ended up contributing to how
-          the world thinks about machine learning.
-        </p>
+      <section class="story-section story-section--left fade-up">
+        <div class="story-section__inner">
+          <h2>How it propagated</h2>
+          <p>
+            The measure of cultural transformation isn't course completion—it's behavior
+            change. Internally, we tracked ML pipeline creation through to production:
+            were engineers actually building ML systems, not just learning about them?
+            The trend was positive, and small ML-based features began appearing across
+            most Google products—not as flagship launches, but as quiet evidence that the
+            mindset shift had taken hold.
+          </p>
+          <p>
+            The content was strong enough that its value became obvious beyond Google. We
+            made MLCC publicly available, where it reached over 4 million people per year
+            worldwide. Google Cloud recognized a commercial opportunity: bringing select,
+            high-value customers on-site to receive the same training Googlers received,
+            building ML systems alongside Google engineers. Training became a cornerstone
+            of a new sales pipeline.
+          </p>
+          <p>
+            The furthest reach was the squishiest to measure: MLCC content ultimately
+            reached key opinion formers in policy and government, elevating the quality
+            of public discourse around ML and AI at a moment when that discourse badly
+            needed elevation.
+          </p>
+          <p>
+            We had built something to transform Google. It ended up contributing to how
+            the world thinks about machine learning.
+          </p>
+        </div>
+      </section>
 
-    </section>
+      <div class="section-divider"></div>
 
-    <div class="section-divider"></div>
+      <section class="story-section story-section--right fade-up">
+        <div class="story-section__inner">
+          <h2>What it demonstrates</h2>
+          <p>
+            This work required seeing organizational transformation at a different level
+            than most people operate. The real work was understanding that education at
+            scale creates pressure that forces infrastructure, tooling, and culture to
+            align. Building great training content was a tool, not an outcome.
+          </p>
+          <p>
+            That insight only matters if you can execute: leading a team of nearly 30
+            people across 10 global offices, coordinating with business units for
+            tailored delivery, and managing quality at a scale where millions of people
+            are watching.
+          </p>
+          <p>
+            It's work well-suited to high-stakes organizational challenges: when the
+            conventional approaches (mandates, expert teams, incremental change) won't
+            move fast enough, and you need a forcing function that makes transformation
+            inevitable rather than aspirational.
+          </p>
 
-    <!-- Demonstrates: Right-aligned, 60% -->
-    <section class="story-section story-section--right fade-up">
-      <div class="story-section__inner">
-        <h2>What it demonstrates</h2>
-        <p>
-          This work required seeing organizational transformation at a different level
-          than most people operate. The real work was understanding that education at
-          scale creates pressure that forces infrastructure, tooling, and culture to
-          align. Building great training content was a tool, not an outcome.
-        </p>
-        <p>
-          That insight only matters if you can execute: leading a team of nearly 30
-          people across 10 global offices, coordinating with business units for
-          tailored delivery, and managing quality at a scale where millions of people
-          are watching.
-        </p>
-        <p>
-          It's work well-suited to high-stakes organizational challenges: when the
-          conventional approaches (mandates, expert teams, incremental change) won't
-          move fast enough, and you need a forcing function that makes transformation
-          inevitable rather than aspirational.
-        </p>
-
-        <div class="story-stats">
-          <div class="stat">
-            <span class="stat__num">24k+</span>
-            <span class="stat__label">engineers reached across the organization</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">40</span>
-            <span class="stat__label">countries where curriculum was deployed</span>
+          <div class="story-stats">
+            <div class="stat">
+              <span class="stat__num">24k+</span>
+              <span class="stat__label">engineers reached across the organization</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num">40</span>
+              <span class="stat__label">countries where curriculum was deployed</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <nav class="story-nav fade-up">
-      <a href={`${import.meta.env.BASE_URL}work/quantum-gaming`} class="story-nav__back">← Quantum Gaming</a>
-      <a href={`${import.meta.env.BASE_URL}work/docs-as-code`} class="story-nav__next">Docs as Code →</a>
-    </nav>
+      <nav class="story-nav fade-up">
+        <a href={`${import.meta.env.BASE_URL}work/quantum-gaming`} class="story-nav__back">← Quantum Gaming</a>
+        <a href={`${import.meta.env.BASE_URL}work/docs-as-code`} class="story-nav__next">Docs as Code →</a>
+      </nav>
 
+    </div>
   </article>
 </Layout>
 
 <style>
-  /* Imports story-page styles via global — additional page-specific below */
-  .story-page {
-    padding-top: 80px;
-    padding-bottom: 140px;
+  /* =============================================
+     HERO
+     ============================================= */
+  .story-hero {
+    position: relative;
+    height: 100svh;
+    min-height: 580px;
+    max-height: 960px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
   }
 
-  .story-header {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 80px 40px 100px;
+  .story-hero__image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: opacity;
   }
 
-  .story-label {
+  /* Light image scrim — dark at bottom for text legibility,
+     nearly clear at top to let the image breathe */
+  .story-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(20, 16, 14, 0.82) 0%,
+      rgba(20, 16, 14, 0.30) 45%,
+      rgba(20, 16, 14, 0.06) 100%
+    );
+    pointer-events: none;
+  }
+
+  .story-hero__content {
+    position: relative;
+    z-index: 1;
+    padding: 0 60px 80px;
+    max-width: 900px;
+  }
+
+  /* Dark text — image is light colored (whiteboard) */
+  .story-hero__label {
     display: block;
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: var(--color-accent);
-    margin-bottom: 24px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.6);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: heroFadeUp 700ms ease-out 200ms forwards;
   }
 
-  .story-header h1 { margin-bottom: 24px; }
+  .story-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: heroFadeUp 700ms ease-out 360ms forwards;
+  }
 
-  .story-subtitle {
-    font-size: 1.15rem;
-    line-height: 1.7;
-    color: rgba(245,241,232,0.7);
+  .story-hero__subtitle {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: rgba(245, 241, 232, 0.65);
+    margin: 0;
+    opacity: 0;
+    animation: heroFadeUp 700ms ease-out 500ms forwards;
+  }
+
+  .story-hero__scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    right: 52px;
+    z-index: 1;
+    opacity: 0;
+    animation: heroFadeIn 600ms ease-out 900ms forwards;
+  }
+
+  .story-hero__scroll-hint span {
+    display: block;
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, transparent, rgba(212, 130, 43, 0.6));
+    animation: scrollPulse 2s ease-in-out 1100ms infinite;
+  }
+
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.7) translateY(-4px); }
+    50%       { opacity: 1;   transform: scaleY(1) translateY(0); }
+  }
+
+  /* =============================================
+     BODY
+     ============================================= */
+  .story-body {
+    padding-top: 100px;
+    padding-bottom: 140px;
   }
 
   .story-section {
@@ -259,7 +347,7 @@ import Layout from '../../layouts/Layout.astro';
   .story-section p {
     font-size: 1.05rem;
     margin-bottom: var(--space-para);
-    color: rgba(245,241,232,0.8);
+    color: rgba(245, 241, 232, 0.8);
   }
 
   .story-section p:last-child { margin-bottom: 0; }
@@ -272,6 +360,7 @@ import Layout from '../../layouts/Layout.astro';
     border-left: 2px solid var(--color-accent);
     padding-left: 24px;
     margin: 40px 0 !important;
+    text-align: left !important;
   }
 
   .story-stats {
@@ -282,12 +371,7 @@ import Layout from '../../layouts/Layout.astro';
     flex-wrap: wrap;
   }
 
-  .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
+  .stat { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
   .stat__num {
     font-family: var(--font-serif);
@@ -303,15 +387,6 @@ import Layout from '../../layouts/Layout.astro';
     text-align: center;
     max-width: 160px;
     line-height: 1.4;
-  }
-
-  .section-divider {
-    max-width: var(--max-wide);
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-    height: 1px;
-    background: var(--color-divider);
   }
 
   .story-nav {
@@ -334,46 +409,9 @@ import Layout from '../../layouts/Layout.astro';
 
   .story-nav a:hover { color: var(--color-accent); }
 
-  .story-image {
-    display: none;
-    max-width: var(--max-wide);
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-
-  .story-image img {
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    filter: sepia(18%) saturate(88%) brightness(0.90);
-  }
-
-  .story-image__placeholder {
-    width: 100%;
-    height: 420px;
-    background: linear-gradient(135deg, #3A2820 0%, #5A3422 40%, #7A4A2E 70%, #3A2820 100%);
-    position: relative;
-  }
-
-  .story-image__placeholder::after {
-    content: 'Image placeholder — replace with real photo';
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: rgba(245,241,232,0.25);
-  }
-
   @media (max-width: 768px) {
-    .story-header,
-    .story-section,
-    .story-image { padding-left: 24px; padding-right: 24px; }
+    .story-hero__content { padding: 0 24px 60px; }
+    .story-section { padding-left: 24px; padding-right: 24px; }
 
     .story-section--left .story-section__inner,
     .story-section--right .story-section__inner,
@@ -383,6 +421,34 @@ import Layout from '../../layouts/Layout.astro';
       text-align: left;
     }
 
+    .story-stats { gap: 40px; }
     .story-nav { padding: 48px 24px 0; }
   }
 </style>
+
+<script>
+  // Fade image layer out over first 30% of hero height.
+  // Only the image fades — scrim and text stay put,
+  // keeping the bottom text legible throughout.
+  const heroImage = document.getElementById('story-hero-image');
+  const heroEl    = document.getElementById('story-hero');
+
+  let lastOpacity = -1;
+  let rafPending  = false;
+
+  function updateHero() {
+    rafPending = false;
+    if (!heroImage || !heroEl) return;
+    const progress = Math.min(window.scrollY / (heroEl.offsetHeight * 0.30), 1);
+    const opacity  = 1 - progress;
+    if (Math.abs(opacity - lastOpacity) < 0.005) return;
+    lastOpacity = opacity;
+    heroImage.style.opacity = String(opacity);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!rafPending) { rafPending = true; requestAnimationFrame(updateHero); }
+  }, { passive: true });
+
+  updateHero();
+</script>
