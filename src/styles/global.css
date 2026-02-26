@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,400;0,500;1,400&family=Hind:wght@400;600&display=swap');
 /* =============================================
    DESIGN TOKENS
    ============================================= */
@@ -12,8 +13,12 @@
   --color-nav-bg:       rgba(43, 40, 38, 0.80);
 
   /* Typography */
+  /*
   --font-serif: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
   --font-sans:  'Optima', 'Candara', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+  */
+  --font-serif: 'Noto Serif Display', Palatino, Georgia, serif;
+  --font-sans:  'Hind', 'Optima', Candara, sans-serif;
   --font-mono:  'SF Mono', 'Fira Code', 'Cascadia Mono', 'Consolas', monospace;
 
   /* Spacing */
