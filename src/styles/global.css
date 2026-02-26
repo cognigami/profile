@@ -570,6 +570,25 @@ p a:hover, .body-link:hover {
 }
 
 /* =============================================
+   TWO COLUMN TEXT BLOCK
+   ============================================= */
+.two-col {
+  columns: 2;
+  column-gap: 48px;
+  column-rule: 1px solid var(--color-divider);
+}
+
+.two-col p {
+  break-inside: avoid;
+}
+
+@media (max-width: 768px) {
+  .two-col {
+    columns: 1;
+  }
+}
+
+/* =============================================
    RESPONSIVE
    ============================================= */
 @media (max-width: 768px) {
