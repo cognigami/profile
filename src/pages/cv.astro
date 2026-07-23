@@ -401,6 +401,25 @@ import Layout from '../layouts/Layout.astro';
     margin: 0;
   }
 
+  .cv-entry ul {
+    list-style: disc;
+    padding-left: 1.4em;
+    margin-top: 12px;
+    margin-bottom: 0;
+  }
+
+  .cv-entry li {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 0.4em;
+    color: rgba(245, 241, 232, 0.7);
+  }
+
+  .cv-entry li::marker {
+    color: var(--color-accent);
+    font-size: 0.8em;
+  }
+
   @media (max-width: 768px) {
     .cv-page { padding: 120px 24px 80px; }
 
