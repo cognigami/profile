@@ -24,7 +24,7 @@ function pointOnContour(points: number[], position: number) {
 function windAt(x: number, y: number, time: number) {
   const a = Math.cos(x * 0.006 + y * 0.011 - time * 0.27);
   const b = Math.cos(x * 0.012 - y * 0.006 + time * 0.19);
-  return { x: 28 + 22 * a - 12 * b + 5 * Math.sin(time * 0.17), y: -12 - 12 * a - 24 * b };
+  return { x: 28 + 27.5 * a - 15 * b + 5 * Math.sin(time * 0.17), y: -15 - 15 * a - 30 * b };
 }
 
 export function createLandscapeWind(canvas: HTMLCanvasElement) {
@@ -39,6 +39,7 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
   const particles: {
     x: number; y: number; vx: number; vy: number; age: number; life: number;
     width: number; height: number; alpha: number; facet: number; catches: boolean; color: string;
+    buoyancy: number; response: number;
   }[] = [];
 
   function step(time: number, delta: number, contours: SandContour[]) {
@@ -53,19 +54,22 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
         // Quiet stretches between them keep the ridges from constantly smoking.
         const gust = Math.max(0, 0.15 + 0.6 * Math.sin(time * 0.27 + source.x * 0.006 + source.y * 0.011)
           + 0.4 * Math.sin(time * 0.13 - source.x * 0.004));
-        credits[index] = (credits[index] || 0) + gust * gust * 90 * delta;
+        // More matte grains, rather than brighter grains, make low settings readable.
+        credits[index] = (credits[index] || 0) + gust * gust * 180 * delta;
         while (credits[index] >= 1) {
           credits[index]--;
-          if (particles.length >= 14000) continue;
+          if (particles.length >= 22000) continue;
           const origin = pointOnContour(contour.points, position + (random() - 0.5) * 0.055);
           const wind = windAt(origin.x, origin.y, time);
           particles.push({
             x: origin.x, y: origin.y - random() * 2,
-            vx: wind.x * 0.45, vy: -12 - random() * 12,
-            age: 0, life: 5 + random() * 5,
-            width: 0.6 + random() * 1.1, height: 0.35 + random() * 0.6,
-            alpha: 0.08 + random() * 0.13,
-            facet: random() * Math.PI * 2, catches: random() < 0.025, color: contour.color,
+            vx: wind.x * 0.45, vy: -12 - random() * 24,
+            age: 0, life: 6.5 + random() * 6.5,
+            width: 0.65 + random() * 1.15, height: 0.35 + random() * 0.6,
+            alpha: 0.07 + random() * 0.11,
+            facet: random() * Math.PI * 2, catches: random() < 0.004, color: contour.color,
+            // Stable variation in grain response opens the wisps without jitter.
+            buoyancy: 0.7 + random() * 0.7, response: 1.3 + random() * 1.5,
           });
         }
       }
@@ -79,9 +83,9 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
         continue;
       }
       const wind = windAt(particle.x, particle.y, time);
-      const follow = 1 - Math.exp(-delta * 3);
+      const follow = 1 - Math.exp(-delta * particle.response);
       particle.vx += (wind.x - particle.vx) * follow;
-      particle.vy += (wind.y - particle.vy) * follow;
+      particle.vy += (wind.y * particle.buoyancy - particle.vy) * follow;
       particle.x += particle.vx * delta;
       particle.y += particle.vy * delta;
     }
@@ -128,10 +132,10 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
       ratio * (width - 1600 * scale) / 2, ratio * (height - 900 * scale) / 2);
     for (const particle of particles) {
       const lift = Math.min(1, particle.age / 0.8);
-      const disperse = (1 - particle.age / particle.life) ** 1.5;
+      const disperse = (1 - particle.age / particle.life) ** 1.3;
       const catchLight = particle.catches ? Math.max(0, Math.sin(time * 0.7 + particle.facet)) ** 20 : 0;
-      context.globalAlpha = Math.min(0.8, strength * lift * disperse * (particle.alpha + catchLight * 0.55));
-      context.fillStyle = catchLight > 0.15 ? '#F0D5A5' : particle.color;
+      context.globalAlpha = Math.min(0.6, strength * 1.5 * lift * disperse * (particle.alpha + catchLight * 0.18));
+      context.fillStyle = catchLight > 0.3 ? '#D8AF6B' : particle.color;
       context.fillRect(particle.x, particle.y, particle.width, particle.height);
     }
     context.globalAlpha = 1;

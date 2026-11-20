@@ -38,8 +38,12 @@ Enable its checkbox, then choose an approach:
 - **Landscape wind** (initial selection): small patches on the actual cream, gold,
   terracotta, and amber contours release sand into a shared billowing wind field.
   Nearby grains follow the same eddies; patches respond to spatially related gusts
-  rather than a single advancing front. Grains inherit their source layer's colour,
-  occasionally catch light while airborne, and fade as they disperse. The artwork
+  rather than a single advancing front. Grains use muted ochre/brown variants of their
+  source layer's colour, with rare, soft amber light catches rather than white glints.
+  Longer airborne lives, stronger shared eddies, and stable differences in grain
+  buoyancy/response give wisps more spread without per-frame jitter. Visibility is
+  carried primarily by more matte grains, not brighter highlights; strength values
+  are specific to this tuning rather than comparable to earlier revisions. The artwork
   does not erode. Lower source curves follow the current breathing/scroll geometry.
   `src/scripts/landscape-wind.ts` owns emission and advection on the shared canvas;
   it uses the hero's clock, crop, offscreen pause, and reduced-motion handling.

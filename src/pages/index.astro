@@ -733,8 +733,8 @@ import Layout from '../layouts/Layout.astro';
   const landscapeWind = createLandscapeWind(sandCanvas);
   // Only the actual curved edges, never the paths' straight closing segments.
   const upperSandContours: SandContour[] = [
-    { id: 'hero-gold-edge', color: '#D8AE70' },
-    { id: 'hero-cream-edge', color: '#E0C9A5' },
+    { id: 'hero-gold-edge', color: '#B98641' },
+    { id: 'hero-cream-edge', color: '#C39B64' },
   ].map(({ id, color }) => ({
     points: extractNums((document.getElementById(id)?.getAttribute('d') || '').split(' L ')[0]), color,
   })).filter(contour => contour.points.length >= 8);
@@ -835,10 +835,10 @@ import Layout from '../layouts/Layout.astro';
       path.element?.setAttribute('d', injectNums(REST[path.key], numbers));
       if (landscapeActive && path.key === 'deep') {
         // Skip M/bottom/left straight segments; start at the first cubic ridge.
-        landscapeContours.push({ points: numbers.slice(4), color: '#AF734C' });
+        landscapeContours.push({ points: numbers.slice(4), color: '#9F603A' });
       } else if (landscapeActive && path.key === 'amber') {
         // Omit the straight closing edge, retaining the curved starting point.
-        landscapeContours.push({ points: numbers.slice(0, -2), color: '#C98D4D' });
+        landscapeContours.push({ points: numbers.slice(0, -2), color: '#B77E39' });
       }
     }
 
