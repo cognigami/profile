@@ -92,6 +92,20 @@ import Layout from '../layouts/Layout.astro';
             <stop offset="45%" stop-color="#E8C58F" stop-opacity="0.5"/>
             <stop offset="100%" stop-color="#E8C58F" stop-opacity="0"/>
           </radialGradient>
+          <!-- The original wash's moving envelope, broken into dry, uneven
+               density rather than painted as a smooth luminous pool. -->
+          <filter id="sand-wash-density" filterUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.025 0.065" numOctaves="2" seed="23" stitchTiles="stitch" result="densityNoise"/>
+            <feColorMatrix in="densityNoise" type="matrix"
+              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.3333 0.3333 0.3333 0 0"/>
+            <feComponentTransfer result="dryDensity">
+              <feFuncA type="linear" slope="3" intercept="-1"/>
+            </feComponentTransfer>
+            <feComposite in="SourceGraphic" in2="dryDensity" operator="in"/>
+          </filter>
+          <mask id="sand-passing-envelope" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900" style="mask-type:alpha">
+            <rect width="1600" height="900" fill="url(#sand-light)" filter="url(#sand-wash-density)"/>
+          </mask>
           <!-- One granular height field supplies both matte shading and sparse
                facet highlights. No separate particle layer or smooth light pool. -->
           <filter id="sand-material" filterUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900" color-interpolation-filters="sRGB">
@@ -188,8 +202,9 @@ import Layout from '../layouts/Layout.astro';
       <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox"/></label>
       <label for="hero-sand-style">Approach</label>
       <select id="hero-sand-style" disabled>
-        <option value="veil" selected>Windblown veil · new</option>
-        <option value="surface">Fixed sandy surface · new</option>
+        <option value="passing" selected>Passing sand wash · new</option>
+        <option value="veil">Windblown veil · earlier</option>
+        <option value="surface">Fixed sandy surface · earlier</option>
         <option value="grains">Grain catches only · earlier</option>
         <option value="wash">Broad wash · earlier</option>
       </select>
@@ -808,21 +823,25 @@ import Layout from '../layouts/Layout.astro';
     const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
     const washAmount = sandStyle === 'wash' ? sandAmount : 0;
     const grainAmount = sandStyle === 'grains' ? sandAmount : 0;
-    const materialAmount = sandStyle === 'veil' || sandStyle === 'surface' ? sandAmount : 0;
+    const passing = sandStyle === 'passing';
+    const materialAmount = passing || sandStyle === 'veil' || sandStyle === 'surface' ? sandAmount : 0;
     if (sandMaterial) {
       sandMaterial.style.display = materialAmount > 0 ? '' : 'none';
-      sandMaterial.setAttribute('opacity', (1 - Math.exp(-materialAmount * 0.45)).toFixed(4));
+      if (passing) sandMaterial.setAttribute('mask', 'url(#sand-passing-envelope)');
+      else sandMaterial.removeAttribute('mask');
+      sandMaterial.setAttribute('opacity', (1 - Math.exp(-materialAmount * (passing ? 0.75 : 0.45))).toFixed(4));
     }
     if (materialAmount > 0) {
       const windblown = sandStyle === 'veil';
       // The same stitched height field is used for both interpretations.
       // Veil: material translates as a whole, including its tiny facet catches.
       // Surface: material is anchored; slowly changing light reveals its relief.
+      // Passing wash: the original envelope crosses anchored, granular material.
       sandTile?.setAttribute('patternTransform', windblown
         ? `translate(${((sandElapsed * 1.4) % 1600).toFixed(3)},${((-sandElapsed * 0.28) % 900).toFixed(3)})`
         : 'translate(0,0)');
-      const azimuth = 215 + Math.sin(sandElapsed * Math.PI * 2 / 46) * (windblown ? 5 : 28);
-      const elevation = 38 + Math.sin(sandElapsed * Math.PI * 2 / 59) * (windblown ? 2 : 9);
+      const azimuth = 215 + Math.sin(sandElapsed * Math.PI * 2 / 46) * (passing ? 10 : windblown ? 5 : 28);
+      const elevation = 38 + Math.sin(sandElapsed * Math.PI * 2 / 59) * (passing ? 4 : windblown ? 2 : 9);
       for (const light of sandMaterialLights) {
         light?.setAttribute('azimuth', azimuth.toFixed(3));
         light?.setAttribute('elevation', elevation.toFixed(3));
@@ -847,7 +866,9 @@ import Layout from '../layouts/Layout.astro';
       sandWash.style.display = washAmount > 0 ? '' : 'none';
       sandWash.setAttribute('opacity', (washAmount * 0.12).toFixed(4));
     }
-    if (sandLight && washAmount > 0) {
+    // Preserve version one's exact trajectory and cadence, but in Passing mode
+    // use it only to reveal sand. The smooth colored wash itself stays hidden.
+    if (sandLight && (washAmount > 0 || (passing && materialAmount > 0))) {
       const x = 800 + Math.sin(sandElapsed * Math.PI * 2 / 42) * 560;
       const y = 310 + Math.sin(sandElapsed * Math.PI * 2 / 57) * 100;
       sandLight.setAttribute('gradientTransform', `translate(${x.toFixed(2)},${y.toFixed(2)}) rotate(-24) scale(660,240)`);

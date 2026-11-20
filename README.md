@@ -35,7 +35,12 @@ not change the saved defaults.
 
 The separate **Sand light** experiment is off by default, including in Motion study.
 Enable its checkbox, then choose an approach:
-- **Windblown veil** (initial selection): a continuous fine-grained wash drifts slowly
+- **Passing sand wash** (initial selection): the first broad wash's exact path and
+  cadence reveal a localized sandy texture. The envelope has dry, uneven density;
+  matte relief and small facet catches appear within it. The material stays anchored
+  and fades back into the artwork as the wash passes, without grains snapping back.
+  The original smooth colored sheen and isolated-flecks layer are not used.
+- **Windblown veil**: a continuous fine-grained wash drifts slowly
   sideways/upward over the illustration. Matte shading and restrained facet catches
   come from the same stitched grain height field and move together.
 - **Fixed sandy surface**: the same granular material stays anchored; slowly changing
@@ -43,14 +48,15 @@ Enable its checkbox, then choose an approach:
 - **Grain catches only**: the earlier isolated-flecks experiment, retained for comparison.
 - **Broad wash**: the earlier smooth moving sheen, retained for comparison.
 
-The two material approaches use diffuse lighting for dry grain relief, a small
+The three material approaches use diffuse lighting for dry grain relief, a small
 specular contribution for catches, and soft-light blending under the unchanged
-vignette/scrim. They do not use the isolated-flecks layer or a broad light pool.
+vignette/scrim. Passing sand wash localizes this material to a moving, broken-density
+envelope; the other two show material across the whole header.
 
 Sand strength ranges from 0–4× (starts at 1×); report the approach and this value
 separately from breathing strength/speed. Sand timing is independent of breathing
 speed. Original mode and reduced motion suppress all sand approaches; reload resets
-sand light to off. Neither experiment changes the approved breathing defaults.
+sand light to off. None of the experiments change the approved breathing defaults.
 
 ## Customization checklist
 
