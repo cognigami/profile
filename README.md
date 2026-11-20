@@ -33,9 +33,9 @@ page URL to compare Original/Breathing and adjust strength and speed. Readouts s
 exact values to report; adjustments apply only to the current page session and do
 not change the saved defaults.
 
-The separate **Sand light** experiment is off by default, including in Motion study.
-Enable its checkbox, then choose an approach:
-- **Landscape wind** (initial selection): small patches on the actual cream, gold,
+**Landscape wind is enabled by default at sand strength 2.5**, alongside the approved
+breathing settings. Motion study can disable sand light or select earlier experiments:
+- **Landscape wind** (approved default): small patches on the actual cream, gold,
   terracotta, and amber contours release sand into a shared billowing wind field.
   Nearby grains follow the same eddies; patches respond to spatially related gusts
   rather than a single advancing front. Grains use muted ochre/brown variants of their
@@ -75,15 +75,15 @@ specular contribution for catches, and soft-light blending under the unchanged
 vignette/scrim. Passing sand wash localizes this material to a moving, broken-density
 envelope; the other two show material across the whole header.
 
-Sand strength is a **0–4 level** (starts at 1), not a literal multiplier. Report the
+Sand strength is a **0–4 level** (defaults to 2.5), not a literal multiplier. Report the
 approach and level separately from breathing strength/speed. For Landscape wind,
 level **2** maps to the former **3×** opacity setting; most slider travel (0.5–4)
 covers the former 2.625–3.5 range, with a continuous fade from zero below 0.5.
 This mapping is applied before scroll fading; zero remains fully off. Earlier
 approaches retain their original linear scale. Sand timing is independent of breathing
 speed. All sand approaches pause offscreen/in hidden tabs with the hero. Original
-mode and reduced motion suppress all sand approaches; reload resets
-sand light to off. None of the experiments change the approved breathing defaults.
+mode and reduced motion suppress all sand approaches; reload restores Landscape wind
+enabled at 2.5. None of the sand controls change the approved breathing defaults.
 
 ## Customization checklist
 

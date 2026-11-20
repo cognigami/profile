@@ -200,10 +200,10 @@ import Layout from '../layouts/Layout.astro';
       <input id="hero-strength" type="range" min="0" max="8" step="0.1" value="4.5"/>
       <label for="hero-speed">Speed <output id="hero-speed-value" for="hero-speed">85%</output></label>
       <input id="hero-speed" type="range" min="0.1" max="2" step="0.05" value="0.85"/>
-      <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox"/></label>
+      <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox" checked/></label>
       <label for="hero-sand-style">Approach</label>
-      <select id="hero-sand-style" disabled>
-        <option value="landscape" selected>Landscape wind · new</option>
+      <select id="hero-sand-style">
+        <option value="landscape" selected>Landscape wind · approved</option>
         <option value="plume">Airborne sand plume · earlier</option>
         <option value="passing">Passing sand wash · earlier</option>
         <option value="veil">Windblown veil · earlier</option>
@@ -211,9 +211,9 @@ import Layout from '../layouts/Layout.astro';
         <option value="grains">Grain catches only · earlier</option>
         <option value="wash">Broad wash · earlier</option>
       </select>
-      <label for="hero-sand-strength">Sand strength <output id="hero-sand-value" for="hero-sand-strength">1.0</output></label>
-      <input id="hero-sand-strength" type="range" min="0" max="4" step="0.1" value="1" disabled/>
-      <span class="hero__prototype-note">Experimental · resets to off on reload.<br/>Respects reduced motion.</span>
+      <label for="hero-sand-strength">Sand strength <output id="hero-sand-value" for="hero-sand-strength">2.5</output></label>
+      <input id="hero-sand-strength" type="range" min="0" max="4" step="0.1" value="2.5"/>
+      <span class="hero__prototype-note">Reload restores approved settings.<br/>Respects reduced motion.</span>
     </div>
     <div class="hero__scroll-hint" aria-hidden="true">
       <span></span>
@@ -772,7 +772,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   let sandStyle = sandStyleInput.value;
-  let sandEnabled = false;
+  let sandEnabled = sandToggle.checked;
   let sandStrength = Number(sandStrengthInput.value);
   let sandElapsed = 0;
   const modeButtons = document.querySelectorAll<HTMLButtonElement>('[data-hero-mode]');
