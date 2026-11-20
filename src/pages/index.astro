@@ -92,6 +92,24 @@ import Layout from '../layouts/Layout.astro';
             <stop offset="45%" stop-color="#E8C58F" stop-opacity="0.5"/>
             <stop offset="100%" stop-color="#E8C58F" stop-opacity="0"/>
           </radialGradient>
+          <!-- One granular height field supplies both matte shading and sparse
+               facet highlights. No separate particle layer or smooth light pool. -->
+          <filter id="sand-material" filterUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.43 0.58" numOctaves="2" seed="17" stitchTiles="stitch" result="sandNoise"/>
+            <!-- SVG lighting reads height from alpha, not RGB. -->
+            <feColorMatrix in="sandNoise" type="matrix"
+              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.3333 0.3333 0.3333 0 0" result="sandHeight"/>
+            <feDiffuseLighting in="sandHeight" surfaceScale="3.5" diffuseConstant="0.85" lighting-color="#E8D9C4" result="sandMatte">
+              <feDistantLight id="sand-matte-light" azimuth="215" elevation="38"/>
+            </feDiffuseLighting>
+            <feSpecularLighting in="sandHeight" surfaceScale="3.5" specularConstant="0.5" specularExponent="32" lighting-color="#F5E5C9" result="sandCatches">
+              <feDistantLight id="sand-facet-light" azimuth="215" elevation="38"/>
+            </feSpecularLighting>
+            <feComposite in="sandMatte" in2="sandCatches" operator="arithmetic" k1="0" k2="1" k3="0.3" k4="0"/>
+          </filter>
+          <pattern id="sand-material-tile" patternUnits="userSpaceOnUse" width="1600" height="900">
+            <rect width="1600" height="900" fill="#808080" filter="url(#sand-material)"/>
+          </pattern>
           <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
             <stop offset="60%" stop-color="transparent"/>
             <stop offset="100%" stop-color="#1A1310" stop-opacity="0.5"/>
@@ -141,6 +159,9 @@ import Layout from '../layouts/Layout.astro';
         <!-- Alternative: fixed, irregular flecks catch light independently.
              No traveling highlight, particle motion, halos, or star shapes. -->
         <g id="hero-sand-grains" style="display:none"/>
+        <!-- Soft-light preserves the palette; the entire wash is granular. -->
+        <rect id="hero-sand-material" width="1600" height="900" fill="url(#sand-material-tile)"
+          opacity="0" style="display:none;mix-blend-mode:soft-light"/>
         <rect width="1600" height="900" fill="url(#vignette)" style="mix-blend-mode:multiply"/>
       </svg>
     </div>
@@ -167,8 +188,10 @@ import Layout from '../layouts/Layout.astro';
       <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox"/></label>
       <label for="hero-sand-style">Approach</label>
       <select id="hero-sand-style" disabled>
-        <option value="grains" selected>Grain catches · new</option>
-        <option value="wash">Broad wash · previous</option>
+        <option value="veil" selected>Windblown veil · new</option>
+        <option value="surface">Fixed sandy surface · new</option>
+        <option value="grains">Grain catches only · earlier</option>
+        <option value="wash">Broad wash · earlier</option>
       </select>
       <label for="hero-sand-strength">Sand strength <output id="hero-sand-value" for="hero-sand-strength">1.0×</output></label>
       <input id="hero-sand-strength" type="range" min="0" max="4" step="0.1" value="1" disabled/>
@@ -676,6 +699,9 @@ import Layout from '../layouts/Layout.astro';
   const sandOutput = document.getElementById('hero-sand-value') as HTMLOutputElement;
   const sandWash = document.getElementById('hero-sand-wash');
   const sandLight = document.getElementById('sand-light');
+  const sandMaterial = document.getElementById('hero-sand-material');
+  const sandTile = document.getElementById('sand-material-tile');
+  const sandMaterialLights = [document.getElementById('sand-matte-light'), document.getElementById('sand-facet-light')];
   const sandGrains = document.getElementById('hero-sand-grains');
   const grains: { element: SVGPathElement; period: number; phase: number; duration: number; brightness: number; opacity: string }[] = [];
 
@@ -782,6 +808,26 @@ import Layout from '../layouts/Layout.astro';
     const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
     const washAmount = sandStyle === 'wash' ? sandAmount : 0;
     const grainAmount = sandStyle === 'grains' ? sandAmount : 0;
+    const materialAmount = sandStyle === 'veil' || sandStyle === 'surface' ? sandAmount : 0;
+    if (sandMaterial) {
+      sandMaterial.style.display = materialAmount > 0 ? '' : 'none';
+      sandMaterial.setAttribute('opacity', (1 - Math.exp(-materialAmount * 0.45)).toFixed(4));
+    }
+    if (materialAmount > 0) {
+      const windblown = sandStyle === 'veil';
+      // The same stitched height field is used for both interpretations.
+      // Veil: material translates as a whole, including its tiny facet catches.
+      // Surface: material is anchored; slowly changing light reveals its relief.
+      sandTile?.setAttribute('patternTransform', windblown
+        ? `translate(${((sandElapsed * 1.4) % 1600).toFixed(3)},${((-sandElapsed * 0.28) % 900).toFixed(3)})`
+        : 'translate(0,0)');
+      const azimuth = 215 + Math.sin(sandElapsed * Math.PI * 2 / 46) * (windblown ? 5 : 28);
+      const elevation = 38 + Math.sin(sandElapsed * Math.PI * 2 / 59) * (windblown ? 2 : 9);
+      for (const light of sandMaterialLights) {
+        light?.setAttribute('azimuth', azimuth.toFixed(3));
+        light?.setAttribute('elevation', elevation.toFixed(3));
+      }
+    }
     if (sandGrains) sandGrains.style.display = grainAmount > 0 ? '' : 'none';
     if (grainAmount > 0) {
       ensureGrains();

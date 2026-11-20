@@ -35,15 +35,21 @@ not change the saved defaults.
 
 The separate **Sand light** experiment is off by default, including in Motion study.
 Enable its checkbox, then choose an approach:
-- **Grain catches** (initial selection): tiny, fixed, irregular facets catch warm light
-  independently for 3–6.5 seconds, with long rests between. Positions and timing are
-  deterministic; there is no particle motion, glow, or traveling highlight.
-- **Broad wash**: the previous experiment, a slowly traveling warm sheen through a
-  fixed grain mask, retained for comparison.
+- **Windblown veil** (initial selection): a continuous fine-grained wash drifts slowly
+  sideways/upward over the illustration. Matte shading and restrained facet catches
+  come from the same stitched grain height field and move together.
+- **Fixed sandy surface**: the same granular material stays anchored; slowly changing
+  directional light reveals its relief and occasional facet highlights.
+- **Grain catches only**: the earlier isolated-flecks experiment, retained for comparison.
+- **Broad wash**: the earlier smooth moving sheen, retained for comparison.
+
+The two material approaches use diffuse lighting for dry grain relief, a small
+specular contribution for catches, and soft-light blending under the unchanged
+vignette/scrim. They do not use the isolated-flecks layer or a broad light pool.
 
 Sand strength ranges from 0–4× (starts at 1×); report the approach and this value
 separately from breathing strength/speed. Sand timing is independent of breathing
-speed. Original mode and reduced motion suppress both approaches; reload resets
+speed. Original mode and reduced motion suppress all sand approaches; reload resets
 sand light to off. Neither experiment changes the approved breathing defaults.
 
 ## Customization checklist
