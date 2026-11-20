@@ -21,6 +21,18 @@ Push to `main` → GitHub Actions builds and deploys to GitHub Pages.
 3. Enable GitHub Pages in your repo settings → source: "GitHub Actions"
 4. Replace `YOUR_FORM_ID` in `src/layouts/Layout.astro` with your [Formspree](https://formspree.io) form ID
 
+## Hero motion
+
+The landing page's live illustration and animation are inline in `src/pages/index.astro`;
+`public/hero.svg` is not the live source. Breathing defaults to **4.5× strength / 85% speed**.
+It blends into the scroll morph, pauses offscreen or in a hidden tab, and respects
+reduced-motion preferences.
+
+Motion study controls are hidden by default. Append `?motion-study=1` to the landing
+page URL to compare Original/Breathing and adjust strength and speed. Readouts show
+exact values to report; adjustments apply only to the current page session and do
+not change the saved defaults.
+
 ## Customization checklist
 
 - [ ] `src/layouts/Layout.astro` — replace "Your Name" throughout

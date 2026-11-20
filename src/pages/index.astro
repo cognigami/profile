@@ -127,6 +127,18 @@ import Layout from '../layouts/Layout.astro';
         work designed to outlast the moment it was made.
       </p>
     </div>
+    <div class="hero__prototype" aria-label="Hero animation controls" hidden>
+      <span class="hero__prototype-label">Motion study</span>
+      <div class="hero__prototype-modes" role="group" aria-label="Animation mode">
+        <button type="button" data-hero-mode="original" aria-pressed="false">Original</button>
+        <button type="button" data-hero-mode="breathing" aria-pressed="true">Breathing</button>
+      </div>
+      <label for="hero-strength">Strength <output id="hero-strength-value" for="hero-strength">4.5×</output></label>
+      <input id="hero-strength" type="range" min="0" max="8" step="0.1" value="4.5"/>
+      <label for="hero-speed">Speed <output id="hero-speed-value" for="hero-speed">85%</output></label>
+      <input id="hero-speed" type="range" min="0.1" max="2" step="0.05" value="0.85"/>
+      <span class="hero__prototype-note">Respects reduced motion</span>
+    </div>
     <div class="hero__scroll-hint" aria-hidden="true">
       <span></span>
     </div>
@@ -357,6 +369,44 @@ import Layout from '../layouts/Layout.astro';
   /* Parallax scroll for hero bg */
   /* JS handles this via transform, class left here for reference */
 
+  /* Opt-in controls for tuning the motion in context (?motion-study=1). */
+  .hero__prototype[hidden] { display: none; }
+  .hero__prototype {
+    position: absolute;
+    top: 100px;
+    right: 24px;
+    z-index: 2;
+    display: grid;
+    gap: 12px;
+    width: 210px;
+    padding: 16px;
+    border: 1px solid rgba(245,241,232,0.18);
+    border-radius: 8px;
+    background: rgba(26,19,16,0.85);
+    color: #F5F1E8;
+    font: 12px var(--font-sans);
+  }
+  .hero__prototype-label { text-transform: uppercase; letter-spacing: 0.12em; }
+  .hero__prototype-modes { display: flex; gap: 6px; }
+  .hero__prototype button {
+    flex: 1;
+    padding: 7px;
+    border: 1px solid rgba(245,241,232,0.25);
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .hero__prototype button[aria-pressed="true"] { background: #7A3A22; }
+  .hero__prototype label { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .hero__prototype input { width: 100%; margin: 0; accent-color: #D4822B; }
+  .hero__prototype output { font-variant-numeric: tabular-nums; }
+  .hero__prototype-note { opacity: 0.6; font-size: 10px; }
+  @media (max-width: 768px) {
+    .hero__prototype { top: 84px; right: 16px; width: 190px; padding: 12px; gap: 8px; }
+  }
+
   /* ---- OPENING STATEMENT ---- */
   .opening__inner {
     max-width: 1000px;
@@ -504,16 +554,9 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script>
-  // ─────────────────────────────────────────────────────────────
-  // HERO SCROLL ANIMATION
-  // Two effects driven by scroll progress (0→1 over 60% of hero):
-  //   1. Parallax:  hero bg translates up at 35% scroll speed
-  //   2. Morph:     SVG paths undulate then collapse to horizon
-  //
-  // Technique: extract all numbers from path strings, lerp them,
-  // re-inject. Works because REST and COLLAPSED share identical
-  // path command structure. rAF + dirty-flag avoids wasted paints.
-  // ─────────────────────────────────────────────────────────────
+  // Ambient motion is blended into the existing scroll morph, not layered
+  // over it. Original mode restores the existing scroll-only illustration.
+  // Grain, typography, vignette, and the contrast scrim remain stationary.
 
   const heroBg      = document.getElementById('hero-bg');
   const heroSection = document.querySelector('.hero');
@@ -561,40 +604,100 @@ import Layout from '../layouts/Layout.astro';
   // Ease-in-out cubic — geological movement should feel unhurried
   function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
 
-  let lastProgress = -1;
-  let rafPending = false;
+  const paths = [
+    { element: stratumDeep, key: 'deep', amplitude: 5, period: 22, phase: 0 },
+    { element: stratumAmber, key: 'amber', amplitude: 7, period: 26, phase: 1.2 },
+    { element: strataLine1, key: 'line1', amplitude: 3, period: 24, phase: 0.6 },
+    { element: strataLine2, key: 'line2', amplitude: 3, period: 28, phase: 1.8 },
+  ].map(path => ({ ...path, rest: extractNums(REST[path.key]), collapsed: extractNums(COLLAPSED[path.key]) }));
 
-  function updateHero() {
-    rafPending = false;
+  const gold = document.getElementById('gold-pool');
+  const goldRest = gold?.getAttribute('gradientTransform') || '';
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionStudy = document.querySelector<HTMLElement>('.hero__prototype');
+  if (motionStudy) motionStudy.hidden = new URLSearchParams(window.location.search).get('motion-study') !== '1';
+  const strengthInput = document.getElementById('hero-strength') as HTMLInputElement;
+  const speedInput = document.getElementById('hero-speed') as HTMLInputElement;
+  const strengthOutput = document.getElementById('hero-strength-value') as HTMLOutputElement;
+  const speedOutput = document.getElementById('hero-speed-value') as HTMLOutputElement;
+  const modeButtons = document.querySelectorAll<HTMLButtonElement>('[data-hero-mode]');
+  let breathing = true;
+  let strength = Number(strengthInput.value);
+  let speed = Number(speedInput.value);
 
-    const heroH    = heroSection ? heroSection.offsetHeight : window.innerHeight;
-    const scrollY  = window.scrollY;
-    const progress = ease(Math.min(scrollY / (heroH * 0.60), 1));
+  function updateReadouts() {
+    strengthOutput.value = `${strength.toFixed(1)}×`;
+    speedOutput.value = `${Math.round(speed * 100)}%`;
+    strengthInput.setAttribute('aria-valuetext', `${strength.toFixed(1)} times baseline`);
+    speedInput.setAttribute('aria-valuetext', `${Math.round(speed * 100)} percent speed`);
+  }
+  updateReadouts();
+  let visible = true;
+  let elapsed = 0;
+  let previousTime = 0;
+  let frame = 0;
 
-    if (Math.abs(progress - lastProgress) < 0.002) return;
-    lastProgress = progress;
-
-    // 1. Parallax
-    if (heroBg) heroBg.style.transform = `translateY(${scrollY * 0.35}px)`;
-
-    // 2. Path morph
-    if (stratumDeep)  stratumDeep.setAttribute('d',  lerpPath(REST.deep,  COLLAPSED.deep,  progress));
-    if (stratumAmber) stratumAmber.setAttribute('d', lerpPath(REST.amber, COLLAPSED.amber, progress));
-    if (strataLine1)  strataLine1.setAttribute('d',  lerpPath(REST.line1, COLLAPSED.line1, progress));
-    if (strataLine2)  strataLine2.setAttribute('d',  lerpPath(REST.line2, COLLAPSED.line2, progress));
-
-    // 3. Fade strata lines as they collapse — they'd look odd fully opaque when flat
-    if (strataLine1) strataLine1.setAttribute('stroke', `rgba(212,130,43,${lerp(0.12, 0, progress).toFixed(3)})`);
-    if (strataLine2) strataLine2.setAttribute('stroke', `rgba(189,107,74,${lerp(0.09, 0, progress).toFixed(3)})`);
+  function isMoving() {
+    return breathing && strength > 0 && !reducedMotion.matches && visible && !document.hidden;
   }
 
-  window.addEventListener('scroll', () => {
-    if (!rafPending) {
-      rafPending = true;
-      requestAnimationFrame(updateHero);
-    }
-  }, { passive: true });
+  function schedule() {
+    if (!frame) frame = requestAnimationFrame(updateHero);
+  }
 
-  // Initial call to set correct state if page loads mid-scroll
-  updateHero();
+  function updateHero(time: number) {
+    frame = 0;
+    const moving = isMoving();
+    if (moving && previousTime) elapsed += Math.min((time - previousTime) / 1000, 0.1) * speed;
+    previousTime = moving ? time : 0;
+
+    const heroH = heroSection ? (heroSection as HTMLElement).offsetHeight : window.innerHeight;
+    const scrollY = window.scrollY;
+    // Reduced motion also disables the pre-existing scroll morph and parallax.
+    const progress = reducedMotion.matches ? 0 : ease(Math.min(scrollY / (heroH * 0.60), 1));
+    const amount = breathing && !reducedMotion.matches ? strength * (1 - progress) : 0;
+
+    if (heroBg) heroBg.style.transform = reducedMotion.matches ? '' : `translateY(${scrollY * 0.35}px)`;
+
+    for (const path of paths) {
+      const wave = elapsed * Math.PI * 2 / path.period + path.phase;
+      const numbers = path.rest.map((value, i) => {
+        const base = lerp(value, path.collapsed[i], progress);
+        // Only flex vertical curve coordinates; keep the bottom edge anchored.
+        if (i % 2 === 0 || value === 900) return base;
+        const x = path.rest[i - 1];
+        return base + Math.sin(wave + x / 1600 * Math.PI * 1.3) * path.amplitude * amount;
+      });
+      path.element?.setAttribute('d', injectNums(REST[path.key], numbers));
+    }
+
+    // Move the light within the gold shape, never its silhouette or palette.
+    if (gold) {
+      const x = Math.sin(elapsed * Math.PI * 2 / 31) * 14 * amount;
+      const y = Math.sin(elapsed * Math.PI * 2 / 37 + 0.7) * 9 * amount;
+      gold.setAttribute('gradientTransform', amount ? `translate(${x.toFixed(2)},${y.toFixed(2)}) ${goldRest}` : goldRest);
+    }
+    if (strataLine1) strataLine1.setAttribute('stroke', `rgba(212,130,43,${lerp(0.12, 0, progress).toFixed(3)})`);
+    if (strataLine2) strataLine2.setAttribute('stroke', `rgba(189,107,74,${lerp(0.09, 0, progress).toFixed(3)})`);
+
+    if (moving) schedule();
+  }
+
+  modeButtons.forEach(button => button.addEventListener('click', () => {
+    breathing = button.dataset.heroMode === 'breathing';
+    modeButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    schedule();
+  }));
+  strengthInput.addEventListener('input', () => { strength = Number(strengthInput.value); updateReadouts(); schedule(); });
+  speedInput.addEventListener('input', () => { speed = Number(speedInput.value); updateReadouts(); schedule(); });
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  document.addEventListener('visibilitychange', () => { previousTime = 0; schedule(); });
+  reducedMotion.addEventListener('change', schedule);
+  if (heroSection) new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    previousTime = 0;
+    schedule();
+  }).observe(heroSection);
+  schedule();
 </script>
