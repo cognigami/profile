@@ -33,11 +33,18 @@ page URL to compare Original/Breathing and adjust strength and speed. Readouts s
 exact values to report; adjustments apply only to the current page session and do
 not change the saved defaults.
 
-The separate **Sand wash** experiment is off by default, including in Motion study.
-Enable its checkbox to compare a broad, slowly traveling warm sheen through a fixed
-grain mask. Wash strength ranges from 0–4× (starts at 1×); report this value separately
-from breathing strength/speed. Its light cycle is independent of the breathing speed.
-Original mode and reduced motion suppress the wash; reload resets it to off.
+The separate **Sand light** experiment is off by default, including in Motion study.
+Enable its checkbox, then choose an approach:
+- **Grain catches** (initial selection): tiny, fixed, irregular facets catch warm light
+  independently for 3–6.5 seconds, with long rests between. Positions and timing are
+  deterministic; there is no particle motion, glow, or traveling highlight.
+- **Broad wash**: the previous experiment, a slowly traveling warm sheen through a
+  fixed grain mask, retained for comparison.
+
+Sand strength ranges from 0–4× (starts at 1×); report the approach and this value
+separately from breathing strength/speed. Sand timing is independent of breathing
+speed. Original mode and reduced motion suppress both approaches; reload resets
+sand light to off. Neither experiment changes the approved breathing defaults.
 
 ## Customization checklist
 

@@ -138,6 +138,9 @@ import Layout from '../layouts/Layout.astro';
         <g id="hero-sand-wash" opacity="0" style="display:none" mask="url(#sand-surface)">
           <rect width="1600" height="900" fill="url(#sand-light)"/>
         </g>
+        <!-- Alternative: fixed, irregular flecks catch light independently.
+             No traveling highlight, particle motion, halos, or star shapes. -->
+        <g id="hero-sand-grains" style="display:none"/>
         <rect width="1600" height="900" fill="url(#vignette)" style="mix-blend-mode:multiply"/>
       </svg>
     </div>
@@ -161,10 +164,15 @@ import Layout from '../layouts/Layout.astro';
       <input id="hero-strength" type="range" min="0" max="8" step="0.1" value="4.5"/>
       <label for="hero-speed">Speed <output id="hero-speed-value" for="hero-speed">85%</output></label>
       <input id="hero-speed" type="range" min="0.1" max="2" step="0.05" value="0.85"/>
-      <label class="hero__sand-toggle" for="hero-sand-enabled">Sand wash <input id="hero-sand-enabled" type="checkbox"/></label>
-      <label for="hero-sand-strength">Wash strength <output id="hero-sand-value" for="hero-sand-strength">1.0×</output></label>
+      <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox"/></label>
+      <label for="hero-sand-style">Approach</label>
+      <select id="hero-sand-style" disabled>
+        <option value="grains" selected>Grain catches · new</option>
+        <option value="wash">Broad wash · previous</option>
+      </select>
+      <label for="hero-sand-strength">Sand strength <output id="hero-sand-value" for="hero-sand-strength">1.0×</output></label>
       <input id="hero-sand-strength" type="range" min="0" max="4" step="0.1" value="1" disabled/>
-      <span class="hero__prototype-note">Sand wash is experimental · resets on reload.<br/>Respects reduced motion.</span>
+      <span class="hero__prototype-note">Experimental · resets to off on reload.<br/>Respects reduced motion.</span>
     </div>
     <div class="hero__scroll-hint" aria-hidden="true">
       <span></span>
@@ -406,6 +414,8 @@ import Layout from '../layouts/Layout.astro';
     display: grid;
     gap: 12px;
     width: 210px;
+    max-height: calc(100svh - 120px);
+    overflow-y: auto;
     padding: 16px;
     border: 1px solid rgba(245,241,232,0.18);
     border-radius: 8px;
@@ -431,7 +441,17 @@ import Layout from '../layouts/Layout.astro';
   .hero__prototype output { font-variant-numeric: tabular-nums; }
   .hero__prototype .hero__sand-toggle { border-top: 1px solid rgba(245,241,232,0.18); padding-top: 12px; }
   .hero__prototype input[type="checkbox"] { width: auto; }
-  .hero__prototype input:disabled { opacity: 0.35; }
+  .hero__prototype select {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid rgba(245,241,232,0.25);
+    border-radius: 4px;
+    background: #1A1310;
+    color: inherit;
+    font: inherit;
+  }
+  .hero__prototype input:disabled,
+  .hero__prototype select:disabled { opacity: 0.35; }
   .hero__prototype-note { opacity: 0.6; font-size: 10px; }
   @media (max-width: 768px) {
     .hero__prototype { top: 84px; right: 16px; width: 190px; padding: 12px; gap: 8px; }
@@ -651,10 +671,42 @@ import Layout from '../layouts/Layout.astro';
   const strengthOutput = document.getElementById('hero-strength-value') as HTMLOutputElement;
   const speedOutput = document.getElementById('hero-speed-value') as HTMLOutputElement;
   const sandToggle = document.getElementById('hero-sand-enabled') as HTMLInputElement;
+  const sandStyleInput = document.getElementById('hero-sand-style') as HTMLSelectElement;
   const sandStrengthInput = document.getElementById('hero-sand-strength') as HTMLInputElement;
   const sandOutput = document.getElementById('hero-sand-value') as HTMLOutputElement;
   const sandWash = document.getElementById('hero-sand-wash');
   const sandLight = document.getElementById('sand-light');
+  const sandGrains = document.getElementById('hero-sand-grains');
+  const grains: { element: SVGPathElement; period: number; phase: number; duration: number; brightness: number; opacity: string }[] = [];
+
+  function ensureGrains() {
+    if (!sandGrains || grains.length) return;
+    // Seeded once: repeatable positions and timing, never regenerated per frame.
+    let seed = 617;
+    function random() {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      return seed / 4294967296;
+    }
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < 216; i++) {
+      const x = 24 + random() * 1552;
+      const y = 24 + random() * 820;
+      const size = 0.65 + random() * 0.9;
+      const angle = random() * 180;
+      const element = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      // Tiny asymmetric facets, not circular points of light.
+      element.setAttribute('d', 'M -1 -0.2 L 0.25 -0.6 L 1 0.1 L -0.3 0.5 Z');
+      element.setAttribute('transform', `translate(${x.toFixed(2)},${y.toFixed(2)}) rotate(${angle.toFixed(1)}) scale(${size.toFixed(2)})`);
+      element.setAttribute('fill', i % 3 === 0 ? '#F0D5A5' : '#DDB681');
+      element.setAttribute('opacity', '0');
+      const period = 27 + random() * 36;
+      grains.push({ element, period, phase: random() * period, duration: 3.2 + random() * 3.3, brightness: 0.18 + random() * 0.24, opacity: '0' });
+      fragment.appendChild(element);
+    }
+    sandGrains.appendChild(fragment);
+  }
+
+  let sandStyle = sandStyleInput.value;
   let sandEnabled = false;
   let sandStrength = Number(sandStrengthInput.value);
   let sandElapsed = 0;
@@ -669,7 +721,7 @@ import Layout from '../layouts/Layout.astro';
     strengthInput.setAttribute('aria-valuetext', `${strength.toFixed(1)} times baseline`);
     speedInput.setAttribute('aria-valuetext', `${Math.round(speed * 100)} percent speed`);
     sandOutput.value = `${sandStrength.toFixed(1)}×`;
-    sandStrengthInput.setAttribute('aria-valuetext', `${sandStrength.toFixed(1)} times wash strength`);
+    sandStrengthInput.setAttribute('aria-valuetext', `${sandStrength.toFixed(1)} times sand strength`);
   }
   updateReadouts();
   let visible = true;
@@ -691,7 +743,7 @@ import Layout from '../layouts/Layout.astro';
     if (moving && previousTime) {
       const delta = Math.min((time - previousTime) / 1000, 0.1);
       elapsed += delta * speed;
-      // Wash has its own slow cadence; the approved breathing speed is unchanged.
+      // Sand light has its own cadence; the approved breathing speed is unchanged.
       if (sandEnabled && sandStrength > 0) sandElapsed += delta;
     }
     previousTime = moving ? time : 0;
@@ -727,7 +779,24 @@ import Layout from '../layouts/Layout.astro';
 
     // Static grain mask; only the illumination moves. Fade toward the horizon
     // with the existing scroll morph, under the unchanged vignette and text scrim.
-    const washAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
+    const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
+    const washAmount = sandStyle === 'wash' ? sandAmount : 0;
+    const grainAmount = sandStyle === 'grains' ? sandAmount : 0;
+    if (sandGrains) sandGrains.style.display = grainAmount > 0 ? '' : 'none';
+    if (grainAmount > 0) {
+      ensureGrains();
+      for (const grain of grains) {
+        const localTime = (sandElapsed + grain.phase) % grain.period;
+        // Each facet catches light for a few seconds, then rests for much longer.
+        // A smooth envelope avoids flashes; neither position nor size changes.
+        const envelope = localTime < grain.duration ? Math.sin(Math.PI * localTime / grain.duration) ** 2 : 0;
+        const opacity = Math.min(0.8, envelope * grain.brightness * grainAmount).toFixed(3);
+        if (opacity !== grain.opacity) {
+          grain.element.setAttribute('opacity', opacity);
+          grain.opacity = opacity;
+        }
+      }
+    }
     if (sandWash) {
       sandWash.style.display = washAmount > 0 ? '' : 'none';
       sandWash.setAttribute('opacity', (washAmount * 0.12).toFixed(4));
@@ -751,6 +820,11 @@ import Layout from '../layouts/Layout.astro';
   sandToggle.addEventListener('change', () => {
     sandEnabled = sandToggle.checked;
     sandStrengthInput.disabled = !sandEnabled;
+    sandStyleInput.disabled = !sandEnabled;
+    schedule();
+  });
+  sandStyleInput.addEventListener('change', () => {
+    sandStyle = sandStyleInput.value;
     schedule();
   });
   sandStrengthInput.addEventListener('input', () => {
