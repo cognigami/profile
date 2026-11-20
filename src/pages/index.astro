@@ -211,7 +211,7 @@ import Layout from '../layouts/Layout.astro';
         <option value="grains">Grain catches only · earlier</option>
         <option value="wash">Broad wash · earlier</option>
       </select>
-      <label for="hero-sand-strength">Sand strength <output id="hero-sand-value" for="hero-sand-strength">1.0×</output></label>
+      <label for="hero-sand-strength">Sand strength <output id="hero-sand-value" for="hero-sand-strength">1.0</output></label>
       <input id="hero-sand-strength" type="range" min="0" max="4" step="0.1" value="1" disabled/>
       <span class="hero__prototype-note">Experimental · resets to off on reload.<br/>Respects reduced motion.</span>
     </div>
@@ -654,7 +654,7 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   import { createSandPlume } from '../scripts/sand-plume';
-  import { createLandscapeWind, type SandContour } from '../scripts/landscape-wind';
+  import { createLandscapeWind, landscapeSandStrength, type SandContour } from '../scripts/landscape-wind';
 
   // Ambient motion is blended into the existing scroll morph, not layered
   // over it. Original mode restores the existing scroll-only illustration.
@@ -785,8 +785,8 @@ import Layout from '../layouts/Layout.astro';
     speedOutput.value = `${Math.round(speed * 100)}%`;
     strengthInput.setAttribute('aria-valuetext', `${strength.toFixed(1)} times baseline`);
     speedInput.setAttribute('aria-valuetext', `${Math.round(speed * 100)} percent speed`);
-    sandOutput.value = `${sandStrength.toFixed(1)}×`;
-    sandStrengthInput.setAttribute('aria-valuetext', `${sandStrength.toFixed(1)} times sand strength`);
+    sandOutput.value = sandStrength.toFixed(1);
+    sandStrengthInput.setAttribute('aria-valuetext', `Sand strength level ${sandStrength.toFixed(1)} of 4`);
   }
   updateReadouts();
   let visible = true;
@@ -853,7 +853,10 @@ import Layout from '../layouts/Layout.astro';
 
     // Static grain mask; only the illumination moves. Fade toward the horizon
     // with the existing scroll morph, under the unchanged vignette and text scrim.
-    const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
+    // Remap the Landscape control before scroll fading so zero/off and the
+    // existing fade-out remain exact. Earlier experiments retain their scale.
+    const sandLevel = sandStyle === 'landscape' ? landscapeSandStrength(sandStrength) : sandStrength;
+    const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandLevel * (1 - progress) : 0;
     if (sandStyle === 'landscape') landscapeWind.draw(sandElapsed, sandAmount, landscapeContours);
     else sandPlume.draw(sandElapsed, sandStyle === 'plume' ? sandAmount : 0);
     const washAmount = sandStyle === 'wash' ? sandAmount : 0;

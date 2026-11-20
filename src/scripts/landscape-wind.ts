@@ -19,12 +19,20 @@ function pointOnContour(points: number[], position: number) {
   };
 }
 
-// Shared eddies, not a marching front or independent particle jitter. The two
-// wave components are a curl field, superimposed on a prevailing lifting wind.
+// Shared eddies span multiple stretches of ridge. Wavelengths are over twice
+// the earlier scale; pickup stays local even though the carrying wind is broad.
+// Both wave components remain a curl field, with a prevailing lifting wind.
 function windAt(x: number, y: number, time: number) {
-  const a = Math.cos(x * 0.006 + y * 0.011 - time * 0.27);
-  const b = Math.cos(x * 0.012 - y * 0.006 + time * 0.19);
-  return { x: 28 + 27.5 * a - 15 * b + 5 * Math.sin(time * 0.17), y: -15 - 15 * a - 30 * b };
+  const a = Math.cos(x * 0.0027 + y * 0.00495 - time * 0.18);
+  const b = Math.cos(x * 0.0054 - y * 0.0027 + time * 0.13);
+  return { x: 36 + 27.5 * a - 15 * b + 5 * Math.sin(time * 0.17), y: -20 - 15 * a - 30 * b };
+}
+
+// Most slider travel now explores the former useful middle, not 0–4 linearly.
+// Keep a continuous fade from zero; level 2 corresponds to the former strength 3.
+export function landscapeSandStrength(level: number) {
+  const value = Math.max(0, Math.min(4, level));
+  return value < 0.5 ? value * 5.25 : 2.5 + value * 0.25;
 }
 
 export function createLandscapeWind(canvas: HTMLCanvasElement) {
@@ -50,12 +58,13 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
         const position = (patch + 0.5) / 12;
         const source = pointOnContour(contour.points, position);
         if (source.x < 15 || source.x > 1585 || source.y < 25 || source.y > 850) continue;
-        // Spatially related gusts activate different patches at different times.
-        // Quiet stretches between them keep the ridges from constantly smoking.
-        const gust = Math.max(0, 0.15 + 0.6 * Math.sin(time * 0.27 + source.x * 0.006 + source.y * 0.011)
-          + 0.4 * Math.sin(time * 0.13 - source.x * 0.004));
-        // More matte grains, rather than brighter grains, make low settings readable.
-        credits[index] = (credits[index] || 0) + gust * gust * 180 * delta;
+        // A broad gust can reach several ridges. Smaller-scale, stable exposure
+        // still controls how much each patch sheds: broad wind, selective pickup.
+        const gust = Math.max(0, 0.15 + 0.6 * Math.sin(time * 0.18 + source.x * 0.0027 + source.y * 0.00495)
+          + 0.4 * Math.sin(time * 0.09 - source.x * 0.0018));
+        const exposure = 1 + 0.6 * Math.sin(source.x * 0.019 - source.y * 0.015 + ridge * 0.7);
+        // No extra emission sites or blanket release across the landscape.
+        credits[index] = (credits[index] || 0) + gust * gust * exposure * 180 * delta;
         while (credits[index] >= 1) {
           credits[index]--;
           if (particles.length >= 22000) continue;

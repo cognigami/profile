@@ -40,8 +40,11 @@ Enable its checkbox, then choose an approach:
   Nearby grains follow the same eddies; patches respond to spatially related gusts
   rather than a single advancing front. Grains use muted ochre/brown variants of their
   source layer's colour, with rare, soft amber light catches rather than white glints.
-  Longer airborne lives, stronger shared eddies, and stable differences in grain
-  buoyancy/response give wisps more spread without per-frame jitter. Visibility is
+  Eddies and gusts span multiple stretches of ridge (over twice the original
+  spatial scale); stronger prevailing transport carries grains farther. Local
+  exposure still varies pickup, with the same emission sites rather than a blanket
+  release. Longer airborne lives and stable differences in grain buoyancy/response
+  give wisps more spread without per-frame jitter. Visibility is
   carried primarily by more matte grains, not brighter highlights; strength values
   are specific to this tuning rather than comparable to earlier revisions. The artwork
   does not erode. Lower source curves follow the current breathing/scroll geometry.
@@ -72,8 +75,12 @@ specular contribution for catches, and soft-light blending under the unchanged
 vignette/scrim. Passing sand wash localizes this material to a moving, broken-density
 envelope; the other two show material across the whole header.
 
-Sand strength ranges from 0–4× (starts at 1×); report the approach and this value
-separately from breathing strength/speed. Sand timing is independent of breathing
+Sand strength is a **0–4 level** (starts at 1), not a literal multiplier. Report the
+approach and level separately from breathing strength/speed. For Landscape wind,
+level **2** maps to the former **3×** opacity setting; most slider travel (0.5–4)
+covers the former 2.625–3.5 range, with a continuous fade from zero below 0.5.
+This mapping is applied before scroll fading; zero remains fully off. Earlier
+approaches retain their original linear scale. Sand timing is independent of breathing
 speed. All sand approaches pause offscreen/in hidden tabs with the hero. Original
 mode and reduced motion suppress all sand approaches; reload resets
 sand light to off. None of the experiments change the approved breathing defaults.
