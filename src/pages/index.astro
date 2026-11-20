@@ -72,6 +72,26 @@ import Layout from '../layouts/Layout.astro';
 
             <feComposite in="textured" in2="SourceGraphic" operator="in"/>
           </filter>
+          <!-- Fixed pigment tooth catches a moving, broad pool of light.
+               No animated noise: the surface itself never crawls or sparkles. -->
+          <filter id="sand-tooth" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.38" numOctaves="3" seed="0" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+            <feComponentTransfer>
+              <feFuncR type="gamma" amplitude="1" exponent="2" offset="0"/>
+              <feFuncG type="gamma" amplitude="1" exponent="2" offset="0"/>
+              <feFuncB type="gamma" amplitude="1" exponent="2" offset="0"/>
+            </feComponentTransfer>
+          </filter>
+          <mask id="sand-surface" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900" style="mask-type:luminance">
+            <rect width="1600" height="900" fill="white" filter="url(#sand-tooth)"/>
+          </mask>
+          <radialGradient id="sand-light" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1"
+            gradientTransform="translate(800,310) rotate(-24) scale(660,240)">
+            <stop offset="0%" stop-color="#F0D5A5" stop-opacity="1"/>
+            <stop offset="45%" stop-color="#E8C58F" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#E8C58F" stop-opacity="0"/>
+          </radialGradient>
           <linearGradient id="vignette" x1="0" y1="0" x2="0" y2="1">
             <stop offset="60%" stop-color="transparent"/>
             <stop offset="100%" stop-color="#1A1310" stop-opacity="0.5"/>
@@ -114,6 +134,10 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- Grain + vignette — opacity 0.72 so texture murmurs, not whispers -->
         <rect width="1600" height="900" fill="rgba(43,40,38,0.06)" filter="url(#grain)" opacity="0.72"/>
+        <!-- Experimental sand wash: off until explicitly enabled in Motion study. -->
+        <g id="hero-sand-wash" opacity="0" style="display:none" mask="url(#sand-surface)">
+          <rect width="1600" height="900" fill="url(#sand-light)"/>
+        </g>
         <rect width="1600" height="900" fill="url(#vignette)" style="mix-blend-mode:multiply"/>
       </svg>
     </div>
@@ -137,7 +161,10 @@ import Layout from '../layouts/Layout.astro';
       <input id="hero-strength" type="range" min="0" max="8" step="0.1" value="4.5"/>
       <label for="hero-speed">Speed <output id="hero-speed-value" for="hero-speed">85%</output></label>
       <input id="hero-speed" type="range" min="0.1" max="2" step="0.05" value="0.85"/>
-      <span class="hero__prototype-note">Respects reduced motion</span>
+      <label class="hero__sand-toggle" for="hero-sand-enabled">Sand wash <input id="hero-sand-enabled" type="checkbox"/></label>
+      <label for="hero-sand-strength">Wash strength <output id="hero-sand-value" for="hero-sand-strength">1.0×</output></label>
+      <input id="hero-sand-strength" type="range" min="0" max="4" step="0.1" value="1" disabled/>
+      <span class="hero__prototype-note">Sand wash is experimental · resets on reload.<br/>Respects reduced motion.</span>
     </div>
     <div class="hero__scroll-hint" aria-hidden="true">
       <span></span>
@@ -402,6 +429,9 @@ import Layout from '../layouts/Layout.astro';
   .hero__prototype label { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .hero__prototype input { width: 100%; margin: 0; accent-color: #D4822B; }
   .hero__prototype output { font-variant-numeric: tabular-nums; }
+  .hero__prototype .hero__sand-toggle { border-top: 1px solid rgba(245,241,232,0.18); padding-top: 12px; }
+  .hero__prototype input[type="checkbox"] { width: auto; }
+  .hero__prototype input:disabled { opacity: 0.35; }
   .hero__prototype-note { opacity: 0.6; font-size: 10px; }
   @media (max-width: 768px) {
     .hero__prototype { top: 84px; right: 16px; width: 190px; padding: 12px; gap: 8px; }
@@ -620,6 +650,14 @@ import Layout from '../layouts/Layout.astro';
   const speedInput = document.getElementById('hero-speed') as HTMLInputElement;
   const strengthOutput = document.getElementById('hero-strength-value') as HTMLOutputElement;
   const speedOutput = document.getElementById('hero-speed-value') as HTMLOutputElement;
+  const sandToggle = document.getElementById('hero-sand-enabled') as HTMLInputElement;
+  const sandStrengthInput = document.getElementById('hero-sand-strength') as HTMLInputElement;
+  const sandOutput = document.getElementById('hero-sand-value') as HTMLOutputElement;
+  const sandWash = document.getElementById('hero-sand-wash');
+  const sandLight = document.getElementById('sand-light');
+  let sandEnabled = false;
+  let sandStrength = Number(sandStrengthInput.value);
+  let sandElapsed = 0;
   const modeButtons = document.querySelectorAll<HTMLButtonElement>('[data-hero-mode]');
   let breathing = true;
   let strength = Number(strengthInput.value);
@@ -630,6 +668,8 @@ import Layout from '../layouts/Layout.astro';
     speedOutput.value = `${Math.round(speed * 100)}%`;
     strengthInput.setAttribute('aria-valuetext', `${strength.toFixed(1)} times baseline`);
     speedInput.setAttribute('aria-valuetext', `${Math.round(speed * 100)} percent speed`);
+    sandOutput.value = `${sandStrength.toFixed(1)}×`;
+    sandStrengthInput.setAttribute('aria-valuetext', `${sandStrength.toFixed(1)} times wash strength`);
   }
   updateReadouts();
   let visible = true;
@@ -638,7 +678,7 @@ import Layout from '../layouts/Layout.astro';
   let frame = 0;
 
   function isMoving() {
-    return breathing && strength > 0 && !reducedMotion.matches && visible && !document.hidden;
+    return breathing && (strength > 0 || (sandEnabled && sandStrength > 0)) && !reducedMotion.matches && visible && !document.hidden;
   }
 
   function schedule() {
@@ -648,7 +688,12 @@ import Layout from '../layouts/Layout.astro';
   function updateHero(time: number) {
     frame = 0;
     const moving = isMoving();
-    if (moving && previousTime) elapsed += Math.min((time - previousTime) / 1000, 0.1) * speed;
+    if (moving && previousTime) {
+      const delta = Math.min((time - previousTime) / 1000, 0.1);
+      elapsed += delta * speed;
+      // Wash has its own slow cadence; the approved breathing speed is unchanged.
+      if (sandEnabled && sandStrength > 0) sandElapsed += delta;
+    }
     previousTime = moving ? time : 0;
 
     const heroH = heroSection ? (heroSection as HTMLElement).offsetHeight : window.innerHeight;
@@ -680,6 +725,19 @@ import Layout from '../layouts/Layout.astro';
     if (strataLine1) strataLine1.setAttribute('stroke', `rgba(212,130,43,${lerp(0.12, 0, progress).toFixed(3)})`);
     if (strataLine2) strataLine2.setAttribute('stroke', `rgba(189,107,74,${lerp(0.09, 0, progress).toFixed(3)})`);
 
+    // Static grain mask; only the illumination moves. Fade toward the horizon
+    // with the existing scroll morph, under the unchanged vignette and text scrim.
+    const washAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
+    if (sandWash) {
+      sandWash.style.display = washAmount > 0 ? '' : 'none';
+      sandWash.setAttribute('opacity', (washAmount * 0.12).toFixed(4));
+    }
+    if (sandLight && washAmount > 0) {
+      const x = 800 + Math.sin(sandElapsed * Math.PI * 2 / 42) * 560;
+      const y = 310 + Math.sin(sandElapsed * Math.PI * 2 / 57) * 100;
+      sandLight.setAttribute('gradientTransform', `translate(${x.toFixed(2)},${y.toFixed(2)}) rotate(-24) scale(660,240)`);
+    }
+
     if (moving) schedule();
   }
 
@@ -690,6 +748,16 @@ import Layout from '../layouts/Layout.astro';
   }));
   strengthInput.addEventListener('input', () => { strength = Number(strengthInput.value); updateReadouts(); schedule(); });
   speedInput.addEventListener('input', () => { speed = Number(speedInput.value); updateReadouts(); schedule(); });
+  sandToggle.addEventListener('change', () => {
+    sandEnabled = sandToggle.checked;
+    sandStrengthInput.disabled = !sandEnabled;
+    schedule();
+  });
+  sandStrengthInput.addEventListener('input', () => {
+    sandStrength = Number(sandStrengthInput.value);
+    updateReadouts();
+    schedule();
+  });
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
   document.addEventListener('visibilitychange', () => { previousTime = 0; schedule(); });

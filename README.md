@@ -33,6 +33,12 @@ page URL to compare Original/Breathing and adjust strength and speed. Readouts s
 exact values to report; adjustments apply only to the current page session and do
 not change the saved defaults.
 
+The separate **Sand wash** experiment is off by default, including in Motion study.
+Enable its checkbox to compare a broad, slowly traveling warm sheen through a fixed
+grain mask. Wash strength ranges from 0–4× (starts at 1×); report this value separately
+from breathing strength/speed. Its light cycle is independent of the breathing speed.
+Original mode and reduced motion suppress the wash; reload resets it to off.
+
 ## Customization checklist
 
 - [ ] `src/layouts/Layout.astro` — replace "Your Name" throughout
