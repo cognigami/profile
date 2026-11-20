@@ -178,6 +178,7 @@ import Layout from '../layouts/Layout.astro';
           opacity="0" style="display:none;mix-blend-mode:soft-light"/>
         <rect width="1600" height="900" fill="url(#vignette)" style="mix-blend-mode:multiply"/>
       </svg>
+      <canvas id="hero-sand-plume" class="hero__sand-plume" aria-hidden="true" hidden></canvas>
     </div>
     <div class="hero__content">
       <p class="hero__eyebrow">Strategist · Builder · Researcher</p>
@@ -202,7 +203,8 @@ import Layout from '../layouts/Layout.astro';
       <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox"/></label>
       <label for="hero-sand-style">Approach</label>
       <select id="hero-sand-style" disabled>
-        <option value="passing" selected>Passing sand wash · new</option>
+        <option value="plume" selected>Airborne sand plume · new</option>
+        <option value="passing">Passing sand wash · earlier</option>
         <option value="veil">Windblown veil · earlier</option>
         <option value="surface">Fixed sandy surface · earlier</option>
         <option value="grains">Grain catches only · earlier</option>
@@ -356,6 +358,14 @@ import Layout from '../layouts/Layout.astro';
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .hero__sand-plume {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
 
   /* Dark scrim so text reads clearly */
@@ -642,6 +652,8 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script>
+  import { createSandPlume } from '../scripts/sand-plume';
+
   // Ambient motion is blended into the existing scroll morph, not layered
   // over it. Original mode restores the existing scroll-only illustration.
   // Grain, typography, vignette, and the contrast scrim remain stationary.
@@ -714,6 +726,7 @@ import Layout from '../layouts/Layout.astro';
   const sandOutput = document.getElementById('hero-sand-value') as HTMLOutputElement;
   const sandWash = document.getElementById('hero-sand-wash');
   const sandLight = document.getElementById('sand-light');
+  const sandPlume = createSandPlume(document.getElementById('hero-sand-plume') as HTMLCanvasElement);
   const sandMaterial = document.getElementById('hero-sand-material');
   const sandTile = document.getElementById('sand-material-tile');
   const sandMaterialLights = [document.getElementById('sand-matte-light'), document.getElementById('sand-facet-light')];
@@ -821,6 +834,7 @@ import Layout from '../layouts/Layout.astro';
     // Static grain mask; only the illumination moves. Fade toward the horizon
     // with the existing scroll morph, under the unchanged vignette and text scrim.
     const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
+    sandPlume.draw(sandElapsed, sandStyle === 'plume' ? sandAmount : 0);
     const washAmount = sandStyle === 'wash' ? sandAmount : 0;
     const grainAmount = sandStyle === 'grains' ? sandAmount : 0;
     const passing = sandStyle === 'passing';

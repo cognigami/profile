@@ -35,7 +35,14 @@ not change the saved defaults.
 
 The separate **Sand light** experiment is off by default, including in Motion study.
 Enable its checkbox, then choose an approach:
-- **Passing sand wash** (initial selection): the first broad wash's exact path and
+- **Airborne sand plume** (initial selection): a transparent canvas layer of fine
+  moving grains forms a thin, uneven plume with trailing wisps. A few of those same
+  traveling grains briefly catch warm light. The plume crosses and disperses beyond
+  the frame before another enters; it does not reveal or deform a sandy surface.
+  Rendering lives in `src/scripts/sand-plume.ts`, uses the hero's existing clock,
+  matches the SVG crop, and stays underneath the text-contrast scrim. Particle data
+  is seeded and created only when this approach is first enabled.
+- **Passing sand wash**: the first broad wash's exact path and
   cadence reveal a localized sandy texture. The envelope has dry, uneven density;
   matte relief and small facet catches appear within it. The material stays anchored
   and fades back into the artwork as the wash passes, without grains snapping back.
@@ -55,7 +62,8 @@ envelope; the other two show material across the whole header.
 
 Sand strength ranges from 0–4× (starts at 1×); report the approach and this value
 separately from breathing strength/speed. Sand timing is independent of breathing
-speed. Original mode and reduced motion suppress all sand approaches; reload resets
+speed. All sand approaches pause offscreen/in hidden tabs with the hero. Original
+mode and reduced motion suppress all sand approaches; reload resets
 sand light to off. None of the experiments change the approved breathing defaults.
 
 ## Customization checklist
