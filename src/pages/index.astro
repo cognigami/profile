@@ -144,12 +144,12 @@ import Layout from '../layouts/Layout.astro';
           fill="url(#amber-blob)" opacity="0.9"/>
 
         <!-- Static: gold upper pool -->
-        <path
+        <path id="hero-gold-edge"
           d="M 550 0 C 660 60, 750 80, 820 150 C 900 230, 950 320, 1050 370 C 1160 425, 1300 390, 1420 440 C 1520 480, 1580 520, 1650 480 L 1650 0 Z"
           fill="url(#gold-pool)" opacity="0.85"/>
 
         <!-- Static: cream veil -->
-        <path
+        <path id="hero-cream-edge"
           d="M 0 0 C 100 40, 240 20, 340 80 C 460 150, 500 260, 580 320 C 650 370, 720 350, 760 410 C 800 460, 780 520, 820 560 C 700 540, 580 480, 460 430 C 340 380, 220 340, 120 280 C 50 230, 0 160, 0 100 Z"
           fill="url(#cream-veil)" opacity="0.9"/>
 
@@ -203,7 +203,8 @@ import Layout from '../layouts/Layout.astro';
       <label class="hero__sand-toggle" for="hero-sand-enabled">Sand light <input id="hero-sand-enabled" type="checkbox"/></label>
       <label for="hero-sand-style">Approach</label>
       <select id="hero-sand-style" disabled>
-        <option value="plume" selected>Airborne sand plume · new</option>
+        <option value="landscape" selected>Landscape wind · new</option>
+        <option value="plume">Airborne sand plume · earlier</option>
         <option value="passing">Passing sand wash · earlier</option>
         <option value="veil">Windblown veil · earlier</option>
         <option value="surface">Fixed sandy surface · earlier</option>
@@ -653,6 +654,7 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   import { createSandPlume } from '../scripts/sand-plume';
+  import { createLandscapeWind, type SandContour } from '../scripts/landscape-wind';
 
   // Ambient motion is blended into the existing scroll morph, not layered
   // over it. Original mode restores the existing scroll-only illustration.
@@ -726,7 +728,16 @@ import Layout from '../layouts/Layout.astro';
   const sandOutput = document.getElementById('hero-sand-value') as HTMLOutputElement;
   const sandWash = document.getElementById('hero-sand-wash');
   const sandLight = document.getElementById('sand-light');
-  const sandPlume = createSandPlume(document.getElementById('hero-sand-plume') as HTMLCanvasElement);
+  const sandCanvas = document.getElementById('hero-sand-plume') as HTMLCanvasElement;
+  const sandPlume = createSandPlume(sandCanvas);
+  const landscapeWind = createLandscapeWind(sandCanvas);
+  // Only the actual curved edges, never the paths' straight closing segments.
+  const upperSandContours: SandContour[] = [
+    { id: 'hero-gold-edge', color: '#D8AE70' },
+    { id: 'hero-cream-edge', color: '#E0C9A5' },
+  ].map(({ id, color }) => ({
+    points: extractNums((document.getElementById(id)?.getAttribute('d') || '').split(' L ')[0]), color,
+  })).filter(contour => contour.points.length >= 8);
   const sandMaterial = document.getElementById('hero-sand-material');
   const sandTile = document.getElementById('sand-material-tile');
   const sandMaterialLights = [document.getElementById('sand-matte-light'), document.getElementById('sand-facet-light')];
@@ -810,6 +821,8 @@ import Layout from '../layouts/Layout.astro';
 
     if (heroBg) heroBg.style.transform = reducedMotion.matches ? '' : `translateY(${scrollY * 0.35}px)`;
 
+    const landscapeActive = sandStyle === 'landscape' && sandEnabled && sandStrength > 0 && !reducedMotion.matches;
+    const landscapeContours: SandContour[] = landscapeActive ? [...upperSandContours] : [];
     for (const path of paths) {
       const wave = elapsed * Math.PI * 2 / path.period + path.phase;
       const numbers = path.rest.map((value, i) => {
@@ -820,6 +833,13 @@ import Layout from '../layouts/Layout.astro';
         return base + Math.sin(wave + x / 1600 * Math.PI * 1.3) * path.amplitude * amount;
       });
       path.element?.setAttribute('d', injectNums(REST[path.key], numbers));
+      if (landscapeActive && path.key === 'deep') {
+        // Skip M/bottom/left straight segments; start at the first cubic ridge.
+        landscapeContours.push({ points: numbers.slice(4), color: '#AF734C' });
+      } else if (landscapeActive && path.key === 'amber') {
+        // Omit the straight closing edge, retaining the curved starting point.
+        landscapeContours.push({ points: numbers.slice(0, -2), color: '#C98D4D' });
+      }
     }
 
     // Move the light within the gold shape, never its silhouette or palette.
@@ -834,7 +854,8 @@ import Layout from '../layouts/Layout.astro';
     // Static grain mask; only the illumination moves. Fade toward the horizon
     // with the existing scroll morph, under the unchanged vignette and text scrim.
     const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandStrength * (1 - progress) : 0;
-    sandPlume.draw(sandElapsed, sandStyle === 'plume' ? sandAmount : 0);
+    if (sandStyle === 'landscape') landscapeWind.draw(sandElapsed, sandAmount, landscapeContours);
+    else sandPlume.draw(sandElapsed, sandStyle === 'plume' ? sandAmount : 0);
     const washAmount = sandStyle === 'wash' ? sandAmount : 0;
     const grainAmount = sandStyle === 'grains' ? sandAmount : 0;
     const passing = sandStyle === 'passing';

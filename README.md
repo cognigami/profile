@@ -35,7 +35,15 @@ not change the saved defaults.
 
 The separate **Sand light** experiment is off by default, including in Motion study.
 Enable its checkbox, then choose an approach:
-- **Airborne sand plume** (initial selection): a transparent canvas layer of fine
+- **Landscape wind** (initial selection): small patches on the actual cream, gold,
+  terracotta, and amber contours release sand into a shared billowing wind field.
+  Nearby grains follow the same eddies; patches respond to spatially related gusts
+  rather than a single advancing front. Grains inherit their source layer's colour,
+  occasionally catch light while airborne, and fade as they disperse. The artwork
+  does not erode. Lower source curves follow the current breathing/scroll geometry.
+  `src/scripts/landscape-wind.ts` owns emission and advection on the shared canvas;
+  it uses the hero's clock, crop, offscreen pause, and reduced-motion handling.
+- **Airborne sand plume**: a transparent canvas layer of fine
   moving grains forms a thin, uneven plume with trailing wisps. A few of those same
   traveling grains briefly catch warm light. The plume crosses and disperses beyond
   the frame before another enters; it does not reveal or deform a sandy surface.
