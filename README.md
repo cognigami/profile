@@ -50,6 +50,16 @@ breathing settings. Motion study can disable sand light or select earlier experi
   does not erode. Lower source curves follow the current breathing/scroll geometry.
   `src/scripts/landscape-wind.ts` owns emission and advection on the shared canvas;
   it uses the hero's clock, crop, offscreen pause, and reduced-motion handling.
+- **Natural gusts** (opt-in experiment): the Landscape wind material, sources,
+  breadth, strength mapping, and grain properties, but with smooth seeded-noise
+  gust timing and lulls instead of repeating sine-wave pickup. Wind direction
+  wanders slowly within roughly ±10°, with gently varying transport and eddy
+  phase. Nearby grains still share the flow; no per-frame random jitter or
+  random per-grain headings. Still deterministic for comparison, not a fresh
+  random seed on every visit. Switching between approved/natural modes resets
+  and briefly warms the particle simulation to avoid mixing the two models.
+  Keep strength at the approved **2.5** and compare over 60–90 seconds; density
+  deliberately varies through stronger gusts and quieter stretches.
 - **Airborne sand plume**: a transparent canvas layer of fine
   moving grains forms a thin, uneven plume with trailing wisps. A few of those same
   traveling grains briefly catch warm light. The plume crosses and disperses beyond
@@ -76,7 +86,8 @@ vignette/scrim. Passing sand wash localizes this material to a moving, broken-de
 envelope; the other two show material across the whole header.
 
 Sand strength is a **0–4 level** (defaults to 2.5), not a literal multiplier. Report the
-approach and level separately from breathing strength/speed. For Landscape wind,
+approach and level separately from breathing strength/speed. For Landscape wind
+and its Natural gusts experiment,
 level **2** maps to the former **3×** opacity setting; most slider travel (0.5–4)
 covers the former 2.625–3.5 range, with a continuous fade from zero below 0.5.
 This mapping is applied before scroll fading; zero remains fully off. Earlier

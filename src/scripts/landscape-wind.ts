@@ -28,6 +28,41 @@ function windAt(x: number, y: number, time: number) {
   return { x: 36 + 27.5 * a - 15 * b + 5 * Math.sin(time * 0.17), y: -20 - 15 * a - 30 * b };
 }
 
+// Smooth seeded noise changes gust lengths without fresh per-frame randomness.
+// Two overlapping noise scales avoid a regular swell/rest rhythm; nearby sources
+// share the same weather rather than choosing independent random directions.
+function weatherNoise(position: number, salt: number) {
+  function hash(index: number) {
+    let value = Math.imul(index ^ salt, 0x45d9f3b);
+    value = Math.imul(value ^ (value >>> 16), 0x45d9f3b);
+    return ((value ^ (value >>> 16)) >>> 0) / 4294967295 * 2 - 1;
+  }
+  const cell = Math.floor(position);
+  const t = position - cell;
+  const blend = t * t * t * (t * (t * 6 - 15) + 10);
+  return hash(cell) * (1 - blend) + hash(cell + 1) * blend;
+}
+
+function naturalWeather(time: number) {
+  const angle = weatherNoise(time / 29, 197) * 0.18;
+  return {
+    cosine: Math.cos(angle), sine: Math.sin(angle),
+    phaseA: time * 0.18 + weatherNoise(time / 19, 521) * 1.6,
+    phaseB: time * 0.13 + weatherNoise(time / 31, 913) * 1.8,
+    carry: 1 + weatherNoise(time / 17, 307) * 0.16,
+  };
+}
+
+function naturalWindAt(x: number, y: number, weather: ReturnType<typeof naturalWeather>) {
+  const localX = x * weather.cosine + y * weather.sine;
+  const localY = -x * weather.sine + y * weather.cosine;
+  const a = Math.cos(localX * 0.0027 + localY * 0.00495 - weather.phaseA);
+  const b = Math.cos(localX * 0.0054 - localY * 0.0027 + weather.phaseB);
+  const vx = 36 * weather.carry + 27.5 * a - 15 * b;
+  const vy = -20 * weather.carry - 15 * a - 30 * b;
+  return { x: vx * weather.cosine - vy * weather.sine, y: vx * weather.sine + vy * weather.cosine };
+}
+
 // Most slider travel now explores the former useful middle, not 0–4 linearly.
 // Keep a continuous fade from zero; level 2 corresponds to the former strength 3.
 export function landscapeSandStrength(level: number) {
@@ -38,6 +73,7 @@ export function landscapeSandStrength(level: number) {
 export function createLandscapeWind(canvas: HTMLCanvasElement) {
   let context: CanvasRenderingContext2D | null = null;
   let lastTime: number | null = null;
+  let previousNatural = false;
   let seed = 5719;
   function random() {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -50,7 +86,8 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
     buoyancy: number; response: number;
   }[] = [];
 
-  function step(time: number, delta: number, contours: SandContour[]) {
+  function step(time: number, delta: number, contours: SandContour[], natural: boolean) {
+    const weather = natural ? naturalWeather(time) : null;
     for (let ridge = 0; ridge < contours.length; ridge++) {
       const contour = contours[ridge];
       for (let patch = 0; patch < 12; patch++) {
@@ -60,8 +97,12 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
         if (source.x < 15 || source.x > 1585 || source.y < 25 || source.y > 850) continue;
         // A broad gust can reach several ridges. Smaller-scale, stable exposure
         // still controls how much each patch sheds: broad wind, selective pickup.
-        const gust = Math.max(0, 0.15 + 0.6 * Math.sin(time * 0.18 + source.x * 0.0027 + source.y * 0.00495)
-          + 0.4 * Math.sin(time * 0.09 - source.x * 0.0018));
+        const gust = natural
+          ? Math.max(0, 0.18
+            + 0.85 * weatherNoise(time / 18 - source.x * 0.001 - source.y * 0.0015, 1129)
+            + 0.6 * weatherNoise(time / 9 + source.x * 0.0016 - source.y * 0.0007, 2081))
+          : Math.max(0, 0.15 + 0.6 * Math.sin(time * 0.18 + source.x * 0.0027 + source.y * 0.00495)
+            + 0.4 * Math.sin(time * 0.09 - source.x * 0.0018));
         const exposure = 1 + 0.6 * Math.sin(source.x * 0.019 - source.y * 0.015 + ridge * 0.7);
         // No extra emission sites or blanket release across the landscape.
         credits[index] = (credits[index] || 0) + gust * gust * exposure * 180 * delta;
@@ -69,7 +110,7 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
           credits[index]--;
           if (particles.length >= 22000) continue;
           const origin = pointOnContour(contour.points, position + (random() - 0.5) * 0.055);
-          const wind = windAt(origin.x, origin.y, time);
+          const wind = weather ? naturalWindAt(origin.x, origin.y, weather) : windAt(origin.x, origin.y, time);
           particles.push({
             x: origin.x, y: origin.y - random() * 2,
             vx: wind.x * 0.45, vy: -12 - random() * 24,
@@ -91,7 +132,7 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
         particles.pop();
         continue;
       }
-      const wind = windAt(particle.x, particle.y, time);
+      const wind = weather ? naturalWindAt(particle.x, particle.y, weather) : windAt(particle.x, particle.y, time);
       const follow = 1 - Math.exp(-delta * particle.response);
       particle.vx += (wind.x - particle.vx) * follow;
       particle.vy += (wind.y * particle.buoyancy - particle.vy) * follow;
@@ -100,7 +141,12 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
     }
   }
 
-  function draw(time: number, strength: number, contours: SandContour[]) {
+  function draw(time: number, strength: number, contours: SandContour[], natural = false) {
+    // Restart the comparison cleanly instead of mixing two wind models in flight.
+    if (natural !== previousNatural) {
+      lastTime = null;
+      previousNatural = natural;
+    }
     canvas.hidden = strength <= 0;
     if (canvas.hidden) {
       lastTime = null;
@@ -119,11 +165,11 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
       particles.length = 0;
       credits.length = 0;
       seed = 5719;
-      for (let i = 0; i < 90; i++) step(time - 3 + i / 30, 1 / 30, contours);
+      for (let i = 0; i < 90; i++) step(time - 3 + i / 30, 1 / 30, contours, natural);
     } else {
       const elapsed = Math.max(0, time - lastTime);
       const steps = Math.max(1, Math.ceil(elapsed * 30));
-      for (let i = 0; i < steps; i++) step(lastTime + (i + 1) * elapsed / steps, elapsed / steps, contours);
+      for (let i = 0; i < steps; i++) step(lastTime + (i + 1) * elapsed / steps, elapsed / steps, contours, natural);
     }
     lastTime = time;
 

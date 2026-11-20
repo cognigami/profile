@@ -204,6 +204,7 @@ import Layout from '../layouts/Layout.astro';
       <label for="hero-sand-style">Approach</label>
       <select id="hero-sand-style">
         <option value="landscape" selected>Landscape wind · approved</option>
+        <option value="natural">Natural gusts · experiment</option>
         <option value="plume">Airborne sand plume · earlier</option>
         <option value="passing">Passing sand wash · earlier</option>
         <option value="veil">Windblown veil · earlier</option>
@@ -821,7 +822,8 @@ import Layout from '../layouts/Layout.astro';
 
     if (heroBg) heroBg.style.transform = reducedMotion.matches ? '' : `translateY(${scrollY * 0.35}px)`;
 
-    const landscapeActive = sandStyle === 'landscape' && sandEnabled && sandStrength > 0 && !reducedMotion.matches;
+    const isLandscape = sandStyle === 'landscape' || sandStyle === 'natural';
+    const landscapeActive = isLandscape && sandEnabled && sandStrength > 0 && !reducedMotion.matches;
     const landscapeContours: SandContour[] = landscapeActive ? [...upperSandContours] : [];
     for (const path of paths) {
       const wave = elapsed * Math.PI * 2 / path.period + path.phase;
@@ -855,9 +857,9 @@ import Layout from '../layouts/Layout.astro';
     // with the existing scroll morph, under the unchanged vignette and text scrim.
     // Remap the Landscape control before scroll fading so zero/off and the
     // existing fade-out remain exact. Earlier experiments retain their scale.
-    const sandLevel = sandStyle === 'landscape' ? landscapeSandStrength(sandStrength) : sandStrength;
+    const sandLevel = isLandscape ? landscapeSandStrength(sandStrength) : sandStrength;
     const sandAmount = sandEnabled && breathing && !reducedMotion.matches ? sandLevel * (1 - progress) : 0;
-    if (sandStyle === 'landscape') landscapeWind.draw(sandElapsed, sandAmount, landscapeContours);
+    if (isLandscape) landscapeWind.draw(sandElapsed, sandAmount, landscapeContours, sandStyle === 'natural');
     else sandPlume.draw(sandElapsed, sandStyle === 'plume' ? sandAmount : 0);
     const washAmount = sandStyle === 'wash' ? sandAmount : 0;
     const grainAmount = sandStyle === 'grains' ? sandAmount : 0;
