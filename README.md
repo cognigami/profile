@@ -33,9 +33,9 @@ page URL to compare Original/Breathing and adjust strength and speed. Readouts s
 exact values to report; adjustments apply only to the current page session and do
 not change the saved defaults.
 
-**Landscape wind is enabled by default at sand strength 2.5**, alongside the approved
+**Natural gusts are enabled by default at sand strength 2.5**, alongside the approved
 breathing settings. Motion study can disable sand light or select earlier experiments:
-- **Landscape wind** (approved default): small patches on the actual cream, gold,
+- **Landscape wind** (earlier, fixed-seed comparison): small patches on the actual cream, gold,
   terracotta, and amber contours release sand into a shared billowing wind field.
   Nearby grains follow the same eddies; patches respond to spatially related gusts
   rather than a single advancing front. Grains use muted ochre/brown variants of their
@@ -50,15 +50,16 @@ breathing settings. Motion study can disable sand light or select earlier experi
   does not erode. Lower source curves follow the current breathing/scroll geometry.
   `src/scripts/landscape-wind.ts` owns emission and advection on the shared canvas;
   it uses the hero's clock, crop, offscreen pause, and reduced-motion handling.
-- **Natural gusts** (opt-in experiment): the Landscape wind material, sources,
+- **Natural gusts** (approved default): the Landscape wind material, sources,
   breadth, strength mapping, and grain properties, but with smooth seeded-noise
   gust timing and lulls instead of repeating sine-wave pickup. Wind direction
   wanders slowly within roughly ±10°, with gently varying transport and eddy
   phase. Nearby grains still share the flow; no per-frame random jitter or
-  random per-grain headings. Still deterministic for comparison, not a fresh
-  random seed on every visit. Switching between approved/natural modes resets
-  and briefly warms the particle simulation to avoid mixing the two models.
-  Keep strength at the approved **2.5** and compare over 60–90 seconds; density
+  random per-grain headings. One fresh browser-generated seed per page load drives
+  both weather and grain variation. The seed stays stable through pause/resume,
+  resizing and control changes; a reload produces a different sequence. The earlier
+  Landscape wind retains its fixed seed. Switching between the two modes resets
+  and briefly warms the particle simulation to avoid mixing the models. Density
   deliberately varies through stronger gusts and quieter stretches.
 - **Airborne sand plume**: a transparent canvas layer of fine
   moving grains forms a thin, uneven plume with trailing wisps. A few of those same
@@ -87,14 +88,14 @@ envelope; the other two show material across the whole header.
 
 Sand strength is a **0–4 level** (defaults to 2.5), not a literal multiplier. Report the
 approach and level separately from breathing strength/speed. For Landscape wind
-and its Natural gusts experiment,
+and Natural gusts,
 level **2** maps to the former **3×** opacity setting; most slider travel (0.5–4)
 covers the former 2.625–3.5 range, with a continuous fade from zero below 0.5.
 This mapping is applied before scroll fading; zero remains fully off. Earlier
 approaches retain their original linear scale. Sand timing is independent of breathing
 speed. All sand approaches pause offscreen/in hidden tabs with the hero. Original
-mode and reduced motion suppress all sand approaches; reload restores Landscape wind
-enabled at 2.5. None of the sand controls change the approved breathing defaults.
+mode and reduced motion suppress all sand approaches; reload restores Natural gusts
+enabled at 2.5 with a fresh seed. None of the sand controls change the approved breathing defaults.
 
 ## Customization checklist
 

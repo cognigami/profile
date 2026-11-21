@@ -43,13 +43,13 @@ function weatherNoise(position: number, salt: number) {
   return hash(cell) * (1 - blend) + hash(cell + 1) * blend;
 }
 
-function naturalWeather(time: number) {
-  const angle = weatherNoise(time / 29, 197) * 0.18;
+function naturalWeather(time: number, visitSeed: number) {
+  const angle = weatherNoise(time / 29, 197 ^ visitSeed) * 0.18;
   return {
     cosine: Math.cos(angle), sine: Math.sin(angle),
-    phaseA: time * 0.18 + weatherNoise(time / 19, 521) * 1.6,
-    phaseB: time * 0.13 + weatherNoise(time / 31, 913) * 1.8,
-    carry: 1 + weatherNoise(time / 17, 307) * 0.16,
+    phaseA: time * 0.18 + weatherNoise(time / 19, 521 ^ visitSeed) * 1.6,
+    phaseB: time * 0.13 + weatherNoise(time / 31, 913 ^ visitSeed) * 1.8,
+    carry: 1 + weatherNoise(time / 17, 307 ^ visitSeed) * 0.16,
   };
 }
 
@@ -74,6 +74,9 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
   let context: CanvasRenderingContext2D | null = null;
   let lastTime: number | null = null;
   let previousNatural = false;
+  // One fresh seed per page load, shared by weather and grain variation.
+  // Never reseed on a frame, pause/resume, resize, or comparison-mode switch.
+  const visitSeed = crypto.getRandomValues(new Uint32Array(1))[0];
   let seed = 5719;
   function random() {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -87,7 +90,7 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
   }[] = [];
 
   function step(time: number, delta: number, contours: SandContour[], natural: boolean) {
-    const weather = natural ? naturalWeather(time) : null;
+    const weather = natural ? naturalWeather(time, visitSeed) : null;
     for (let ridge = 0; ridge < contours.length; ridge++) {
       const contour = contours[ridge];
       for (let patch = 0; patch < 12; patch++) {
@@ -99,8 +102,8 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
         // still controls how much each patch sheds: broad wind, selective pickup.
         const gust = natural
           ? Math.max(0, 0.18
-            + 0.85 * weatherNoise(time / 18 - source.x * 0.001 - source.y * 0.0015, 1129)
-            + 0.6 * weatherNoise(time / 9 + source.x * 0.0016 - source.y * 0.0007, 2081))
+            + 0.85 * weatherNoise(time / 18 - source.x * 0.001 - source.y * 0.0015, 1129 ^ visitSeed)
+            + 0.6 * weatherNoise(time / 9 + source.x * 0.0016 - source.y * 0.0007, 2081 ^ visitSeed))
           : Math.max(0, 0.15 + 0.6 * Math.sin(time * 0.18 + source.x * 0.0027 + source.y * 0.00495)
             + 0.4 * Math.sin(time * 0.09 - source.x * 0.0018));
         const exposure = 1 + 0.6 * Math.sin(source.x * 0.019 - source.y * 0.015 + ridge * 0.7);
@@ -164,7 +167,7 @@ export function createLandscapeWind(canvas: HTMLCanvasElement) {
     if (lastTime === null || time - lastTime > 0.25) {
       particles.length = 0;
       credits.length = 0;
-      seed = 5719;
+      seed = natural ? visitSeed : 5719;
       for (let i = 0; i < 90; i++) step(time - 3 + i / 30, 1 / 30, contours, natural);
     } else {
       const elapsed = Math.max(0, time - lastTime);
